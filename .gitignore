@@ -37,3 +37,4 @@
 /.byebug_history
 
 /coverage/*
+/.idea/*

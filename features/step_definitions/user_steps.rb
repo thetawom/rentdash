@@ -15,8 +15,6 @@ end
 When /^I (?:|log in with my credentials|am logged in)$/ do
   visit login_path
   login_with filter_credentials @user_params
-<<<<<<< HEAD
-=======
 end
 
 When /^I register an account with information$/ do |params|
@@ -27,7 +25,6 @@ When /^I register an account with information$/ do |params|
   end
   fill_in :user_password_confirmation, with: @user_params["password"] unless @user_params.key? "password_confirmation"
   click_button "Sign Up!"
->>>>>>> 7bb2227e5d43eefbdf5f2d3ae90648d37217084b
 end
 
 Then /^I should (?:|still )be on the login page$/ do
@@ -40,11 +37,7 @@ end
 
 
 def filter_user_params(params)
-<<<<<<< HEAD
-  params.slice("email", "first_name", "last_name", "password")
-=======
   params.slice("email", "first_name", "last_name", "password", "password_confirmation")
->>>>>>> 7bb2227e5d43eefbdf5f2d3ae90648d37217084b
 end
 def filter_credentials(credentials)
   credentials.slice("email", "password")
