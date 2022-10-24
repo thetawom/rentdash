@@ -1,4 +1,6 @@
 Rails.application.routes.draw do
+  root "users#index"
+
   resources :users, only: [:new, :create, :index, :show]
 
   get "/login", to: "sessions#new", as: :login
