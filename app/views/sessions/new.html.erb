@@ -1,7 +1,6 @@
+<%= content_tag :h1, "Log in" %>
 <% if flash[:notice] %>
-  <%= content_tag :h1, flash[:notice] %>
-<% else %>
-  <%= content_tag :h1, "Please Log in" %>
+  <%= content_tag :p, flash[:notice] %>
 <% end %>
 <%= form_with url: login_path do |f| %>
   <%= f.text_field :email %><br>
