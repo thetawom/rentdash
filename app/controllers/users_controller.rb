@@ -15,16 +15,16 @@ class UsersController < ApplicationController
     @user = User.create(user_params)
     if @user.valid?
       session[:user_id] = @user.id
-      redirect_to @user
+      redirect_to user_path @user.id
     else
-      flash[:error] = "Error! Please try to create an account again."
+      flash[:errors] = @user.errors
       redirect_to new_user_path
     end
   end
 
   private
   def user_params
-    params.require(:user).permit(:email, :first_name, :last_name, :password)
+    params.require(:user).permit(:email, :first_name, :last_name, :password, :password_confirmation)
   end
 
 end
