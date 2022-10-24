@@ -1,5 +1,5 @@
 <%= content_tag :h1, "Registration" %>
-<% if flash[:error] %>
+<% if flash[:errors] %>
   <%= content_tag :p, flash[:errors] %>
 <% end %>
 <%= form_for @user do |f| %>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_212650) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_24_220458) do
   create_table "listings", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -27,7 +27,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_212650) do
     t.string "item"
     t.datetime "pick_up_date"
     t.datetime "return_date"
-    t.string "payment_method"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "listing_id"
