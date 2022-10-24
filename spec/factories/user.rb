@@ -3,6 +3,6 @@ FactoryBot.define do
     email "uni123@columbia.edu"
     first_name "Frankie"
     last_name "Valli"
-    password_digest "password"
+    password "password"
   end
 end

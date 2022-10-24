@@ -4,8 +4,10 @@ Feature: user login
   I want to log in to my account on the platform
 
   Background: registered user
-    Given I am a registered user with credentials
+    Given I am a registered user with information
       |email|uni1234@columbia.edu|
+      |first_name|Frankie        |
+      |last_name |Valli          |
       |password|password123      |
 
   Scenario: user logs in with correct credentials

@@ -1,12 +1,12 @@
-<% if flash[:notice] %>
-  <%= content_tag :h1, flash[:notice] %>
-<% else %>
-  <%= content_tag :h1, "Registration" %>
+<%= content_tag :h1, "Registration" %>
+<% if flash[:error] %>
+  <%= content_tag :p, flash[:errors] %>
 <% end %>
 <%= form_for @user do |f| %>
   Email: <%= f.text_field :email %><br>
   First name: <%= f.text_field :first_name %><br>
   Last name: <%= f.text_field :last_name %><br>
   Password: <%= f.password_field :password %><br>
+  Password (Confirm): <%= f.password_field :password_confirmation %><br>
   <%= f.submit "Sign Up!" %>
 <% end %>

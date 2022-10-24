@@ -4,10 +4,12 @@ Feature: user logout
   I want to log out of my account after I am done browsing
 
   Background: registered user
-    Given I am a registered user with credentials
+    Given I am a registered user with information
       |email|uni1234@columbia.edu|
+      |first_name|Frankie        |
+      |last_name |Valli          |
       |password|password123      |
-    And I log in with my credentials
+    And I am logged in
 
   Scenario: user logs out
     When I press "Sign out"
