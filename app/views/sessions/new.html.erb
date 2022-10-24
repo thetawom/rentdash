@@ -3,7 +3,7 @@
 <% else %>
   <%= content_tag :h1, "Please Log in" %>
 <% end %>
-<%= form_with url: sessions_path do |f| %>
+<%= form_with url: login_path do |f| %>
   <%= f.text_field :email %><br>
   <%= f.password_field :password %><br>
   <%= link_to "Sign up", new_user_path %>

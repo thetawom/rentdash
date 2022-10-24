@@ -9,13 +9,11 @@ Feature: user login
       |password|password123      |
 
   Scenario: user logs in with correct credentials
-    When I am on the login page
-    And I log in with my credentials
+    When I log in with my credentials
     Then I should see "Sign out"
 
   Scenario: user logs in with incorrect credentials
-    When I am on the login page
-    And I log in with credentials
+    When I log in with credentials
       |email|uni1234@columbia.edu|
       |password|password321      |
     Then I should still be on the login page

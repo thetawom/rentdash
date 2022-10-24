@@ -5,20 +5,18 @@ Given /^I am a registered user with credentials$/ do |credentials|
                        password_confirmation: @credentials["password"])
 end
 
-When /^I am on the login page$/ do
-  visit new_session_path
-end
-
 When /^I log in with credentials$/ do |credentials|
+  visit login_path
   login_with filter_credentials credentials
 end
 
 When /^I log in with my credentials$/ do
+  visit login_path
   login_with @credentials
 end
 
 Then /^I should (?:|still )be on the login page$/ do
-  expect(URI.parse(current_url).path).to eq(new_session_path)
+  expect(URI.parse(current_url).path).to eq(login_path)
 end
 
 
