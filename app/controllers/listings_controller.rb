@@ -1,9 +1,11 @@
 class ListingsController < ApplicationController
 
   def show
+
   end
 
   def index
+    @listings = Listing.all
   end
 
   def new
