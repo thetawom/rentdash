@@ -1,7 +1,8 @@
 class ListingsController < ApplicationController
 
   def show
-
+    id = params[:id]
+    @listing = Listing.find(id)
   end
 
   def index
