@@ -9,3 +9,8 @@ end
 Then /^I should see "([^"]*)"$/ do |text|
   expect(page).to have_text text
 end
+
+When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
+  fill_in(field, :with => value)
+end
+

@@ -34,3 +34,17 @@ Then /^I should see all the listings$/ do
     step %{I should see a listing for "#{listing.name}"}
   end
 end
+
+Given /^the following listings exist$/ do |listings_table|
+  listings_table.hashes.each do |listing|
+    listing = Listing.new listing
+    listing.owner_id = 1
+    listing.save
+  end
+end
+
+Then /the pick-up location of "(.*)" should be "(.*)"/ do |name, location|
+  listing = Listing.find_by name: name
+  visit listing_path(listing.id)
+  expect(page.body).to match /Pick-up Location:(\s*)#{location}/
+end
