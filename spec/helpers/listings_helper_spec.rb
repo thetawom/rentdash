@@ -7,7 +7,7 @@ RSpec.describe ListingsHelper, type: :helper do
       options_enum = {"karma" => 0, "dollars" => 1}
       allow(Listing).to receive(:fee_units).and_return(options_enum)
       options_str = fee_unit_options
-      options_enum.map do |key, value|
+      options_enum.keys.each do |key|
         expect(options_str).to include "value=\"#{key}\""
       end
     end
@@ -18,7 +18,7 @@ RSpec.describe ListingsHelper, type: :helper do
       options_enum = {"second" => 0, "minute" => 1, "hour" => 2}
       allow(Listing).to receive(:fee_times).and_return(options_enum)
       options_str = fee_time_options
-      options_enum.map do |key, value|
+      options_enum.keys.each do |key|
         expect(options_str).to include "value=\"#{key}\""
       end
     end

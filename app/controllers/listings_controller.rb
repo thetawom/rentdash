@@ -1,34 +1,15 @@
 class ListingsController < ApplicationController
 
-  def show
-    id = params[:id]
-    @listing = Listing.find(id)
-  end
-
   def index
     @listings = Listing.all
   end
 
+  def show
+    @listing = Listing.find_by(id: params[:id])
+  end
+
   def new
     @listing = Listing.new
-  end
-
-  def edit
-    @listing = Listing.find(params[:id])
-  end
-
-  def update
-    @listing = Listing.find(params[:id])
-    @listing.update(listing_params)
-    flash[:notice] = "#{@listing.name} was updated!"
-    redirect_to listing_path(@listing)
-  end
-
-  def destroy
-    @listing = Listing.find(params[:id])
-    @listing.destroy
-    flash[:notice] = "#{@listing.name} was deleted."
-    redirect_to listings_path
   end
 
   def create
@@ -41,6 +22,24 @@ class ListingsController < ApplicationController
       flash[:errors] = @listing.errors
       redirect_to new_listing_path
     end
+  end
+
+  def edit
+    @listing = Listing.find_by(id: params[:id])
+  end
+
+  def update
+    @listing = Listing.find_by(id: params[:id])
+    @listing.update(listing_params)
+    flash[:notice] = "#{@listing.name} was updated!"
+    redirect_to listing_path(@listing)
+  end
+
+  def destroy
+    @listing = Listing.find(params[:id])
+    @listing.destroy
+    flash[:notice] = "#{@listing.name} was deleted."
+    redirect_to listings_path
   end
 
   private
