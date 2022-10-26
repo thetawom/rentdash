@@ -18,7 +18,7 @@ class ListingsController < ApplicationController
     @listing.owner = current_user
     @listing.save
     if @listing.valid?
-      redirect_to listings_path
+      redirect_to listing_path @listing.id
     else
       flash[:errors] = @listing.errors
       redirect_to new_listing_path
@@ -39,7 +39,7 @@ class ListingsController < ApplicationController
     @listing.update(listing_params)
     if @listing.valid?
       flash[:notice] = "#{@listing.name} was updated!"
-      redirect_to listing_path @listing
+      redirect_to listing_path @listing.id
     else
       flash[:errors] = @listing.errors
       redirect_to new_listing_path

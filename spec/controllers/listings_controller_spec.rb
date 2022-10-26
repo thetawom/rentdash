@@ -43,7 +43,29 @@ RSpec.describe ListingsController, type: :controller do
     end
 
     describe "POST #create" do
-      pending
+      it "creates new listing if params are valid" do
+        listing = instance_double("Listing", id: "1")
+        allow(listing).to receive(:valid?).and_return(true)
+        expect(listing).to receive(:owner=)
+        expect(listing).to receive(:save)
+        expect(Listing).to receive(:new).and_return(listing)
+        allow_any_instance_of(ListingsController).to receive(:listing_params)
+        post :create, session: {user_id: user.id}
+        expect(response).to redirect_to listing_path listing.id
+      end
+      it "redirects to new listing page if params are invalid" do
+        listing = instance_double("Listing")
+        errors = instance_double("ActiveModel::Errors")
+        expect(listing).to receive(:valid?).and_return(false)
+        expect(listing).to receive(:errors).and_return(errors)
+        expect(listing).to receive(:owner=)
+        expect(listing).to receive(:save)
+        expect(Listing).to receive(:new).and_return(listing)
+        allow_any_instance_of(ListingsController).to receive(:listing_params)
+        post :create, session: {user_id: user.id}
+        expect(flash[:errors]).to_not be_nil
+        expect(response).to redirect_to new_listing_path
+      end
     end
 
     describe "GET #edit" do

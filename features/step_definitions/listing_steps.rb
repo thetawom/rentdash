@@ -1,14 +1,13 @@
 Given /^I am on the listings page$/ do
-  visit listings_path
+  step %{I go to the listings page}
 end
 
 Given /^I am on the new listing page$/ do
-  visit new_listing_path
+  step %{I go to the new listing page}
 end
 
 Given /^I am on the listing page for "([^"]*)"$/ do |listing_name|
-  listing = Listing.find_by name: listing_name
-  visit listing_path listing.id
+  step %{I go to the listing page for "#{listing_name}"}
 end
 
 Given /^I am on the edit listing page for "([^"]*)"$/ do |listing_name|
@@ -23,6 +22,19 @@ Given /^the following listings exist$/ do |listings_table|
     listing.owner_id = 1
     listing.save
   end
+end
+
+When /^I go to the listings page$/ do
+  visit listings_path
+end
+
+When /^I go to the new listing page$/ do
+  visit new_listing_path
+end
+
+When /^I go to the listing page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  visit listing_path listing.id
 end
 
 When /^I add a new listing with information$/ do |listings|
