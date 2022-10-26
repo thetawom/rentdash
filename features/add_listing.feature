@@ -19,12 +19,14 @@ Feature: add listing
     When I add a new listing with information
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |
-    Then I should be on the listings page
-    And I should see a listing for "Dyson V11 Torque Drive"
+    Then I should be on the listing page for "Dyson V11 Torque Drive"
+    When I go to the listings page
+    Then I should see a listing for "Dyson V11 Torque Drive"
 
   Scenario: user unsuccessfully adds a new listing
     Given I am on the new listing page
     When I add a new listing with information
       |name                  |
       |Dyson V11 Torque Drive|
+    # TODO: replace this step after view displays errors properly
     Then I should see the error {"pick_up_location"=>["can't be blank"], "fee"=>["can't be blank"], "deposit"=>["can't be blank"]}
