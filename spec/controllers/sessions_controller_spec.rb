@@ -1,7 +1,15 @@
 require 'rails_helper'
 
 RSpec.describe SessionsController, type: :controller do
-  describe "#create" do
+
+  describe "GET new" do
+    it "renders the new template" do
+      get :new
+      expect(response).to render_template "new"
+    end
+  end
+
+  describe "POST create" do
     user_attrs = {
       id: "1",
       email: "uni123@columbia.edu",
@@ -29,7 +37,7 @@ RSpec.describe SessionsController, type: :controller do
     end
   end
 
-  describe "#destroy" do
+  describe "DELETE destroy" do
     it "clears session user_id and redirects to login page" do
       session[:user_id] = "1"
       delete :destroy

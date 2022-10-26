@@ -2,7 +2,25 @@ require 'rails_helper'
 
 RSpec.describe UsersController, type: :controller do
 
-  describe "#create" do
+  describe "GET show" do
+    it "renders the show template" do
+      get :show, session: {user_id: 1}
+      expect(response).to render_template "show"
+    end
+    it "redirects to login page if user is not logged in" do
+      get :show
+      expect(response).to redirect_to login_path
+    end
+  end
+
+  describe "GET new" do
+    it "renders the new template" do
+      get :new
+      expect(response).to render_template "new"
+    end
+  end
+
+  describe "POST create" do
     it "creates new user if params are valid" do
       user = instance_double("User", id: "1")
       allow(user).to receive(:valid?).and_return(true)
