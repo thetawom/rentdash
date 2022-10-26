@@ -16,7 +16,7 @@ class ListingsController < ApplicationController
   def create
     @listing = Listing.create(listing_params)
     if @listing.valid?
-      redirect_to root_path
+      redirect_to listings_path
     else
       flash[:errors] = @listing.errors
       redirect_to new_listing_path

@@ -28,11 +28,11 @@ When /^I register an account with information$/ do |params|
 end
 
 Then /^I should (?:|still )be on the login page$/ do
-  expect(URI.parse(current_url).path).to eq(login_path)
+  expect(URI.parse(current_url).path).to eq login_path
 end
 
 Then /^I should (?:|still )be on the registration page$/ do
-  expect(URI.parse(current_url).path).to eq(new_user_path)
+  expect(URI.parse(current_url).path).to eq new_user_path
 end
 
 
