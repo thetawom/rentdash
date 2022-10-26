@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   root "users#index"
 
   resources :users, only: [:show, :index, :new, :create]
-  resources :listings, only: [:show, :index, :new, :create] do
+  resources :listings, only: [:show, :index, :new, :create, :edit, :update, :destroy] do
     resources :requests, only: [:show, :index, :new, :create]
   end
 

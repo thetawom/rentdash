@@ -13,6 +13,24 @@ class ListingsController < ApplicationController
     @listing = Listing.new
   end
 
+  def edit
+    @listing = Listing.find(params[:id])
+  end
+
+  def update
+    @listing = Listing.find(params[:id])
+    @listing.update(listing_params)
+    flash[:notice] = "#{@listing.name} was updated!"
+    redirect_to listing_path(@listing)
+  end
+
+  def destroy
+    @listing = Listing.find(params[:id])
+    @listing.destroy
+    flash[:notice] = "#{@listing.name} was deleted."
+    redirect_to listings_path
+  end
+
   def create
     @listing = Listing.new(listing_params)
     @listing.owner_id = current_user.id

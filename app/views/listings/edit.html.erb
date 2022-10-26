@@ -1,9 +1,9 @@
 <h2>Edit Existing Listing</h2>
 <%= form_tag listing_path(@listing), :method => :put do %>
   <%= label :listing, :title, 'Name', class: 'col-form-label' %>
-  <%= text_field :listing, 'name', class: 'form-control' %>
+  <%= text_field :listing, 'name', class: 'form-control' %><br/>
   <%= label :listing, :description, 'Description', class: 'col-form-label'  %>
-  <%= text_field :listing, 'description', class: 'form-control' %>
+  <%= text_field :listing, 'description', class: 'form-control' %><br/>
   <%= label :listing, :pick_up_location, 'Pick-up Location', class: 'col-form-label'  %>
   <%= text_field :listing, 'pick_up_location', class: 'form-control' %>
   <%= label :listing, :fee, 'Rental Fee', class: 'col-form-label'  %>
