@@ -1,8 +1,8 @@
 module ListingsHelper
-  def fee_unit_options
-    options_for_select(Listing.fee_units.map{|key, value| [key.titleize, Listing.fee_units.key(value)]}, @listing.fee_unit)
+  def fee_unit_options(select = nil)
+    options_for_select(Listing.fee_units.map{|key, value| [key.titleize, key]}, select)
   end
-  def fee_time_options
-    options_for_select(Listing.fee_times.map{|key, value| [key.titleize, Listing.fee_times.key(value)]}, @listing.fee_time)
+  def fee_time_options(select = nil)
+    options_for_select(Listing.fee_times.map{|key, value| [key.titleize, key]}, select)
   end
 end

@@ -131,6 +131,9 @@ GEM
     erubi (1.11.0)
     factory_bot (6.2.1)
       activesupport (>= 5.0.0)
+    factory_bot_rails (6.2.0)
+      factory_bot (~> 6.2.0)
+      railties (>= 5.0.0)
     ffi (1.15.5)
     globalid (1.0.0)
       activesupport (>= 5.0)
@@ -215,6 +218,10 @@ GEM
     reline (0.3.1)
       io-console (~> 0.5)
     rexml (3.2.5)
+    rspec (3.11.0)
+      rspec-core (~> 3.11.0)
+      rspec-expectations (~> 3.11.0)
+      rspec-mocks (~> 3.11.0)
     rspec-core (3.11.0)
       rspec-support (~> 3.11.0)
     rspec-expectations (3.11.1)
@@ -284,12 +291,13 @@ DEPENDENCIES
   cucumber-rails
   database_cleaner
   debug
-  factory_bot
+  factory_bot_rails
   importmap-rails
   jbuilder
   puma (~> 5.0)
   rails (~> 7.0.4)
   rails-controller-testing
+  rspec
   rspec-rails
   simplecov
   sprockets-rails

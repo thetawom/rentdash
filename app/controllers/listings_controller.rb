@@ -33,7 +33,7 @@ class ListingsController < ApplicationController
 
   def create
     @listing = Listing.new(listing_params)
-    @listing.owner_id = current_user.id
+    @listing.owner = current_user
     @listing.save
     if @listing.valid?
       redirect_to listings_path

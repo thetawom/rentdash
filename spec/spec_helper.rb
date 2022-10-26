@@ -8,7 +8,7 @@
 # light-weight as possible. Requiring heavyweight dependencies from this file
 # will add to the boot time of your test suite on EVERY test run, even for an
 # individual file that may not need all of that loaded. Instead, consider making
-# a separate helper file that requires the additional dependencies and performs
+# a separate helpers file that requires the additional dependencies and performs
 # the additional setup, and require it from the spec files that actually need
 # it.
 #
@@ -19,7 +19,7 @@ RSpec.configure do |config|
   # assertions if you prefer.
   config.expect_with :rspec do |expectations|
     # This option will default to `true` in RSpec 4. It makes the `description`
-    # and `failure_message` of custom matchers include text for helper methods
+    # and `failure_message` of custom matchers include text for helpers methods
     # defined using `chain`, e.g.:
     #     be_bigger_than(2).and_smaller_than(4).description
     #     # => "be bigger than 2 and smaller than 4"

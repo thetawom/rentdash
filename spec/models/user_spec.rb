@@ -36,4 +36,18 @@ RSpec.describe User, type: :model do
     end
   end
 
+  describe "#welcome" do
+    it "should return a welcome message containing the user's first name" do
+      @user = User.new(first_name: "Frankie", last_name: "Valli")
+      expect(@user.welcome).to include "Frankie"
+    end
+  end
+
+  describe "#full_name" do
+    it "should return the full name of the user" do
+      @user = User.new(first_name: "Frankie", last_name: "Valli")
+      expect(@user.full_name).to eq "Frankie Valli"
+    end
+  end
+
 end
