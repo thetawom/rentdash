@@ -29,3 +29,9 @@ Feature: add listing
       |deposit  |12.50                           |
     Then I should be on the listings page
     And I should see a listing for "Dyson V11 Torque Drive Vacuum Cleaner"
+
+  Scenario: user unsuccessfully adds a new listing
+    Given I am on the new listing page
+    When I add a new listing with information
+      |name|Vacuum|
+    Then I should see the error {"pick_up_location"=>["can't be blank"], "fee"=>["can't be blank"], "deposit"=>["can't be blank"]}

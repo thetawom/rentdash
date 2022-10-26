@@ -43,8 +43,12 @@ Given /^the following listings exist$/ do |listings_table|
   end
 end
 
-Then /the pick-up location of "(.*)" should be "(.*)"/ do |name, location|
+Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |name, location|
   listing = Listing.find_by name: name
   visit listing_path(listing.id)
   expect(page.body).to match /Pick-up Location:(\s*)#{location}/
+end
+
+Then /^I should see the error (.*)$/ do |error|
+  expect(page.body).to have_text error
 end
