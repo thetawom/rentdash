@@ -5,10 +5,8 @@ Feature: user login
 
   Background: registered user
     Given I am a registered user with information
-      |email|uni1234@columbia.edu|
-      |first_name|Frankie        |
-      |last_name |Valli          |
-      |password|password123      |
+      |email             |first_name |last_name |password    |
+      |frankie@gmail.com |Frankie    |Valli     |password123 |
 
   Scenario: user logs in with correct credentials
     When I log in with my credentials

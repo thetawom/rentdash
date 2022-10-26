@@ -5,10 +5,8 @@ Feature: user logout
 
   Background: registered user
     Given I am a registered user with information
-      |email|uni1234@columbia.edu|
-      |first_name|Frankie        |
-      |last_name |Valli          |
-      |password|password123      |
+      |email             |first_name |last_name |password    |
+      |frankie@gmail.com |Frankie    |Valli     |password123 |
     And I am logged in
 
   Scenario: user logs out

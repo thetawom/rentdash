@@ -3,15 +3,12 @@ Feature: add listing
   In order to rent it out to other users of the platform
   I want to add a listing for my item
 
-  Background: registered user
-    Given I am a registered user with information
-      |email|uni1234@columbia.edu|
-      |first_name|Frankie        |
-      |last_name |Valli          |
-      |password|password123      |
-    And I log in with my credentials
+  Background: user is logged in
+    Given I am a logged in user with information
+      |email             |first_name |last_name |password    |
+      |frankie@gmail.com |Frankie    |Valli     |password123 |
 
-  Scenario: user can navigate to the new listing form from listings page
+  Scenario: user navigates to the new listing page from the listings page
     Given I am on the listings page
     Then I should see "Add new listing"
     When I follow "Add new listing"
@@ -20,18 +17,14 @@ Feature: add listing
   Scenario: user successfully adds a new listing
     Given I am on the new listing page
     When I add a new listing with information
-      |name|Dyson V11 Torque Drive Vacuum Cleaner|
-      |description|an excellent vacuum cleaner   |
-      |pick_up_location|Wien Hall                |
-      |fee      |1.03                            |
-      |fee_unit |Karma                           |
-      |fee_time |Hour                            |
-      |deposit  |12.50                           |
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |
     Then I should be on the listings page
-    And I should see a listing for "Dyson V11 Torque Drive Vacuum Cleaner"
+    And I should see a listing for "Dyson V11 Torque Drive"
 
   Scenario: user unsuccessfully adds a new listing
     Given I am on the new listing page
     When I add a new listing with information
-      |name|Vacuum|
+      |name                  |
+      |Dyson V11 Torque Drive|
     Then I should see the error {"pick_up_location"=>["can't be blank"], "fee"=>["can't be blank"], "deposit"=>["can't be blank"]}

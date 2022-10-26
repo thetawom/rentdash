@@ -1,15 +1,16 @@
-Given /^I am a registered user with information$/ do |params|
-  @user_params = filter_user_params params.rows_hash
-  @user = User.create!(email: @user_params["email"],
-                       first_name: @user_params["first_name"],
-                       last_name: @user_params["last_name"],
-                       password: @user_params["password"],
-                       password_confirmation: @user_params["password"])
+Given /^the following users exist$/ do |users|
+  create_users users.hashes
+end
+
+Given /^I am a (registered|logged in) user with information$/ do |logged_in, user|
+  create_users user.hashes
+  @user_params = filter_user_params user.hashes[0]
+  step %{I log in with my credentials} if logged_in == "logged in"
 end
 
 When /^I log in with credentials$/ do |credentials|
   visit login_path
-  login_with filter_credentials credentials.rows_hash
+  login_with filter_credentials credentials.hashes[0]
 end
 
 When /^I (?:|log in with my credentials|am logged in)$/ do
@@ -18,7 +19,7 @@ When /^I (?:|log in with my credentials|am logged in)$/ do
 end
 
 When /^I register an account with information$/ do |params|
-  @user_params = filter_user_params params.rows_hash
+  @user_params = filter_user_params params.hashes[0]
   visit new_user_path
   @user_params.each do |key, value|
     fill_in ("user_" << key), with: value
@@ -41,6 +42,16 @@ def filter_user_params(params)
 end
 def filter_credentials(credentials)
   credentials.slice("email", "password")
+end
+
+def create_users(user_params_list)
+  user_params_list.each do |user_params|
+    User.create!(email: user_params["email"],
+                 first_name: user_params["first_name"],
+                 last_name: user_params["last_name"],
+                 password: user_params["password"],
+                 password_confirmation: user_params["password"])
+  end
 end
 
 def login_with(credentials)

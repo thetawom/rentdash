@@ -10,14 +10,10 @@ Then /^I should see "([^"]*)"$/ do |text|
   expect(page).to have_text text
 end
 
-When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
-  fill_in(field, :with => value)
+Then /^(?:|I )should not see "([^"]*)"$/ do |text|
+  expect(page).to_not have_text text
 end
 
-Then /^(?:|I )should not see "([^"]*)"$/ do |text|
-  if page.respond_to? :should
-    page.should have_no_content(text)
-  else
-    assert page.has_no_content?(text)
-  end
+When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
+  fill_in(field, :with => value)
 end
