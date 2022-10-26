@@ -2,9 +2,9 @@ require 'rails_helper'
 
 RSpec.describe ListingsController, type: :controller do
 
-  context "user is registered" do
+  context "user is registered and is the listing owner" do
     let(:user) { FactoryBot.create(:user) }
-    let(:listing) { FactoryBot.create(:listing) }
+    let(:listing) { FactoryBot.create(:listing, owner: user) }
 
     describe "GET #index" do
       it "renders the index template" do
@@ -48,7 +48,7 @@ RSpec.describe ListingsController, type: :controller do
 
     describe "GET #edit" do
       it "renders the edit template" do
-        get :edit, params: {id: listing.id}, session: {user_id: listing.owner.id}
+        get :edit, params: {id: listing.id}, session: {user_id: user.id}
         expect(response).to render_template "edit"
       end
       it "assigns @listing by id" do
@@ -65,6 +65,29 @@ RSpec.describe ListingsController, type: :controller do
       pending
     end
 
+  end
+
+  context "user is registered but is not the listing owner" do
+    let(:user) { FactoryBot.create(:user) }
+    let(:listing) { FactoryBot.create(:listing) }
+    describe "GET #edit" do
+      it "redirects to listings page" do
+        get :edit, params: {id: listing.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listings_path
+      end
+    end
+    describe "PATCH #update" do
+      it "redirects to listings page" do
+        patch :update, params: {id: listing.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listings_path
+      end
+    end
+    describe "DELETE #destroy" do
+      it "redirects to listings page" do
+        delete :destroy, params: {id: listing.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listings_path
+      end
+    end
   end
 
   context "user is not registered" do

@@ -27,10 +27,15 @@ class ListingsController < ApplicationController
 
   def edit
     @listing = get_protected_listing(params[:id])
+    redirect_to listings_path if @listing.nil?
   end
 
   def update
     @listing = get_protected_listing(params[:id])
+    if @listing.nil?
+      redirect_to listings_path
+      return
+    end
     @listing.update(listing_params)
     if @listing.valid?
       flash[:notice] = "#{@listing.name} was updated!"
@@ -47,6 +52,10 @@ class ListingsController < ApplicationController
 
   def destroy
     @listing = get_protected_listing(params[:id])
+    if @listing.nil?
+      redirect_to listings_path
+      return
+    end
     @listing.destroy
     flash[:notice] = "#{@listing.name} was deleted."
     redirect_to listings_path
@@ -61,10 +70,10 @@ class ListingsController < ApplicationController
     listing = Listing.find_by(id: id)
     if listing.nil?
       flash[:notice] = "Listing does not exist."
-      redirect_to listings_path
+      return nil
     elsif listing.owner != current_user
       flash[:notice] = "You are not the owner of this listing."
-      redirect_to listings_path
+      return nil
     end
     listing
   end
