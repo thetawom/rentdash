@@ -10,17 +10,19 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_10_24_220458) do
+ActiveRecord::Schema[7.0].define(version: 2022_10_26_032334) do
   create_table "listings", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "pick_up_location"
-    t.decimal "rental_fee"
-    t.integer "rental_fee_unit"
-    t.integer "rental_fee_time"
-    t.decimal "deposit_amount"
+    t.decimal "fee"
+    t.integer "fee_unit"
+    t.integer "fee_time"
+    t.decimal "deposit"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "owner_id", null: false
+    t.index ["owner_id"], name: "index_listings_on_owner_id"
   end
 
   create_table "requests", force: :cascade do |t|
@@ -43,4 +45,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_10_24_220458) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "listings", "users", column: "owner_id"
+  add_foreign_key "requests", "listings"
 end

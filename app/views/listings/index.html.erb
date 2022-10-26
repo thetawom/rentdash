@@ -16,10 +16,10 @@
         <%= listing.pick_up_location %>
       </td>
       <td>
-        <%= listing.rental_fee %> <%= listing.rental_fee_unit %> per <%= listing.rental_fee_time %>
+        <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %>
       </td>
       <td>
-        <%= listing.deposit_amount %> dollars
+        <%= listing.deposit %> dollars
       </td>
       <td>
         <%= link_to "More about #{listing.name}", listing_path(listing) %>

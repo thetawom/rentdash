@@ -6,9 +6,9 @@
   Name: <%= f.text_field :name %><br>
   Description: <%= f.text_field :description %><br>
   Pick-up Location: <%= f.text_field :pick_up_location %><br>
-  Rental Fee: <%= f.number_field :rental_fee, step: 0.01 %><br>
-  Rental Fee Unit: <%= f.select :rental_fee_unit, rental_fee_unit_options %><br>
-  Rental Fee Time: <%= f.select :rental_fee_time, rental_fee_time_options %><br>
-  Deposit Amount: <%= f.number_field :deposit_amount, step: 0.01 %><br>
+  Rental Fee: <%= f.number_field :fee, step: 0.01 %><br>
+  Rental Fee Unit: <%= f.select :fee_unit, fee_unit_options %><br>
+  Rental Fee Time: <%= f.select :fee_time, fee_time_options %><br>
+  Deposit Amount: <%= f.number_field :deposit, step: 0.01 %><br>
   <%= f.submit "Add Listing" %>
 <% end %>

@@ -8,10 +8,10 @@ end
 
 When /^I add a new listing with information$/ do |params|
   params = params.rows_hash
-  %w[name description pick_up_location rental_fee deposit_amount].each do |field|
+  %w[name description pick_up_location fee deposit].each do |field|
     fill_in "listing_#{field}", with: params[field] if params.key? field
   end
-  %w[rental_fee_unit rental_fee_time].each do |field|
+  %w[fee_unit fee_time].each do |field|
     select params[field], from: "listing_#{field}" if params.key? field
   end
   click_button "Add Listing"

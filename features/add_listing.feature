@@ -23,9 +23,9 @@ Feature: add listing
       |name|Dyson V11 Torque Drive Vacuum Cleaner|
       |description|an excellent vacuum cleaner   |
       |pick_up_location|Wien Hall                |
-      |rental_fee      |1.03                     |
-      |rental_fee_unit |Karma                    |
-      |rental_fee_time |Hour                     |
-      |deposit_amount  |12.50                    |
+      |fee      |1.03                            |
+      |fee_unit |Karma                           |
+      |fee_time |Hour                            |
+      |deposit  |12.50                           |
     Then I should be on the listings page
     And I should see a listing for "Dyson V11 Torque Drive Vacuum Cleaner"

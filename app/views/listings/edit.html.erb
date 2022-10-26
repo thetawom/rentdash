@@ -6,14 +6,14 @@
   <%= text_field :listing, 'description', class: 'form-control' %>
   <%= label :listing, :pick_up_location, 'Pick-up Location', class: 'col-form-label'  %>
   <%= text_field :listing, 'pick_up_location', class: 'form-control' %>
-  <%= label :listing, :rental_fee, 'Rental Fee', class: 'col-form-label'  %>
-  <%= text_field :listing, 'rental_fee', class: 'form-control' %>
-  <%= label :listing, :rental_fee_unit, 'Rental Fee Unit', class: 'col-form-label'  %>
-  <%= text_field :listing, 'rental_fee_unit', class: 'form-control' %>
-  <%= label :listing, :rental_fee_time, 'Rental Fee Time', class: 'col-form-label'  %>
-  <%= text_field :listing, 'rental_fee_time', class: 'form-control' %>
-  <%= label :listing, :deposit_amount, 'Deposit Amount', class: 'col-form-label'  %>
-  <%= text_field :listing, 'deposit_amount', class: 'form-control' %>
+  <%= label :listing, :fee, 'Rental Fee', class: 'col-form-label'  %>
+  <%= text_field :listing, 'fee', class: 'form-control' %>
+  <%= label :listing, :fee_unit, 'Rental Fee Unit', class: 'col-form-label'  %>
+  <%= text_field :listing, 'fee_unit', class: 'form-control' %>
+  <%= label :listing, :fee_time, 'Rental Fee Time', class: 'col-form-label'  %>
+  <%= text_field :listing, 'fee_time', class: 'form-control' %>
+  <%= label :listing, :deposit, 'Deposit Amount', class: 'col-form-label'  %>
+  <%= text_field :listing, 'deposit', class: 'form-control' %>
   <%= submit_tag 'Update Listing Info', class: 'btn btn-primary' %>
   <%= link_to 'Cancel', listings_path, class: 'btn btn-secondary' %>
 <% end %>

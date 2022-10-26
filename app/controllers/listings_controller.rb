@@ -14,7 +14,9 @@ class ListingsController < ApplicationController
   end
 
   def create
-    @listing = Listing.create(listing_params)
+    @listing = Listing.new(listing_params)
+    @listing.owner_id = current_user.id
+    @listing.save
     if @listing.valid?
       redirect_to listings_path
     else
@@ -25,7 +27,7 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, :pick_up_location, :rental_fee, :rental_fee_unit, :rental_fee_time, :deposit_amount)
+    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit)
   end
 
 end
