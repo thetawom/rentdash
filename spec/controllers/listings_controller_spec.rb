@@ -48,7 +48,7 @@ RSpec.describe ListingsController, type: :controller do
 
     describe "GET #edit" do
       it "renders the edit template" do
-        get :edit, params: {id: listing.id}, session: {user_id: user.id}
+        get :edit, params: {id: listing.id}, session: {user_id: listing.owner.id}
         expect(response).to render_template "edit"
       end
       it "assigns @listing by id" do
