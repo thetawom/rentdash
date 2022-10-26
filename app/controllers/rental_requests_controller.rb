@@ -1,4 +1,4 @@
-class RequestsController < ApplicationController
+class RentalRequestsController < ApplicationController
 
   def show
   end

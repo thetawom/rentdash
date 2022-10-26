@@ -1,5 +1,6 @@
 class User < ApplicationRecord
   has_many :listings, foreign_key: "owner_id"
+  has_many :rental_requests, foreign_key: "requester_id"
 
   has_secure_password
 

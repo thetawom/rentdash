@@ -1,6 +1,6 @@
 class Listing < ApplicationRecord
     belongs_to :owner, class_name: "User"
-    has_many :requests
+    has_many :rental_requests
 
     validates :name, presence: true
     validates :pick_up_location, presence: true
