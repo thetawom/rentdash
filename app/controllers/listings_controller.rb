@@ -5,7 +5,7 @@ class ListingsController < ApplicationController
   end
 
   def show
-    @listing = Listing.find_by id: params[:id]
+    @listing = Listing.find_by(id: params[:id])
     @is_mine = @listing.owner == current_user
   end
 
@@ -41,6 +41,10 @@ class ListingsController < ApplicationController
     end
   end
 
+  def mine
+    @listings = Listing.where(owner: current_user)
+  end
+
   def destroy
     @listing = get_protected_listing(params[:id])
     @listing.destroy
@@ -54,7 +58,7 @@ class ListingsController < ApplicationController
   end
 
   def get_protected_listing(id)
-    listing = Listing.find_by id: id
+    listing = Listing.find_by(id: id)
     if listing.nil?
       flash[:notice] = "Listing does not exist."
       redirect_to listings_path
