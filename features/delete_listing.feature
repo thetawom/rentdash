@@ -7,7 +7,7 @@ Feature: delete listing
     Given I am a logged in user with information
       |email             |first_name |last_name |password    |
       |frankie@gmail.com |Frankie    |Valli     |password123 |
-    And the following listings exist
+    And I have the following listings
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
       |Mirrored Swim Goggles |                           |East Campus     |0.00|dollars |hour    |9.00   |

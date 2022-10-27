@@ -15,13 +15,14 @@ Given /^I am on the edit listing page for "([^"]*)"$/ do |listing_name|
   visit edit_listing_path listing.id
 end
 
-Given /^the following listings exist$/ do |listings_table|
-  expect(User.find_by(id: 1)).to_not be_nil
-  listings_table.hashes.each do |listing|
-    listing = Listing.new listing
-    listing.owner_id = 1
-    listing.save
-  end
+Given /^I have the following listings$/ do |listings_table|
+  owner = User.find_by email: @user_params["email"]
+  create_listings_with_owner owner, listings_table.hashes
+end
+
+Given /^"([^"]*) ([^"]*)" has the following listings$/ do |first_name, last_name, listings_table|
+  owner = User.find_by first_name: first_name, last_name: last_name
+  create_listings_with_owner owner, listings_table.hashes
 end
 
 When /^I go to the listings page$/ do
@@ -35,6 +36,11 @@ end
 When /^I go to the listing page for "([^"]*)"$/ do |listing_name|
   listing = Listing.find_by name: listing_name
   visit listing_path listing.id
+end
+
+When /^I go to the edit listing page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  visit edit_listing_path listing.id
 end
 
 When /^I add a new listing with information$/ do |listings|
@@ -88,4 +94,12 @@ end
 
 Then /^I should see the error (.*)$/ do |error|
   expect(page.body).to have_text error
+end
+
+def create_listings_with_owner(owner, listing_hashes)
+  listing_hashes.each do |listing|
+    listing = Listing.new listing
+    listing.owner_id = owner.id
+    listing.save
+  end
 end
