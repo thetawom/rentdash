@@ -1,3 +1,5 @@
+<%=yield%><%= render "shared/navbar" %>
+
 <h2>Details about <em><%= @listing.name %></em></h2>
 
 <ul id="details">
@@ -12,6 +14,10 @@
   <li>
     Fee:
     <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %>
+  </li>
+  <li>
+    Deposit:
+    <%= @listing.deposit %> <%= @listing.fee_unit %>
   </li>
   <li>
     Owner:
