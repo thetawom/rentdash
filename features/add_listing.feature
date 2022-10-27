@@ -30,3 +30,7 @@ Feature: add listing
       |Dyson V11 Torque Drive|
     # TODO: replace this step after view displays errors properly
     Then I should see the error {"pick_up_location"=>["can't be blank"], "fee"=>["can't be blank"], "deposit"=>["can't be blank"]}
+
+  Scenario: user views their own listings
+    Given I am on the listings page
+    Then I should see my listings

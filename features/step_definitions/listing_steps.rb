@@ -86,6 +86,10 @@ Then /^I should see all the listings$/ do
   end
 end
 
+Then /^I should see my listings$/ do
+  visit my_listings_path
+end
+
 Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |listing_name, location|
   listing = Listing.find_by name: listing_name
   visit listing_path listing.id
