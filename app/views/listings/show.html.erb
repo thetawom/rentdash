@@ -10,6 +10,10 @@
     <%= @listing.pick_up_location %>
   </li>
   <li>
+    Fee:
+    <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %>
+  </li>
+  <li>
     Owner:
     <%= @listing.owner.full_name %>
   </li>
