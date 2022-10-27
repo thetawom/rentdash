@@ -10,10 +10,19 @@ Feature: delete listing
     And I have the following listings
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
-      |Mirrored Swim Goggles |                           |East Campus     |0.00|dollars |hour    |9.00   |
 
   Scenario: delete the listing
     Given I am on the listings page
     And I follow "More about Dyson V11 Torque Drive"
     And I press "Delete"
     Then I should not see a listing for "Dyson V11 Torque Drive"
+
+  Scenario: user tries to delete listing owned by another user
+    Given the following users exist
+      |email             |first_name |last_name |password    |
+      |joe@gmail.com     |Joe        |Long      |password123 |
+    And "Joe Long" has the following listings
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
+      |Mirrored Swim Goggles |                           |East Campus     |0.00|dollars |hour    |9.00   |
+    When I go to the listing page for "Mirrored Swim Goggles"
+    Then I should not see "Delete"
