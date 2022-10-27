@@ -26,23 +26,34 @@ class ListingsController < ApplicationController
   end
 
   def edit
-    @listing = get_protected_listing(params[:id])
+    @listing = Listing.find_by id: params[:id], owner: current_user
     redirect_to listings_path if @listing.nil?
   end
 
   def update
-    @listing = get_protected_listing(params[:id])
+    @listing = Listing.find_by id: params[:id], owner: current_user
     if @listing.nil?
       redirect_to listings_path
-      return
-    end
-    @listing.update(listing_params)
-    if @listing.valid?
-      flash[:notice] = "#{@listing.name} was updated!"
-      redirect_to listing_path @listing.id
     else
-      flash[:errors] = @listing.errors
-      redirect_to new_listing_path
+      @listing.update(listing_params)
+      if @listing.valid?
+        flash[:notice] = "#{@listing.name} was updated!"
+        redirect_to listing_path @listing.id
+      else
+        flash[:errors] = @listing.errors
+        redirect_to new_listing_path
+      end
+    end
+  end
+
+  def destroy
+    @listing = Listing.find_by id: params[:id], owner: current_user
+    if @listing.nil?
+      redirect_to listings_path
+    else
+      @listing.destroy
+      flash[:notice] = "#{@listing.name} was deleted."
+      redirect_to listings_path
     end
   end
 
@@ -50,32 +61,9 @@ class ListingsController < ApplicationController
     @listings = Listing.where(owner: current_user)
   end
 
-  def destroy
-    @listing = get_protected_listing(params[:id])
-    if @listing.nil?
-      redirect_to listings_path
-      return
-    end
-    @listing.destroy
-    flash[:notice] = "#{@listing.name} was deleted."
-    redirect_to listings_path
-  end
-
   private
   def listing_params
     params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit)
-  end
-
-  def get_protected_listing(id)
-    listing = Listing.find_by(id: id)
-    if listing.nil?
-      flash[:notice] = "Listing does not exist."
-      return nil
-    elsif listing.owner != current_user
-      flash[:notice] = "You are not the owner of this listing."
-      return nil
-    end
-    listing
   end
 
 end

@@ -13,6 +13,7 @@ class Listing < ApplicationRecord
     enum fee_time: [:hour, :day, :week]
 
     def owner
-        User.find_by(id: owner_id)
+        User.find_by id: owner_id
     end
+
 end

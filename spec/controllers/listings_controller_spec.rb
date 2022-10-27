@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe ListingsController, type: :controller do
 
-  context "user is registered and is the listing owner" do
+  context "user is logged in and is the listing owner" do
     let(:user) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: user) }
 
@@ -80,16 +80,48 @@ RSpec.describe ListingsController, type: :controller do
     end
 
     describe "PATCH #update" do
-      pending
+      it "updates listing if params are valid" do
+        listing = instance_double("Listing", id: "1", valid?: true, name: "")
+        allow(listing).to receive(:update)
+        expect(Listing).to receive(:find_by).and_return(listing)
+        allow_any_instance_of(ListingsController).to receive(:listing_params)
+        post :update, params: {id: listing.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listing_path listing.id
+      end
+      it "redirects to new listing page if params are invalid" do
+        errors = instance_double("ActiveModel::Errors")
+        listing = instance_double("Listing", id: "1", valid?: false, errors: errors)
+        allow(listing).to receive(:update)
+        expect(Listing).to receive(:find_by).and_return(listing)
+        allow_any_instance_of(ListingsController).to receive(:listing_params)
+        post :update, params: {id: listing.id}, session: {user_id: user.id}
+        expect(flash[:errors]).to_not be_nil
+        expect(response).to redirect_to new_listing_path
+      end
     end
 
     describe "DELETE #destroy" do
-      pending
+      it "deletes listing" do
+        listing = instance_double("Listing", id: "1", name: "")
+        expect(Listing).to receive(:find_by).and_return(listing)
+        expect(listing).to receive(:destroy)
+        delete :destroy, params: {id: listing.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listings_path
+      end
+    end
+
+    describe "GET #mine" do
+      let(:other_listing) { FactoryBot.create(:listing) }
+      it "assigns @listings only with listings that belong to current user" do
+        get :mine, session: {user_id: user.id}
+        expect(assigns(:listings)).to include listing
+        expect(assigns(:listings)).to_not include other_listing
+      end
     end
 
   end
 
-  context "user is registered but is not the listing owner" do
+  context "user is logged in but is not the listing owner" do
     let(:user) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing) }
     describe "GET #edit" do
@@ -112,7 +144,7 @@ RSpec.describe ListingsController, type: :controller do
     end
   end
 
-  context "user is not registered" do
+  context "user is not logged in" do
     describe "GET #index" do
       it "redirects to login page" do
         get :index
@@ -154,6 +186,31 @@ RSpec.describe ListingsController, type: :controller do
         delete :destroy, params: {id: 1}
         expect(response).to redirect_to login_path
       end
+    end
+    describe "GET #mine" do
+      it "redirects to login page" do
+        get :mine
+        expect(response).to redirect_to login_path
+      end
+    end
+  end
+
+  describe "#listing_params" do
+    controller = ListingsController.new
+    it "raises ParameterMissing error if there is no user parameter" do
+      params = ActionController::Parameters.new({ fake: { fake: "hello" } })
+      allow(controller).to receive(:params).and_return(params)
+      expect{controller.send(:listing_params)}.to raise_error(ActionController::ParameterMissing)
+    end
+    it "returns only listing parameters with others filtered" do
+      params = ActionController::Parameters.new({
+                                                  listing: { name: "Vacuum Cleaner", fee: 1.2, junk: "Junk", },
+                                                  gunk: { hunk: "hunk" }
+                                                })
+      allow(controller).to receive(:params).and_return(params)
+      listing_params = controller.send(:listing_params)
+      expect(listing_params).to include(:name, :fee)
+      expect(listing_params).to_not include(:junk)
     end
   end
 
