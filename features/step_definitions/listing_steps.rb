@@ -96,10 +96,6 @@ Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |listing_name, locat
   expect(page.body).to match /Pick-up Location:(\s*)#{location}/
 end
 
-Then /^I should see the error (.*)$/ do |error|
-  expect(page.body).to have_text error
-end
-
 def create_listings_with_owner(owner, listing_hashes)
   listing_hashes.each do |listing|
     listing = Listing.new listing
