@@ -24,8 +24,8 @@ RSpec.describe ListingsController, type: :controller do
         expect(response).to render_template "show"
       end
       it "assigns @listing by id" do
-        get :show, session: {user_id: 1}, params: {id: listing.id}
-        expect(assigns(:listing)).to eq listing
+        get :show, params: {id: listing.id}, session: {user_id: user.id}
+            expect(assigns(:listing)).to eq listing
       end
     end
 
@@ -74,7 +74,7 @@ RSpec.describe ListingsController, type: :controller do
         expect(response).to render_template "edit"
       end
       it "assigns @listing by id" do
-        get :show, session: {user_id: 1}, params: {id: listing.id}
+        get :edit, params: {id: listing.id}, session: {user_id: user.id}
         expect(assigns(:listing)).to eq listing
       end
     end
