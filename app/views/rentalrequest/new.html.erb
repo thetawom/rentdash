@@ -1,0 +1,9 @@
+
+
+
+<%= form_for @request do |f| %>
+    Pick-up Date: <%= f.text_field :pick_up_date %><br>
+    Return Date: <%= f.text_field :pick_up_date %><br>
+   
+    <%= f.submit "Submit Rental Request" %>
+<% end %>
