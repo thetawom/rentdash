@@ -43,19 +43,6 @@ When /^I go to the edit listing page for "([^"]*)"$/ do |listing_name|
   visit edit_listing_path listing.id
 end
 
-When /^I go to the listings page$/ do
-  visit listings_path
-end
-
-When /^I go to the new listing page$/ do
-  visit new_listing_path
-end
-
-When /^I go to the listing page for "([^"]*)"$/ do |listing_name|
-  listing = Listing.find_by name: listing_name
-  visit listing_path listing.id
-end
-
 When /^I add a new listing with information$/ do |listings|
   listing = listings.hashes[0]
   %w[name description pick_up_location fee deposit].each do |field|
