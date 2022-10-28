@@ -4,6 +4,7 @@ class RentalRequestsController < ApplicationController
   end
 
   def index
+    @rentalrequest = RentalRequest.all
   end
 
   def new

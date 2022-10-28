@@ -34,15 +34,6 @@ class ListingsController < ApplicationController
     @listing = Listing.find_by id: params[:id], owner: current_user
     if @listing.nil?
       redirect_to listings_path
-<<<<<<< HEAD
-      return
-    end
-    @listing.update(listing_params)
-    if @listing.valid?
-      flash[:notice] = "#{@listing.name} was updated!"
-      redirect_to listing_path @listing.id
-=======
->>>>>>> c63779471c58a8d7f3c35dbcb870fd057e586552
     else
       @listing.update(listing_params)
       if @listing.valid?

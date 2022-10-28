@@ -1,9 +1,21 @@
 
 
+<div class="container">
+<div class="row">
+  <div class="col-sm">
+    One of three columns
+  </div>
 
-<%= form_for @request do |f| %>
-    Pick-up Date: <%= f.text_field :pick_up_date %><br>
-    Return Date: <%= f.text_field :pick_up_date %><br>
-   
-    <%= f.submit "Submit Rental Request" %>
-<% end %>
+  <div class="col-sm">
+    <%= form_for @rentalrequest do |f| %>
+        Pick-up Date: <%= f.date_field :pick_up_date %><br>
+        Return Date: <%= f.date_field :pick_up_date %><br>
+    
+        <%= f.submit "Submit Rental Request" %>
+    <% end %>
+    
+  </div>
+
+</div>
+</div>
+
