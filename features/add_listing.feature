@@ -23,9 +23,20 @@ Feature: add listing
     When I go to the listings page
     Then I should see a listing for "Dyson V11 Torque Drive"
 
-  Scenario: user unsuccessfully adds a new listing
+  Scenario: user adds a listing without filling in all required fields
     Given I am on the new listing page
     When I add a new listing with information
       |name                  |
       |Dyson V11 Torque Drive|
-    Then I should see the error {"pick_up_location"=>["can't be blank"], "fee"=>["can't be blank"], "deposit"=>["can't be blank"]}
+    Then I should still be on the new listing page
+
+  Scenario: user adds a listing with invalid values
+    Given I am on the new listing page
+    When I add a new listing with information
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |-2     |
+    Then I should still be on the new listing page
+
+  Scenario: user views their own listings
+    Given I am on the listings page
+    Then I should see my listings

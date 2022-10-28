@@ -1,4 +1,6 @@
-<%= content_tag :h1, "New Item Listing" %>
+<%=yield%><%= render "shared/navbar" %>
+
+<%= content_tag :h2, "New Item Listing" %>
 <% if flash[:errors] %>
   <%= content_tag :p, flash[:errors] %>
 <% end %>

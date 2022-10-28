@@ -1,10 +1,11 @@
-Given /^the following users exist$/ do |users|
-  create_users users.hashes
+Given /^the following users exist$/ do |users_table|
+  create_users users_table.hashes
 end
 
-Given /^I am a (registered|logged in) user with information$/ do |logged_in, user|
-  create_users user.hashes
-  @user_params = filter_user_params user.hashes[0]
+Given /^I am a (registered|logged in) user with information$/ do |logged_in, users_table|
+  users_table_hashes = [users_table.hashes[0]]
+  create_users users_table_hashes
+  @user_params = filter_user_params users_table_hashes[0]
   step %{I log in with my credentials} if logged_in == "logged in"
 end
 
@@ -44,13 +45,13 @@ def filter_credentials(credentials)
   credentials.slice("email", "password")
 end
 
-def create_users(user_params_list)
-  user_params_list.each do |user_params|
-    User.create!(email: user_params["email"],
-                 first_name: user_params["first_name"],
-                 last_name: user_params["last_name"],
-                 password: user_params["password"],
-                 password_confirmation: user_params["password"])
+def create_users(user_hashes)
+  user_hashes.each do |user|
+    User.create!(email: user["email"],
+                 first_name: user["first_name"],
+                 last_name: user["last_name"],
+                 password: user["password"],
+                 password_confirmation: user["password"])
   end
 end
 
