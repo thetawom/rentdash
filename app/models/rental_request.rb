@@ -2,12 +2,7 @@ class RentalRequest < ApplicationRecord
     belongs_to :listing
     belongs_to :requester, class_name: "User"
 
-    def findbylisting
-        RentalRequest.find_by(listing_id: listingid)
-    end
+    validates :pick_up_date, presence: true
+    validates :return_date, presence: true
 
-    def findbyUser
-        RentalRequest.find_by(requester_id: requesterid)
-    end
-    
 end

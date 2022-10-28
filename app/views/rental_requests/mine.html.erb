@@ -1,0 +1,27 @@
+<%=yield%><%= render "shared/navbar" %>
+
+<h2>My Requests</h2>
+
+<table class="table table-striped col-md-12">
+  <thead>
+  </thead>
+  <tbody>
+  <% for i in 0...@rental_requests.length() %>
+    <tr>
+      <td>
+        <%= @listing_names[i] %>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @rental_requests[i].pick_up_date%>
+      </td>
+    </tr>
+    <tr>
+      <td>
+        <%= @rental_requests[i].return_date %>
+      </td>    
+    </tr>
+  <% end %>
+  </tbody>
+</table>

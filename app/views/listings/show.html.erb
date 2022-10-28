@@ -31,4 +31,11 @@
     <%= button_to 'Delete', listing_path(@listing), :method => :delete %>
   <% end %>
   <%= link_to 'Back to listings', listings_path, :class => 'btn btn-primary col-2' %>
+ 
+  <% if @listing.owner == current_user %>
+    <%= link_to 'View Rental Requests', listing_rental_requests_path(@listing.id), :class => 'btn btn-primary col-2' %>
+  <% else %>
+    <%= link_to 'Rent This', new_listing_rental_request_path(@listing.id), :class => 'btn btn-primary col-2' %>
+  <% end %>
+
 </div>

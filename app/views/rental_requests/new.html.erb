@@ -1,0 +1,51 @@
+<%=yield%><%= render "shared/navbar" %>
+
+<% if flash[:errors] %>
+  <%= content_tag :p, flash[:errors] %>
+<% end %>
+
+<div class="container">
+<div class="row">
+  
+  <div class="col-sm">
+
+    <ul id="details">
+      <li>
+        Description:
+        <%= @listing.description %>
+      </li>
+      <li>
+        Pick-up Location:
+        <%= @listing.pick_up_location %>
+      </li>
+      <li>
+        Fee:
+        <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %>
+      </li>
+      <li>
+        Deposit:
+        <%= @listing.deposit %> <%= @listing.fee_unit %>
+      </li>
+      <li>
+        Owner:
+        <%= @listing.owner.full_name %>
+      </li>
+    </ul>
+
+  </div>
+
+  <div class="col-sm">
+    <%= form_for ([@listing, @rental_request]) do |f| %>
+        Pick-up Date: <%= f.date_field :pick_up_date %><br>
+        Return Date: <%= f.date_field :return_date %><br>
+
+        The deposit and rental fee, if applicable, will be charged using the selected payment method.<br>
+        Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and <%= @listing.deposit %> <%= @listing.fee_unit %> deposit <br>
+        <%= f.submit "Submit Rental Request" %>
+    <% end %>
+    
+  </div>
+
+</div>
+</div>
+

@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   end
 
   get "/rental_requests", to: "rental_requests#mine", as: :my_requests
+ 
 
   get "/login", to: "sessions#new", as: :login
   post "/login", to: "sessions#create"
