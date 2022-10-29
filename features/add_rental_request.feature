@@ -18,17 +18,17 @@ Feature: add rental request
         
     Scenario: user navigates to the new rental request page for a specific listing
         Given I am on the listing page for "Dyson V11 Torque Drive"
-        Then I should see "Rent This"
-        When I follow "Rent This"
+        Then I should see "Rent this!"
+        When I follow "Rent this!"
         Then I should be on the new rental request page for "Dyson V11 Torque Drive"
     
     Scenario: user successfully adds a new rental request
         Given I am on the new rental request page for "Dyson V11 Torque Drive"
         When I add a new rental request with information
-            |pick_up_date                  |return_date                |
+            |pick_up_date           |return_date            |
             |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
         Then I should be on the listing page for "Dyson V11 Torque Drive"
-        When I follow "My Rentals"
+        When I follow "My Requests"
         Then I should see "2022-10-28 00:00:00 UTC"
         And I should see "2022-10-29 00:00:00 UTC"
         And I should see "Dyson V11 Torque Drive"
@@ -36,7 +36,7 @@ Feature: add rental request
     Scenario: user adds a rental request without filling in all required fields
         Given I am on the new rental request page for "Dyson V11 Torque Drive"
         When I add a new rental request with information
-            |pick_up_date                  |
+            |pick_up_date           |
             |2022-10-28 00:00:00 UTC|
         Then I should still be on the new rental request page for "Dyson V11 Torque Drive"
     

@@ -13,7 +13,7 @@ Feature: delete listing
 
   Scenario: delete the listing
     Given I am on the listings page
-    And I follow "More about Dyson V11 Torque Drive"
+    And I follow "Dyson V11 Torque Drive"
     And I press "Delete"
     Then I should not see a listing for "Dyson V11 Torque Drive"
 

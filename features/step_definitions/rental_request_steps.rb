@@ -1,15 +1,5 @@
-When /^I go to the new rental request page for "([^"]*)"$/ do |listing_name|
-    listing = Listing.find_by name: listing_name
-    visit new_listing_rental_request_path listing.id
-  end
-
 Given /^I am on the new rental request page for "([^"]*)"$/ do |listing_name|
     step %{I go to the new rental request page for "#{listing_name}"}
-end
-
-Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do |listing_name|
-    listing = Listing.find_by name: listing_name
-    expect(URI.parse(current_url).path).to eq new_listing_rental_request_path listing.id
 end
 
 Given /^I have the following rental requests for "([^"]*)"$/ do |listing_name, rental_requests_table|
@@ -24,12 +14,26 @@ Given /^"([^"]*) ([^"]*)" has the following rental requests for "([^"]*)"$/ do |
     create_rental_requests_with_owner owner, rental_requests_table.hashes, listing
 end
 
+When /^I go to the new rental request page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  visit new_listing_rental_request_path listing.id
+end
+
 When /^I add a new rental request with information$/ do |rental_requests|
     rental_request = rental_requests.hashes[0]
     %w[pick_up_date return_date].each do |field|
       fill_in "rental_request_#{field}", with: rental_request[field] if rental_request.key? field
     end
     click_button "Submit Rental Request"
+end
+
+Then /^I should (?:|still )be on my rental requests page$/ do
+  expect(URI.parse(current_url).path).to eq my_requests_path
+end
+
+Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  expect(URI.parse(current_url).path).to eq new_listing_rental_request_path listing.id
 end
 
 

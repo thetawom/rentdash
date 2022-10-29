@@ -5,10 +5,10 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :index, :new, :create]
   resources :listings, only: [:show, :index, :new, :create, :edit, :update, :destroy] do
-    resources :rental_requests, only: [:show, :index, :new, :create]
+    resources :rental_requests, path: "requests", only: [:show, :index, :new, :create]
   end
 
-  get "/rental_requests", to: "rental_requests#mine", as: :my_requests
+  get "/requests/mine", to: "rental_requests#mine", as: :my_requests
  
 
   get "/login", to: "sessions#new", as: :login

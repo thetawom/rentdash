@@ -1,6 +1,5 @@
+<%=yield%><%= render "shared/navbar" %>
+
 <%= content_tag :h1, current_user.welcome %>
-<%= link_to "Go to all listings", listings_path, :class => "btn btn-primary" %><br/>
-<%= link_to "Go to my listings", my_listings_path, :class => "btn btn-primary" %><br/>
-<%= link_to "Go to my rentals", my_requests_path, :class => "btn btn-primary" %>
 
 <%= button_to "Sign out", logout_path, method: :delete %>

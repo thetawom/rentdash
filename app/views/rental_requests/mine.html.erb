@@ -6,22 +6,17 @@
   <thead>
   </thead>
   <tbody>
-  <% for i in 0...@rental_requests.length() %>
     <tr>
-      <td>
-        <%= @listing_names[i] %>
-      </td>
+      <th>Listing</th>
+      <th>Pick-up Date</th>
+      <th>Return Date</th>
     </tr>
-    <tr>
-      <td>
-        <%= @rental_requests[i].pick_up_date%>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= @rental_requests[i].return_date %>
-      </td>    
-    </tr>
-  <% end %>
+    <% @rental_requests.each do |rental_request| %>
+      <tr>
+        <td><%= link_to rental_request.listing.name, listing_path(rental_request.listing.id) %></td>
+        <td><%= rental_request.pick_up_date %></td>
+        <td><%= rental_request.return_date %></td>
+      </tr>
+    <% end %>
   </tbody>
 </table>
