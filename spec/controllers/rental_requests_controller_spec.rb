@@ -5,7 +5,7 @@ RSpec.describe RentalRequestsController, type: :controller do
     let(:user) { FactoryBot.create(:user) }
     let(:requester) { FactoryBot.create(:requester)}
     let(:listing) { FactoryBot.create(:listing, owner: user) }
-    let(:rental) { FactoryBot.create(:rental_request, listing: listing, requester: requester)}
+    let(:request) { FactoryBot.create(:rental_request, listing: listing, requester: requester)}
 
     describe "GET #index" do
       it "renders the index template" do
@@ -16,9 +16,8 @@ RSpec.describe RentalRequestsController, type: :controller do
       it "assigns @rental_request" do
         get :index, params: {listing_id: listing.id}, session: {user_id:user.id}
         expect(assigns(:listing)).to eq listing
-        expect(assigns(:rental_requests)).to eq [rental]
+        expect(assigns(:rental_requests)).to eq [request]
       end
-
     end
 
     describe "GET #new" do
@@ -36,26 +35,27 @@ RSpec.describe RentalRequestsController, type: :controller do
       end
 
     end
-    
-    '''
+
     describe "POST #create" do
       it "creates new rental request if params are valid" do
         rental_request = instance_double("RentalRequest", id: "1")
         allow(rental_request).to receive(:valid?).and_return(true)
+        allow(rental_request).to receive(:listing_id=)
+        allow(rental_request).to receive(:requester=)
         expect(rental_request).to receive(:save)
         expect(RentalRequest).to receive(:new).and_return(rental_request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-        post :create, params:{listing_id:listing.id}, session: {user_id: requester.id}
+        post :create, params: {listing_id: listing.id}, session: {user_id: requester.id}
         expect(response).to redirect_to listing_path listing.id
       end
-      
 
       it "redirects to new rental request page if params are invalid" do
         rental_request = instance_double("RentalRequest", listing_id:"1")
         errors = instance_double("ActiveModel::Errors")
-        #expect(rental_request).to receive(:listing_id)
-        expect(rental_request).to receive(:valid?).and_return(false)
-        expect(rental_request).to receive(:errors).and_return(errors)
+        allow(rental_request).to receive(:listing_id=)
+        allow(rental_request).to receive(:requester=)
+        allow(rental_request).to receive(:valid?).and_return(false)
+        allow(rental_request).to receive(:errors).and_return(errors)
         expect(rental_request).to receive(:save)
         expect(RentalRequest).to receive(:new).and_return(rental_request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
@@ -64,7 +64,6 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to redirect_to new_listing_rental_request_path
       end
     end
-    '''
     
     describe "GET #mine" do
       let(:other_rental) { FactoryBot.create(:rental_request, listing: listing, requester: user) }
