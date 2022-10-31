@@ -44,7 +44,7 @@ Unlike traditional consumer-to-consumer e-commerce platforms, our service specif
 
 [build-shield]: https://img.shields.io/github/workflow/status/ew2664/rentdash/Ruby%20on%20Rails%20CI?style=flat-square
 
-[build-url]: https://github.com/ew2664/culd-hub/actions/workflows/rubyonrails.yml
+[build-url]: https://github.com/ew2664/rentdash/actions/workflows/rubyonrails.yml
 
 [coverage-shield]: https://img.shields.io/codecov/c/github/ew2664/rentdash?style=flat-square&token=K5WMMM4NGA
 
