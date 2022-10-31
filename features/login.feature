@@ -7,6 +7,7 @@ Feature: user login
     Given I am a registered user with information
       |email             |first_name |last_name |password    |
       |frankie@gmail.com |Frankie    |Valli     |password123 |
+    And I am on the login page
 
   Scenario: user logs in with correct credentials
     When I log in with my credentials

@@ -86,8 +86,11 @@ Then /^I should see all the listings$/ do
   end
 end
 
-Then /^I should see my listings$/ do
-  visit my_listings_path
+Then /^I should see all my listings$/ do
+  owner = User.find_by email: @user_params["email"]
+  Listing.where(owner_id: owner.id).each do |listing|
+    step %{I should see a listing for "#{listing.name}"}
+  end
 end
 
 Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |listing_name, location|

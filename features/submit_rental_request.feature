@@ -1,7 +1,7 @@
-Feature: add rental request
+Feature: submit rental request
   As a user with a need for an item listed on the website
   In order to rent the specified item
-  I want to add a rental request for that specified item
+  I want to submit a rental request for that specified item
 
     Background: these are the registered users
         Given the following users exist
@@ -21,9 +21,6 @@ Feature: add rental request
         Then I should see "Rent this!"
         When I follow "Rent this!"
         Then I should be on the new rental request page for "Dyson V11 Torque Drive"
-    
-    Scenario: user successfully adds a new rental request
-        Given I am on the new rental request page for "Dyson V11 Torque Drive"
         When I add a new rental request with information
             |pick_up_date           |return_date            |
             |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|

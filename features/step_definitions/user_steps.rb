@@ -6,16 +6,23 @@ Given /^I am a (registered|logged in) user with information$/ do |logged_in, use
   users_table_hashes = [users_table.hashes[0]]
   create_users users_table_hashes
   @user_params = filter_user_params users_table_hashes[0]
-  step %{I log in with my credentials} if logged_in == "logged in"
+  step %{I am logged in} if logged_in == "logged in"
+end
+
+Given /^I am on the login page$/ do
+  visit login_path
+end
+
+Given /^I am logged in$/ do
+  step %{I am on the login page}
+  step %{I log in with my credentials}
 end
 
 When /^I log in with credentials$/ do |credentials|
-  visit login_path
   login_with filter_credentials credentials.hashes[0]
 end
 
-When /^I (?:|log in with my credentials|am logged in)$/ do
-  visit login_path
+When /^I log in with my credentials/ do
   login_with filter_credentials @user_params
 end
 

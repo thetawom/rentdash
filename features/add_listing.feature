@@ -8,14 +8,11 @@ Feature: add listing
       |email             |first_name |last_name |password    |
       |frankie@gmail.com |Frankie    |Valli     |password123 |
 
-  Scenario: user navigates to the new listing page from the listings page
+  Scenario: user successfully adds a new listing
     Given I am on the listings page
     Then I should see "Add new listing"
     When I follow "Add new listing"
     Then I should be on the new listing page
-
-  Scenario: user successfully adds a new listing
-    Given I am on the new listing page
     When I add a new listing with information
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |
@@ -39,4 +36,4 @@ Feature: add listing
 
   Scenario: user views their own listings
     Given I am on the listings page
-    Then I should see my listings
+    Then I should see all my listings
