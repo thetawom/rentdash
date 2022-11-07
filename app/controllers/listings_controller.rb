@@ -6,31 +6,31 @@ class ListingsController < ApplicationController
     @all_payment_types = Listing.all_payment_types
     @all_rental_times = Listing.all_rental_times
     if params[:home] == nil
-      redirect_to listings_path(:item_categories => session[:item_categories], :payment_types => session[:payment_types], :rental_times => session[:rental_times], :home => "1")
+      redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :home => "1")
     else
-      session[:item_categories] = params[:item_categories]
-      session[:payment_types] = params[:payment_types]
-      session[:rental_times] = params[:rental_times]
+      session[:category] = params[:category]
+      session[:payment] = params[:payment]
+      session[:time] = params[:time]
     end
 
-    if session[:item_categories] == nil
+    if session[:category] == nil
       @item_categories_to_show = Listing.all_categories
     else
-      @item_categories_to_show = session[:item_categories].keys
+      @item_categories_to_show = session[:category].keys
       @item_categories_hash = Hash[@item_categories_to_show.collect {|v| [v, 1]}]
     end
 
-    if session[:payment_types] == nil
+    if session[:payment] == nil
       @payment_types_to_show = Listing.all_payment_types
     else
-      @payment_types_to_show = session[:payment_types].keys
+      @payment_types_to_show = session[:payment].keys
       @payment_types_hash = Hash[@payment_types_to_show.collect {|v| [v, 1]}]
     end
 
-    if session[:rental_times] == nil
+    if session[:time] == nil
       @rental_times_to_show = Listing.all_rental_times
     else
-      @rental_times_to_show = session[:rental_times].keys
+      @rental_times_to_show = session[:time].keys
       @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
     end
 
