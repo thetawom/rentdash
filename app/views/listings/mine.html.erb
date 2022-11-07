@@ -2,33 +2,29 @@
 
 <h2>My Listings</h2>
 
+<%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
+<br>
+<br>
+
 <table class="table table-striped col-md-12" id="listings">
   <thead>
   </thead>
   <tbody>
+  <tr>
+    <th>Item Name</th>
+    <th>Description</th>
+    <th>Pick-up Location</th>
+    <th>Rental Fee</th>
+    <th>Deposit</th>
+  </tr>
   <% @listings.each do |listing| %>
     <tr>
-      <td>
-        <%= listing.name %>
-      </td>
-      <td>
-        <%= listing.description %>
-      </td>
-      <td>
-        <%= listing.pick_up_location %>
-      </td>
-      <td>
-        <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %>
-      </td>
-      <td>
-        <%= listing.deposit %> dollars
-      </td>
-      <td>
-        <%= link_to "More about #{listing.name}", listing_path(listing) %>
-      </td>
+      <td><%= link_to listing.name, listing_path(listing.id)%></td>
+      <td><%= listing.description %></td>
+      <td><%= listing.pick_up_location %></td>
+      <td><%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %></td>
+      <td><%= listing.deposit %> dollars</td>
     </tr>
   <% end %>
   </tbody>
 </table>
-
-<%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>

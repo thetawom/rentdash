@@ -7,8 +7,9 @@ Feature: user logout
     Given I am a registered user with information
       |email             |first_name |last_name |password    |
       |frankie@gmail.com |Frankie    |Valli     |password123 |
-    And I am logged in
 
   Scenario: user logs out
+    Given I am logged in
+    Then I should see "Sign out"
     When I press "Sign out"
     Then I should be on the login page

@@ -15,9 +15,6 @@ Feature: edit listing
     Given I am on the listing page for "Dyson V11 Torque Drive"
     When I follow "Edit"
     Then I should be on the edit listing page for "Dyson V11 Torque Drive"
-
-  Scenario: user updates the pick-up location for a listing
-    Given I am on the edit listing page for "Dyson V11 Torque Drive"
     When I fill in "Pick-up Location" with "Furnald Hall"
     And I press "Update Listing Info"
     Then the pick-up location of "Dyson V11 Torque Drive" should be "Furnald Hall"

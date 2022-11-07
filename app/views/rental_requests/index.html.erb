@@ -1,26 +1,23 @@
 <%=yield%><%= render "shared/navbar" %>
 
-<h2>Requests for My Listings</h2>
+<h2>Rental Requests for <em><%= @listing.name %></em></h2>
 
 <table class="table table-striped col-md-12">
   <thead>
   </thead>
   <tbody>
+  <tr>
+    <th>Requester</th>
+    <th>Pick-up Date</th>
+    <th>Return Date</th>
+  </tr>
   <% @rental_requests.each do |rental_request| %>
     <tr>
-      <td>
-        <%= @listing.name %>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= rental_request.pick_up_date%>
-      </td>
-    </tr>
-    <tr>
-      <td>
-        <%= rental_request.return_date %>
-      </td>    
+      <td><%= rental_request.requester.full_name %></td>
+      <td><%= rental_request.pick_up_date %></td>
+      <td><%= rental_request.return_date %></td>
+      <td><%= button_to "Approve" %></td>
+      <td><%= button_to "Decline" %></td>
     </tr>
   <% end %>
   </tbody>

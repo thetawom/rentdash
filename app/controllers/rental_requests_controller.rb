@@ -1,7 +1,7 @@
 class RentalRequestsController < ApplicationController
   def index
-    @rental_requests = RentalRequest.where(listing_id: params[:listing_id].to_i)
-    @listing = Listing.find_by(id: params[:listing_id].to_i)
+    @listing = Listing.find_by(id: params[:listing_id])
+    @rental_requests = RentalRequest.where(listing_id: params[:listing_id])
   end
 
   def new
@@ -26,12 +26,6 @@ class RentalRequestsController < ApplicationController
 
   def mine
     @rental_requests = RentalRequest.where(requester: current_user)
-    @listing_names = []
-
-    @rental_requests.each do |rental_request|
-      @listing_names.append(Listing.find_by(id: rental_request.listing_id).name)
-    end
-
   end
 
   private
