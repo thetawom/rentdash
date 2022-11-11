@@ -6,6 +6,30 @@
 <br>
 <br>
 
+<div class="row row-cols-3 g-3">
+  <% @listings.each do |listing| %>
+    <div class = "col">
+      <div class="card">
+        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+        <div class="card-body">
+          <h5 class="card-title"><%= listing.name %></h5> <br>
+          <p class="card-text">
+            Item Category: <%= listing.item_category %> <br>
+            Description: <%= listing.description %> <br>
+            Pick-Up Location: <%= listing.pick_up_location %> <br>
+            Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
+            Deposit: <%= listing.deposit %> dollars <br>
+          </p>
+          <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
+      
+        </div>
+      </div>
+      <br>
+    </div>
+  <%end%>
+  </div>
+</div>
+
 <table class="table table-striped col-md-12" id="listings">
   <thead>
   </thead>

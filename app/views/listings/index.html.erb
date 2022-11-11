@@ -6,53 +6,102 @@
 
 
 <h2>All Listings</h2>
-
 <%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
+
+
+<div class="row">
+  <div class="col-8">
+    <%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
+    <%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
+    <%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
+    <%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
+  </div>
+  <div class="col-4">
+    <%= form_tag(listings_path, method: :get) do %>
+    <%= text_field_tag(:search, params[:search]) %>
+    <%= hidden_field_tag(:home, '2') %>
+    <%= submit_tag ("Search") %>
+  <% end %>
+  </div>
+</div>
+
+
+
+
+<div class="row">
+  <div class="col-2">
+    <%= submit_tag 'Refresh', id: 'filters_submit', class: 'btn btn-primary' %>
+    <br>
+    <%= form_tag listings_path, method: :get, id: 'item_filtering_form' do %>
+      <h6>Category:</h6>
+      <% @all_categories.each do |category| %>
+        <div class="form-check  form-check-inline">
+          <%= label_tag "category[#{category}]", category, class: 'form-check-label' %>
+          <%= check_box_tag "category[#{category}]", "1",  @item_categories_to_show.include?(category), class: 'form-check-input' %>
+        </div>
+        <br>
+      <% end %>
+      <br>
+      <h6>Payment Type:</h6>
+      <% @all_payment_types.each do |payment| %>
+        <div class="form-check  form-check-inline">
+          <%= label_tag "payment[#{payment}]", payment, class: 'form-check-label' %>
+          <%= check_box_tag "payment[#{payment}]", "1",  @payment_types_to_show.include?(payment), class: 'form-check-input' %>
+        </div>
+        <br>
+      <% end %>
+      <br>
+      <h6>Rental Time:</h6>
+      <% @all_rental_times.each do |time| %>
+        <div class="form-check  form-check-inline">
+          <%= label_tag "time[#{time}]", time, class: 'form-check-label' %>
+          <%= check_box_tag "time[#{time}]", "1",  @rental_times_to_show.include?(time), class: 'form-check-input' %>
+        </div>
+        <br>
+      <% end %>
+
+      <%= hidden_field_tag(:home, '1') %>
+      <br>
+    <% end %>
+    Sorting
+  </div>
+  
+  <div class="col-8">
+    <div class="row row-cols-3 g-3">
+    <% @listings.each do |listing| %>
+      <div class = "col">
+        <div class="card">
+          <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= listing.name %></h5> <br>
+            <p class="card-text">
+              Item Category: <%= listing.item_category %> <br>
+              Description: <%= listing.description %> <br>
+              Pick-Up Location: <%= listing.pick_up_location %> <br>
+              Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
+              Deposit: <%= listing.deposit %> dollars <br>
+            </p>
+            <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
+        
+          </div>
+        </div>
+        <br>
+      </div>
+    <%end%>
+    </div>
+  </div>
+</div>
+
+
+
+
+
 <br>
 <br>
 
-<%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-<%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-<%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-<%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
 
-<%= form_tag(listings_path, method: :get) do %>
-  <%= text_field_tag(:search, params[:search]) %>
-  <%= hidden_field_tag(:home, '2') %>
-  <%= submit_tag ("Search") %>
-<% end %>
 
-<%= form_tag listings_path, method: :get, id: 'item_filtering_form' do %>
-  Category:
-  <% @all_categories.each do |category| %>
-    <div class="form-check  form-check-inline">
-      <%= label_tag "category[#{category}]", category, class: 'form-check-label' %>
-      <%= check_box_tag "category[#{category}]", "1",  @item_categories_to_show.include?(category), class: 'form-check-input' %>
-    </div>
-  <% end %>
-  <br>
-  Payment Type:
-  <% @all_payment_types.each do |payment| %>
-    <div class="form-check  form-check-inline">
-      <%= label_tag "payment[#{payment}]", payment, class: 'form-check-label' %>
-      <%= check_box_tag "payment[#{payment}]", "1",  @payment_types_to_show.include?(payment), class: 'form-check-input' %>
-    </div>
-  <% end %>
-  <br>
-  Rental Time:
-  <% @all_rental_times.each do |time| %>
-    <div class="form-check  form-check-inline">
-      <%= label_tag "time[#{time}]", time, class: 'form-check-label' %>
-      <%= check_box_tag "time[#{time}]", "1",  @rental_times_to_show.include?(time), class: 'form-check-input' %>
-    </div>
-  <% end %>
 
-  <%= hidden_field_tag(:home, '1') %>
-  <br>
-  <%= submit_tag 'Refresh', id: 'filters_submit', class: 'btn btn-primary' %>
-<% end %>
-
-Sorting
 
 
 <table class="table table-striped col-md-12" id="listings">
@@ -87,24 +136,6 @@ Sorting
 </table>
 
 
-<% @listings.each do |listing| %>
-  <div class="card" style="width: 18rem; margin: 2rem">
-  <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
-  <div class="card-body">
-    <h5 class="card-title"><%= listing.name %></h5> <br>
-    <p class="card-text">
-      Item Category: <%= listing.item_category %> <br>
-      Description: <%= listing.description %> <br>
-      Pick-Up Location: <%= listing.pick_up_location %> <br>
-      Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
-      Deposit: <%= listing.deposit %> dollars <br>
-    </p>
-    <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
 
-
-    </tr>
-  </div>
-  </div>
-<% end %>
 
 </body>
