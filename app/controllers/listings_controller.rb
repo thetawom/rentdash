@@ -43,17 +43,16 @@ class ListingsController < ApplicationController
     # else
     #   @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash)
     # end
-
     
     @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash, session[:search])
     puts(@listings)
 
     if session[:sort] && session[:sort] == "Sort Price High to Low"
-      @listings = @listings.order("fee").reverse()
+      @listings = @listings.order("fee").reverse
     elsif session[:sort] && session[:sort] == "Sort Price Low to High"
       @listings = @listings.order("fee")
     elsif session[:sort] && session[:sort] == "Sort by Newest"
-      @listings = @listings.order("created_at").reverse()
+      @listings = @listings.order("created_at").reverse
     elsif session[:sort] && session[:sort] == "Sort by Oldest"
       @listings = @listings.order("created_at")
     end
