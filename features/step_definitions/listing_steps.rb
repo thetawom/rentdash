@@ -134,6 +134,13 @@ Then /^I should (not )?see the following listings: (.*)$/ do |no, listings_list|
   end
 end
 
+Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
+  #  ensure that that e1 occurs before e2.
+  #  page.body is the entire content of the page as a string.
+  regexp = /#{e1}.*#{e2}/m
+  expect(page.body) =~ regexp
+end
+
 Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |listing_name, location|
   listing = Listing.find_by name: listing_name
   visit listing_path listing.id
