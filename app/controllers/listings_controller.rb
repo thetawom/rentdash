@@ -55,7 +55,7 @@ class ListingsController < ApplicationController
       @listings = @listings.order("created_at")
     end
 
-    return @listings
+    @listings
 
   end
 
