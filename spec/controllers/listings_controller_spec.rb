@@ -8,7 +8,7 @@ RSpec.describe ListingsController, type: :controller do
 
     describe "GET #index" do
       it "renders the index template" do
-        get :index, session: {user_id: user.id}
+        get :index, session: {user_id: user.id}, params: {home: 1}
         expect(response).to render_template "index"
       end
       it "assigns @listings" do

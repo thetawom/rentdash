@@ -8,7 +8,6 @@ class Listing < ApplicationRecord
     validates :fee_unit, presence: true
     validates :fee_time, presence: true
     validates :deposit, presence: true
-    validates :item_category, presence: true
 
     validates_numericality_of :fee, greater_than_or_equal_to: 0
     validates_numericality_of :deposit, greater_than_or_equal_to: 0
@@ -43,16 +42,16 @@ class Listing < ApplicationRecord
         Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys, fee_time: rental_time_list.keys)
     end
 
-    def self.all_rental_times()
-        return ['hour', 'day', 'week']
+    def self.all_rental_times
+        return %w[hour day week]
     end
 
-    def self.all_categories()
-        return ['books', 'clothing', 'tools', 'cleaning', 'technology', 'school']
+    def self.all_categories
+        return %w[books clothing tools cleaning technology school]
     end
     
-    def self.all_payment_types()
-        return ['karma', 'cash']
+    def self.all_payment_types
+        return %w[karma cash]
     end
 
 end

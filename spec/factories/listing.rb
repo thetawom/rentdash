@@ -6,6 +6,7 @@ FactoryBot.define do
     fee_unit { "karma" }
     fee_time { "hour" }
     deposit { 1.00 }
+    item_category { "books" }
     association :owner, factory: :user
   end
 end

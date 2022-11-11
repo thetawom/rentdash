@@ -8,7 +8,6 @@ class ListingsController < ApplicationController
     if params[:home] == nil
       redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
     else
-      puts("Here", params[:category], params[:sort])
       session[:category] = params[:category]
       session[:payment] = params[:payment]
       session[:time] = params[:time]
@@ -44,14 +43,14 @@ class ListingsController < ApplicationController
     # end
 
     
-    @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash)
+    @listings = Listing.with_filters(@item_categories_hash, @payment_types_hash, @rental_times_hash)
 
     if session[:sort] && session[:sort] == "Sort Price High to Low"
-      @listings = @listings.order("fee").reverse()
+      @listings = @listings.order("fee").reverse
     elsif session[:sort] && session[:sort] == "Sort Price Low to High"
       @listings = @listings.order("fee")
     elsif session[:sort] && session[:sort] == "Sort by Newest"
-      @listings = @listings.order("created_at").reverse()
+      @listings = @listings.order("created_at").reverse
     elsif session[:sort] && session[:sort] == "Sort by Oldest"
       @listings = @listings.order("created_at")
     end
