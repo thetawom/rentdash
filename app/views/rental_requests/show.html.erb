@@ -20,14 +20,15 @@
 <div class="row">
   <% if @is_my_request %>
     <%= link_to 'Edit', root_path, :class => 'btn btn-primary' %>
-    <%= button_to 'Delete', root_path, :class => 'btn btn-danger'%>
+    <%= button_to 'Delete', rental_request_path(@rental_request.id), method: :delete, :class => 'btn btn-danger'%>
   <% end %>
   <% if @is_my_listing %>
     <%= button_to 'Approve', root_path, :class => 'btn btn-primary' %>
-    <%= button_to 'Decline', root_path, :class => 'btn btn-danger' %>
+    <%= button_to 'Decline', rental_request_path(@rental_request.id), method: :delete, :class => 'btn btn-danger' %>
   <% end %>
 </div>
 <div class="row">
+  <%= link_to 'View listing', listing_path(@listing.id), :class => 'btn btn-primary' %>
   <% if @is_my_request %>
     <%= link_to 'Back to my requests', my_requests_path, :class => 'btn btn-primary' %>
   <% end %>

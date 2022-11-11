@@ -6,10 +6,13 @@ class RentalRequestsController < ApplicationController
   end
 
   def show
-    @rental_request = RentalRequest.find_by(id: params[:id])
+    @rental_request = RentalRequest.find_by id: params[:id]
     @listing = @rental_request.listing
     @is_my_request = @rental_request.requester == current_user
     @is_my_listing = @listing.owner == current_user
+    if not @is_my_request and not @is_my_listing
+      redirect_to my_requests_path
+    end
   end
 
   def new
@@ -28,6 +31,25 @@ class RentalRequestsController < ApplicationController
     else
       flash[:errors] = @rental_request.errors
       redirect_to new_listing_rental_request_path params[:listing_id]
+    end
+  end
+
+  def destroy
+    @rental_request = RentalRequest.find_by id: params[:id]
+    if @rental_request.requester == current_user
+      unless @rental_request.nil?
+        @rental_request.destroy
+        flash[:notice] = "Request for #{@rental_request.listing.name} was deleted."
+      end
+      redirect_to my_requests_path
+    elsif @rental_request.listing.owner == current_user
+      unless @rental_request.nil?
+        @rental_request.destroy
+        flash[:notice] = "Request for #{@rental_request.listing.name} was declined."
+      end
+      redirect_to listing_rental_requests_path(@rental_request.listing.id)
+    else
+      redirect_to my_requests_path
     end
   end
 
