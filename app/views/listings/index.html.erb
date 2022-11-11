@@ -91,7 +91,7 @@ Sorting
   <div class="card" style="width: 18rem; margin: 2rem">
   <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
   <div class="card-body">
-    <h5 class="card-title"><%= link_to listing.name, listing_path(listing.id), class: "card-title"%></h5> <br>
+    <h5 class="card-title"><%= listing.name %></h5> <br>
     <p class="card-text">
       Item Category: <%= listing.item_category %> <br>
       Description: <%= listing.description %> <br>
@@ -99,7 +99,7 @@ Sorting
       Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
       Deposit: <%= listing.deposit %> dollars <br>
     </p>
-    <%= link_to listing.name, listing_path(listing.id), class:"btn btn-secondary" %>
+    <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
 
 
     </tr>
