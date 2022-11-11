@@ -6,11 +6,14 @@ class ListingsController < ApplicationController
     @all_payment_types = Listing.all_payment_types
     @all_rental_times = Listing.all_rental_times
     if params[:home] == nil
-      redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :home => "1")
+      redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
     else
+      puts("Here", params[:category], params[:sort])
       session[:category] = params[:category]
       session[:payment] = params[:payment]
       session[:time] = params[:time]
+      session[:sort] = params[:sort]
+      session[:search] = params[:search]
     end
 
     if session[:category] == nil
@@ -34,7 +37,27 @@ class ListingsController < ApplicationController
       @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
     end
 
+    # if session[:sort] != nil
+    #   @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash).order(session[:sort])
+    # else
+    #   @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash)
+    # end
+
+    
     @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash)
+
+    if session[:sort] && session[:sort] == "Sort Price High to Low"
+      @listings = @listings.order("fee").reverse()
+    elsif session[:sort] && session[:sort] == "Sort Price Low to High"
+      @listings = @listings.order("fee")
+    elsif session[:sort] && session[:sort] == "Sort by Newest"
+      @listings = @listings.order("created_at").reverse()
+    elsif session[:sort] && session[:sort] == "Sort by Oldest"
+      @listings = @listings.order("created_at")
+    end
+
+    #@listings = Listing.where("name LIKE ?", "%" + session[:search] + "%")
+
 
   end
 
@@ -97,7 +120,7 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category)
+    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category, :sort, :search)
   end
 
 end
