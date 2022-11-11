@@ -1,10 +1,31 @@
-<%= content_tag :h1, "Log in" %>
 <% if flash[:notice] %>
   <%= content_tag :p, flash[:notice] %>
 <% end %>
-<%= form_with url: login_path do |f| %>
-  <%= f.text_field :email %><br>
-  <%= f.password_field :password %><br>
-  <%= link_to "Sign up", new_user_path %>
-  <%= f.submit "Sign in!" %>
-<% end %>
+
+<div class="container py-5 h-100", style="margin-top: 30px">
+  <div class="row d-flex justify-content-center align-items-center h-100">
+    <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+      <div class="card shadow-2-strong" style="border-radius: 1rem;">
+        <div class="card-body p-5 text-center">
+
+        <%= content_tag :h1, "Log in" %>
+        No account yet? <%= link_to "Sign up", new_user_path %>
+        <br>
+        <br>
+        <%= form_with url: login_path do |f| %>
+          <%= f.text_field :email %><br>
+          Email Address
+          <br>
+          <br>
+          <%= f.password_field :password %><br>
+          Password
+          <br>
+          <br>
+          
+          <%= f.submit "Sign in!" %>
+        <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

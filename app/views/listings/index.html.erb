@@ -39,7 +39,7 @@
       <% @all_categories.each do |category| %>
         <div class="form-check  form-check-inline">
           <%= label_tag "category[#{category}]", category, class: 'form-check-label' %>
-          <%= check_box_tag "category[#{category}]", "1",  @item_categories_to_show.include?(category), class: 'form-check-input' %>
+          <%= check_box_tag "category[#{category}]", "1",  @item_categories_to_show.include?(category), style: 'margin-left:10px', class: 'form-check-input' %>
         </div>
         <br>
       <% end %>
@@ -48,7 +48,7 @@
       <% @all_payment_types.each do |payment| %>
         <div class="form-check  form-check-inline">
           <%= label_tag "payment[#{payment}]", payment, class: 'form-check-label' %>
-          <%= check_box_tag "payment[#{payment}]", "1",  @payment_types_to_show.include?(payment), class: 'form-check-input' %>
+          <%= check_box_tag "payment[#{payment}]", "1",  @payment_types_to_show.include?(payment), style: 'margin-left:10px', class: 'form-check-input' %>
         </div>
         <br>
       <% end %>
@@ -57,7 +57,7 @@
       <% @all_rental_times.each do |time| %>
         <div class="form-check  form-check-inline">
           <%= label_tag "time[#{time}]", time, class: 'form-check-label' %>
-          <%= check_box_tag "time[#{time}]", "1",  @rental_times_to_show.include?(time), class: 'form-check-input' %>
+          <%= check_box_tag "time[#{time}]", "1",  @rental_times_to_show.include?(time), style: 'margin-left:10px', class: 'form-check-input' %>
         </div>
         <br>
       <% end %>
@@ -75,7 +75,7 @@
         <div class="card">
           <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
           <div class="card-body">
-            <h5 class="card-title"><%= listing.name %></h5> <br>
+            <h5 class="card-title"><%= listing.name %></h5>
             <p class="card-text">
               Item Category: <%= listing.item_category %> <br>
               Description: <%= listing.description %> <br>
