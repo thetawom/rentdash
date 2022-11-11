@@ -36,55 +36,12 @@
       <li class="nav-item">
         <%= link_to "Profile", user_path(current_user.id), class: "nav-link"%>
       </li>
+      <li class="nav-item">
+        <%= button_to "Sign out", logout_path, method: :delete, class: "nav-link"%>
+      </li>
     </ul>
   </div>
  </nav>
  <%= yield %>
 </body>
 </html>
-
-'''
-<style>
-    .nav-ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333;
-    }
-
-    .nav-li {
-        float: left;
-    }
-
-    .right {
-        float: right;
-    }
-
-    .nav-li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
-
-    .nav-li a:hover {
-        background-color: #111;
-    }
-</style>
-<header class="navbar navbar-inverse">
-  <div class="navbar-class">
-    <div class="container">
-      <ul class="nav navbar-nav nav-ul">
-        <!--<li class="nav-li"><%=link_to "All Listings", listings_path %></li>
-        <li class="nav-li"><%= link_to"My Listings", my_listings_path %></li>
-        <li class="nav-li"><%= link_to "My Requests", my_requests_path %></li>-->
-        <li class="nav-li right"><%= button_to "Sign out", logout_path, method: :delete %></li>
-        <!--<li class="nav-li right"><%= link_to "Profile", user_path(current_user.id) %></li>-->
-      </ul>
-    </div>
-  </div>
-</header>
-
-'''
