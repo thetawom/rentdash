@@ -8,8 +8,8 @@ Feature: edit listing
       |email             |first_name |last_name |password    |
       |frankie@gmail.com |Frankie    |Valli     |password123 |
     And I have the following listings
-      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |tools        |
 
   Scenario: user navigates to the edit listing page from the listings page
     Given I am on the listing page for "Dyson V11 Torque Drive"
@@ -24,8 +24,8 @@ Feature: edit listing
       |email             |first_name |last_name |password    |
       |joe@gmail.com     |Joe        |Long      |password123 |
     And "Joe Long" has the following listings
-      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-      |Mirrored Swim Goggles |                           |East Campus     |0.00|dollars |hour    |9.00   |
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
+      |Mirrored Swim Goggles |                           |East Campus     |0.00|dollars |hour    |9.00   |tools        |
     When I go to the listing page for "Mirrored Swim Goggles"
     Then I should not see "Edit"
     When I go to the edit listing page for "Mirrored Swim Goggles"

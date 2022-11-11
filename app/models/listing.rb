@@ -14,39 +14,34 @@ class Listing < ApplicationRecord
 
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
-    enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school]
+    enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school, :other], _default: :other
     enum sort_category: [:newest, :price]
 
 
-    def self.with_filters(category_list, payment_type_list, rental_time_list, search)
-        if category_list == nil && payment_type_list == nil && rental_time_list == nil
-            return Listing.all
-        
-        elsif category_list == nil && payment_type_list == nil
-            return Listing.where(fee_time: rental_time_list.keys)
-        
-        elsif category_list == nil && rental_time_list == nil
-            return Listing.where(fee_unit: payment_type_list.keys)
-        
-        elsif payment_type_list == nil && rental_time_list == nil
-            return Listing.where(item_category: category_list.keys)
-        
-        elsif category_list == nil
-            return Listing.where(fee_time: rental_time_list.keys, fee_unit: payment_type_list.keys)
-        
-        elsif payment_type_list == nil
-            return Listing.where(item_category: category_list.keys, fee_time: rental_time_list.keys)
-        
-        elsif rental_time_list == nil
-            return Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys)
-        end
-
-        if search != nil && search != ""
-            Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys, fee_time: rental_time_list.keys, name: [search])
+    def self.with_filters(category_list, payment_type_list, rental_time_list, search_term)
+        if category_list == nil
+            category_list = Listing.all_categories
         else
-            Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys, fee_time: rental_time_list.keys)
+            category_list = category_list.keys
         end
 
+        if payment_type_list == nil
+            payment_type_list = [0, 1]
+        else
+            payment_type_list = payment_type_list.keys
+        end
+
+        if rental_time_list == nil
+            rental_time_list = [0, 1, 2]
+        else
+            rental_time_list = rental_time_list.keys
+        end
+
+        if search_term != nil && search_term != ""
+            return Listing.where(item_category: category_list, fee_unit: payment_type_list, fee_time: rental_time_list).where("name LIKE ?", "%" + search_term + "%")
+        end
+
+        return Listing.where(item_category: category_list, fee_unit: payment_type_list, fee_time: rental_time_list)
     end
 
     def self.all_rental_times
