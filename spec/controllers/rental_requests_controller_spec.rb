@@ -12,10 +12,28 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to render_template "index"
       end
 
-      it "assigns @rental_request" do
+      it "assigns @rental_requests" do
         get :index, params: {listing_id: listing.id}, session: {user_id: user.id}
         expect(assigns(:listing)).to eq listing
         expect(assigns(:rental_requests)).to eq [request]
+      end
+    end
+
+    describe "GET #show" do
+      it "renders the show template" do
+        get :show, params: {id: request.id}, session: {user_id: user.id}
+        expect(response).to render_template "show"
+      end
+
+      it "assigns @rental_request" do
+        get :show, params: {id: request.id}, session: {user_id: user.id}
+        expect(assigns(:rental_request)).to eq request
+        expect(assigns(:listing)).to eq listing
+      end
+
+      it "redirects to my requests page if user is neither owner nor requester" do
+        other_request = FactoryBot.create(:rental_request)
+        get :show, params: {id: other_request.id}, session: {user_id: user.id}
       end
     end
 
@@ -61,6 +79,35 @@ RSpec.describe RentalRequestsController, type: :controller do
         post :create, params:{listing_id:listing.id}, session: {user_id: user.id}
         expect(flash[:errors]).to_not be_nil
         expect(response).to redirect_to new_listing_rental_request_path
+      end
+    end
+
+    describe "DELETE #destroy" do
+      it "deletes rental request" do
+        request = instance_double("RentalRequest", id: "1", listing: listing, requester: user)
+        expect(RentalRequest).to receive(:find_by).and_return(request)
+        expect(request).to receive(:destroy)
+        delete :destroy, params: {id: request.id}, session: {user_id: user.id}
+      end
+
+      it "redirects to my requests page if user is the requester" do
+        delete :destroy, params: {id: request.id}, session: {user_id: request.requester.id}
+        expect(response).to redirect_to my_requests_path
+      end
+
+      it "redirects to listing requests page if user is the owner" do
+        delete :destroy, params: {id: request.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listing_rental_requests_path(listing.id)
+      end
+
+      it "does not delete request if user is neither owner nor requester" do
+        requester = instance_double("User")
+        listing = instance_double("Listing", owner: requester)
+        request = instance_double("RentalRequest", id: "1", listing: listing, requester: requester)
+        expect(RentalRequest).to receive(:find_by).and_return(request)
+        expect(request).to_not receive(:destroy)
+        delete :destroy, params: {id: request.id}, session: {user_id: user.id}
+        expect(response).to redirect_to my_requests_path
       end
     end
     

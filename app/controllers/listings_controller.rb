@@ -103,13 +103,11 @@ class ListingsController < ApplicationController
 
   def destroy
     @listing = Listing.find_by id: params[:id], owner: current_user
-    if @listing.nil?
-      redirect_to listings_path
-    else
+    unless @listing.nil?
       @listing.destroy
       flash[:notice] = "#{@listing.name} was deleted."
-      redirect_to listings_path
     end
+    redirect_to listings_path
   end
 
   def mine
