@@ -1,5 +1,7 @@
 <%=yield%><%= render "shared/navbar" %>
 
+<div class = "content">
+
 <h2>My Listings</h2>
 
 <%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
@@ -52,3 +54,5 @@
   <% end %>
   </tbody>
 </table>
+
+</div>
