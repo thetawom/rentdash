@@ -1,5 +1,10 @@
 <%=yield%><%= render "shared/navbar" %>
 
+
+
+<body>
+
+
 <h2>All Listings</h2>
 
 <%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
@@ -11,6 +16,11 @@
 <%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
 <%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
 
+<%= form_tag(listings_path, method: :get) do %>
+  <%= text_field_tag(:search, params[:search]) %>
+  <%= hidden_field_tag(:home, '2') %>
+  <%= submit_tag ("Search") %>
+<% end %>
 
 <%= form_tag listings_path, method: :get, id: 'item_filtering_form' do %>
   Category:
@@ -75,3 +85,26 @@ Sorting
     <% end %>
   </tbody>
 </table>
+
+
+<% @listings.each do |listing| %>
+  <div class="card" style="width: 18rem; margin: 2rem">
+  <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+  <div class="card-body">
+    <h5 class="card-title"><%= link_to listing.name, listing_path(listing.id), class: "card-title"%></h5> <br>
+    <p class="card-text">
+      Item Category: <%= listing.item_category %> <br>
+      Description: <%= listing.description %> <br>
+      Pick-Up Location: <%= listing.pick_up_location %> <br>
+      Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
+      Deposit: <%= listing.deposit %> dollars <br>
+    </p>
+    <%= link_to listing.name, listing_path(listing.id), class:"btn btn-secondary" %>
+
+
+    </tr>
+  </div>
+  </div>
+<% end %>
+
+</body>

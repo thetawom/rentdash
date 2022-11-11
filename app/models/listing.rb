@@ -16,8 +16,10 @@ class Listing < ApplicationRecord
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
     enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school]
+    enum sort_category: [:newest, :price]
 
-    def self.with_filters(category_list, payment_type_list, rental_time_list)
+
+    def self.with_filters(category_list, payment_type_list, rental_time_list, search)
         if category_list == nil && payment_type_list == nil && rental_time_list == nil
             return Listing.all
         
@@ -40,7 +42,12 @@ class Listing < ApplicationRecord
             return Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys)
         end
 
-        Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys, fee_time: rental_time_list.keys)
+        if search != nil && search != ""
+            Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys, fee_time: rental_time_list.keys, name: [search])
+        else
+            Listing.where(item_category: category_list.keys, fee_unit: payment_type_list.keys, fee_time: rental_time_list.keys)
+        end
+
     end
 
     def self.all_rental_times()

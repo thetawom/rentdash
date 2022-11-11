@@ -1,3 +1,46 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <%= csrf_meta_tags %>
+  <%= csp_meta_tag %>
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
+  <%= javascript_importmap_tags %>
+</head>
+
+<body>
+ <nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="/listings">RentDash</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <%=link_to "All Listings", listings_path, class: "nav-link"%>
+      </li>
+      <li class="nav-item">
+        <%= link_to"My Listings", my_listings_path, class: "nav-link"%>
+      </li>
+      <li class="nav-item">
+        <%= link_to "My Requests", my_requests_path, class: "nav-link"%>
+      </li>
+      <li class="nav-item">
+        <%= link_to "Profile", user_path(current_user.id), class: "nav-link"%>
+      </li>
+    </ul>
+  </div>
+ </nav>
+ <%= yield %>
+</body>
+</html>
+
+'''
 <style>
     .nav-ul {
         list-style-type: none;
@@ -27,7 +70,6 @@
         background-color: #111;
     }
 </style>
-
 <header class="navbar navbar-inverse">
   <div class="navbar-class">
     <div class="container">
@@ -41,3 +83,5 @@
     </div>
   </div>
 </header>
+
+'''

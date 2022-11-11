@@ -79,3 +79,6 @@ end
 
 
 gem "byebug", "~> 11.1", :groups => [:development, :test]
+
+gem 'bootstrap', '~> 4.4.1'
+gem 'jquery-rails'
