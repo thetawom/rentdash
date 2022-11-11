@@ -6,11 +6,11 @@ Rails.application.routes.draw do
   resources :users, only: [:show, :index, :new, :create]
   resources :listings, only: [:show, :index, :new, :create, :edit, :update, :destroy] do
     resources :rental_requests, path: "requests", only: [:show, :index, :new, :create]
-    resources :rentals, path: "rentals", only: [:show, :index, :new, :create]
   end
+  resources :rentals, path: "rentals", only: [:show, :index, :new, :create]
 
   get "/requests/mine", to: "rental_requests#mine", as: :my_requests
-  get "/rentals/mine", to: "rentals#mine", as: :my_rentals
+  # get "/rentals/mine", to: "rentals#mine", as: :my_rentals
  
 
   get "/login", to: "sessions#new", as: :login
