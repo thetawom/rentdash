@@ -4,11 +4,11 @@ RSpec.describe UsersController, type: :controller do
 
   describe "GET show" do
     it "renders the show template" do
-      get :show, session: {user_id: 1}
+      get :show, params: {id: 1}, session: {user_id: 1}
       expect(response).to render_template "show"
     end
     it "redirects to login page if user is not logged in" do
-      get :show
+      get :show, params: {id: 1}
       expect(response).to redirect_to login_path
     end
   end

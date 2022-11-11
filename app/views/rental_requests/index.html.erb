@@ -10,14 +10,15 @@
     <th>Requester</th>
     <th>Pick-up Date</th>
     <th>Return Date</th>
+    <th>Actions</th>
   </tr>
-  <% @rental_requests.each do |rental_request| %>
+  <% @rental_requests.each do |request| %>
     <tr>
-      <td><%= rental_request.requester.full_name %></td>
-      <td><%= rental_request.pick_up_date %></td>
-      <td><%= rental_request.return_date %></td>
-      <td><%= button_to "Approve" %></td>
-      <td><%= button_to "Decline" %></td>
+      <td><%= request.requester.full_name %></td>
+      <td><%= request.pick_up_date %></td>
+      <td><%= request.return_date %></td>
+      <td><%= button_to "Approve" %><%= button_to "Decline" %></td>
+      <td><%= link_to "Details", listing_rental_request_path(listing_id: request.listing.id, id: request.id) %></td>
     </tr>
   <% end %>
   </tbody>

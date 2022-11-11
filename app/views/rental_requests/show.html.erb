@@ -1,0 +1,37 @@
+<%=yield%><%= render "shared/navbar" %>
+
+<h2>Request for <em><%= @listing.name %></em></h2>
+
+<ul id="details">
+  <li>
+    Requester:
+    <%= @rental_request.requester.full_name %>
+  </li>
+  <li>
+    Pick-up Date:
+    <%= @rental_request.pick_up_date %>
+  </li>
+  <li>
+    Return Date:
+    <%= @rental_request.return_date %>
+  </li>
+</ul>
+
+<div class="row">
+  <% if @is_my_request %>
+    <%= link_to 'Edit', root_path, :class => 'btn btn-primary' %>
+    <%= button_to 'Delete', root_path, :class => 'btn btn-danger'%>
+  <% end %>
+  <% if @is_my_listing %>
+    <%= button_to 'Approve', root_path, :class => 'btn btn-primary' %>
+    <%= button_to 'Decline', root_path, :class => 'btn btn-danger' %>
+  <% end %>
+</div>
+<div class="row">
+  <% if @is_my_request %>
+    <%= link_to 'Back to my requests', my_requests_path, :class => 'btn btn-primary' %>
+  <% end %>
+  <% if @is_my_listing %>
+    <%= link_to 'Back to requests for this item', listing_rental_requests_path(@listing.id), :class => 'btn btn-primary' %>
+  <% end %>
+</div>
