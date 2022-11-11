@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
-  root "users#show"
+
+  root to: "listings#index"
 
   get "/listings/mine", to: "listings#mine", as: :my_listings
 
