@@ -14,7 +14,7 @@ class Listing < ApplicationRecord
 
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
-    enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school]
+    enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school, :other], _default: :other
     enum sort_category: [:newest, :price]
 
 

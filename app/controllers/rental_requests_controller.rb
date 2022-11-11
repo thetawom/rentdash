@@ -1,7 +1,15 @@
 class RentalRequestsController < ApplicationController
   def index
     @listing = Listing.find_by(id: params[:listing_id])
+    redirect_to listing_path @listing.id if @listing.owner != current_user
     @rental_requests = RentalRequest.where(listing_id: params[:listing_id])
+  end
+
+  def show
+    @rental_request = RentalRequest.find_by(id: params[:id])
+    @listing = @rental_request.listing
+    @is_my_request = @rental_request.requester == current_user
+    @is_my_listing = @listing.owner == current_user
   end
 
   def new
@@ -21,7 +29,6 @@ class RentalRequestsController < ApplicationController
       flash[:errors] = @rental_request.errors
       redirect_to new_listing_rental_request_path params[:listing_id]
     end
-    
   end
 
   def mine
