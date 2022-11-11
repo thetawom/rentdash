@@ -11,16 +11,17 @@
 <br>
 <br>
 
-<%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-<%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-<%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-<%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_to_show_hash, :time => @rental_times_hash, :home => "1")%>
-
 <%= form_tag(listings_path, method: :get) do %>
   <%= text_field_tag(:search, params[:search]) %>
   <%= hidden_field_tag(:home, '2') %>
   <%= submit_tag ("Search") %>
 <% end %>
+
+<%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
+<%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
+<%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
+<%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
+
 
 <%= form_tag listings_path, method: :get, id: 'item_filtering_form' do %>
   Category:

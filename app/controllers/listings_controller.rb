@@ -5,10 +5,12 @@ class ListingsController < ApplicationController
     @all_categories = Listing.all_categories
     @all_payment_types = Listing.all_payment_types
     @all_rental_times = Listing.all_rental_times
+    @payment_types_dictionary = {'karma' => 0, 'cash' => 1}
+    @rental_times_dictionary = {'hour' => 0, 'day' => 1, 'week' => 2}
+
     if params[:home] == nil
       redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
     elsif params[:home] == '2'
-      puts(params)
       session[:search] = params[:search]
     else
       session[:category] = params[:category]
@@ -28,24 +30,20 @@ class ListingsController < ApplicationController
       @payment_types_to_show = Listing.all_payment_types
     else
       @payment_types_to_show = session[:payment].keys
-      @payment_types_hash = Hash[@payment_types_to_show.collect {|v| [v, 1]}]
+      @payment_types_original = Hash[@payment_types_to_show.collect {|v| [v, 1]}]
+      @payment_types_hash = Hash[@payment_types_to_show.collect {|v| [@payment_types_dictionary[v], 1]}]
     end
 
     if session[:time] == nil
       @rental_times_to_show = Listing.all_rental_times
     else
       @rental_times_to_show = session[:time].keys
-      @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
+      @rental_times_original = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
+      @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [@rental_times_dictionary[v], 1]}]
     end
 
-    # if session[:sort] != nil
-    #   @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash).order(session[:sort])
-    # else
-    #   @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash)
-    # end
     
-    @listings = Listing.with_filters(@item_categories_hash, @payment_types_to_show_hash, @rental_times_hash, session[:search])
-    puts(@listings)
+    @listings = Listing.with_filters(@item_categories_hash, @payment_types_hash, @rental_times_hash, session[:search])
 
     if session[:sort] && session[:sort] == "Sort Price High to Low"
       @listings = @listings.order("fee").reverse
@@ -57,8 +55,7 @@ class ListingsController < ApplicationController
       @listings = @listings.order("created_at")
     end
 
-    #@listings = Listing.where("name LIKE ?", "%" + session[:search] + "%")
-
+    return @listings
 
   end
 
@@ -121,7 +118,7 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category, :sort, :search)
+    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category)
   end
 
 end
