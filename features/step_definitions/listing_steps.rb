@@ -54,6 +54,36 @@ When /^I add a new listing with information$/ do |listings|
   click_button "Add Listing"
 end
 
+When /I (un)?check the following currencies: (.*)/ do |uncheck, filter_list|
+  filter_list.split(", ").each do |filter|
+    if uncheck == false
+      step %Q{I check "#{filter}"}
+    else
+      step %Q{I uncheck "#{filter}"}
+    end
+  end
+end
+
+When /I (un)?check the following time units: (.*)/ do |uncheck, filter_list|
+  filter_list.split(", ").each do |filter|
+    if uncheck == false
+      step %Q{I check "#{filter}"}
+    else
+      step %Q{I uncheck "#{filter}"}
+    end
+  end
+end
+
+When /I (un)?check the following item categories: (.*)/ do |uncheck, filter_list|
+  filter_list.split(", ").each do |filter|
+    if uncheck == false
+      step %Q{I check "#{filter}"}
+    else
+      step %Q{I uncheck "#{filter}"}
+    end
+  end
+end
+
 Then /^I should (?:|still )be on the listings page$/ do
   expect(URI.parse(current_url).path).to eq listings_path
 end
@@ -90,6 +120,17 @@ Then /^I should see all my listings$/ do
   owner = User.find_by email: @user_params["email"]
   Listing.where(owner_id: owner.id).each do |listing|
     step %{I should see a listing for "#{listing.name}"}
+  end
+end
+
+Then /^I should (not )?see the following listings: (.*)$/ do |no, listings_list|
+  # Take a look at web_steps.rb Then /^(?:|I )should see "([^"]*)"$/
+  listings_list.split(", ").each do |listing|
+    if no == false
+      step %Q{I should not see "#{listing}"}
+    else
+      step %Q{I should see "#{listing}"}
+    end
   end
 end
 
