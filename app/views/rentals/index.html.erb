@@ -1,0 +1,22 @@
+<%=yield%><%= render "shared/navbar" %>
+
+<h2>My Rentals</h2>
+
+<table class="table table-striped col-md-12">
+  <thead>
+  </thead>
+  <tbody>
+  <tr>
+    <th>Listing</th>
+    <th>Pick-up Date</th>
+    <th>Return Date</th>
+  </tr>
+  <% @rentals.each do |rental| %>
+    <tr>
+      <td><%= link_to rental.listing.name, listing_path(rental.listing.id) %></td>
+      <td><%= rental.request.pick_up_date %></td>
+      <td><%= rental.request.return_date %></td>
+    </tr>
+  <% end %>
+  </tbody>
+</table>
