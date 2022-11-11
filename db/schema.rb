@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_06_205944) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_11_020948) do
   create_table "listings", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -37,6 +37,19 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_06_205944) do
     t.index ["requester_id"], name: "index_rental_requests_on_requester_id"
   end
 
+  create_table "rentals", force: :cascade do |t|
+    t.integer "payment_method"
+    t.integer "status"
+    t.integer "listing_id", default: 0, null: false
+    t.integer "request_id", default: 0, null: false
+    t.integer "renter_id", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_rentals_on_listing_id"
+    t.index ["renter_id"], name: "index_rentals_on_renter_id"
+    t.index ["request_id"], name: "index_rentals_on_request_id"
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "email"
     t.string "first_name"
@@ -50,4 +63,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_06_205944) do
   add_foreign_key "listings", "users", column: "owner_id"
   add_foreign_key "rental_requests", "listings"
   add_foreign_key "rental_requests", "users", column: "requester_id"
+  add_foreign_key "rentals", "listings"
+  add_foreign_key "rentals", "rental_requests", column: "request_id"
+  add_foreign_key "rentals", "users", column: "renter_id"
 end
