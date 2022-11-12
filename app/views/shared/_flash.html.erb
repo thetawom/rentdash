@@ -4,10 +4,10 @@
   </div>
 <% elsif flash[:warning] %>
   <div class="alert alert-danger" role="alert" id="warning">
-    <%= flash[:warning] %>
+    <strong>Error! </strong><%= flash[:warning] %>
   </div>
 <% elsif flash[:success] %>
   <div class="alert alert-success" role="alert" id="success">
-    <%= flash[:success] %>
+    <strong>Success! </strong><%= flash[:success] %>
   </div>
 <% end %>

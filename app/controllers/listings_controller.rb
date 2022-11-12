@@ -5,8 +5,6 @@ class ListingsController < ApplicationController
     @all_categories = Listing.item_category_options
     @all_payment_types = Listing.fee_unit_options
     @all_rental_times = Listing.fee_time_options
-    @payment_types_dictionary = {'karma' => 0, 'dollars' => 1}
-    @rental_times_dictionary = {'hour' => 0, 'day' => 1, 'week' => 2}
     if params[:home] == nil
       redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
     elsif params[:home] == '2'
@@ -30,7 +28,7 @@ class ListingsController < ApplicationController
     else
       @payment_types_to_show = session[:payment].keys
       @payment_types_original = Hash[@payment_types_to_show.collect {|v| [v, 1]}]
-      @payment_types_hash = Hash[@payment_types_to_show.collect {|v| [@payment_types_dictionary[v], 1]}]
+      @payment_types_hash = Hash[@payment_types_to_show.collect {|v| [Listing.fee_units[v], 1]}]
     end
 
     if session[:time] == nil
@@ -38,9 +36,8 @@ class ListingsController < ApplicationController
     else
       @rental_times_to_show = session[:time].keys
       @rental_times_original = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
-      @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [@rental_times_dictionary[v], 1]}]
+      @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [Listing.fee_times[v], 1]}]
     end
-
     
     @listings = Listing.with_filters(@item_categories_hash, @payment_types_hash, @rental_times_hash, session[:search])
 
