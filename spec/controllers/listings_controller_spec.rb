@@ -43,10 +43,26 @@ RSpec.describe ListingsController, type: :controller do
         expect(assigns(:listings)).to eq [listing3]
       end
 
-      it "assigns @listings by non-descending price order" do
+      it "assigns @listings by descending price order" do
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort Price High to Low"}
-        expect(assigns(:listings)).to eq [listing3, listing2, listing3, listing5, listing4, listing]
+        expect(assigns(:listings)).to eq [listing3, listing2, listing4, listing5, listing]
       end
+
+      it "assigns @listings by non-descending price order" do
+        get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort Price Low to High"}
+        expect(assigns(:listings)).to eq [listing3, listing2, listing4, listing5, listing].reverse()
+      end
+
+      it "assigns @listings by newest" do
+        get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort by Newest"}
+        expect(assigns(:listings)).to eq [listing5, listing4, listing3, listing2, listing].reverse()
+      end
+
+      it "assigns @listings by oldest" do
+        get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort by Oldest"}
+        expect(assigns(:listings)).to eq [listing5, listing4, listing3, listing2, listing]
+      end
+
 
       it "assigns @listings to only contain listings that contain the substring inputted in search" do
         get :index, session: {user_id: user.id}, params: {home: 2, search: "2"}

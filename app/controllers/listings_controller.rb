@@ -7,7 +7,7 @@ class ListingsController < ApplicationController
     @all_rental_times = Listing.all_rental_times
     @payment_types_dictionary = {'karma' => 0, 'cash' => 1}
     @rental_times_dictionary = {'hour' => 0, 'day' => 1, 'week' => 2}
-    
+    puts(params)
     if params[:home] == nil
       redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
     elsif params[:home] == '2'
