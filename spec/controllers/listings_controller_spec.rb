@@ -5,18 +5,54 @@ RSpec.describe ListingsController, type: :controller do
   context "user is logged in and is the listing owner" do
     let(:user) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: user) }
+    let(:listing2) { FactoryBot.create(:listing, name:"Item 2", fee: 110.00, fee_unit: "dollars", item_category: "school", owner:user)}
+    let(:listing3) { FactoryBot.create(:listing, name:"Item 3", fee: 115.00, fee_time: "hour", item_category: "technology", owner:user)}
+    let(:listing4) { FactoryBot.create(:listing, name:"Item 4", fee: 15.00, fee_unit: "dollars", item_category: "tools", owner:user)}
+    let(:listing5) { FactoryBot.create(:listing, name:"Item 5", fee: 13.00, fee_unit: "dollars", owner:user)}
 
     describe "GET #index" do
       it "renders the index template" do
         get :index, session: {user_id: user.id}, params: {home: 1}
         expect(response).to render_template "index"
+        expect(assigns(:listings)).to eq [listing, listing2, listing3, listing4, listing5]
       end
-      pending "RSpec tests for sorting and filtering"
+      #pending "RSpec tests for sorting and filtering"
       # it "assigns @listings" do
       #   allow(Listing).to receive(:all).and_return [listing]
       #   get :index, session: {user_id: user.id}
       #   expect(assigns(:listings)).to eq [listing]
       # end
+
+      it "redirects to previous index state if coming from a non-index link" do
+        get :index, session: {user_id: user.id}, params: {}
+        expect(response).to redirect_to listings_path(:home => 1)
+      end
+
+      it "assigns @listings to filter by the correct item category" do
+        get :index, session: {user_id: user.id}, params: {home: 1, category: {'books' => 1}}
+        expect(assigns(:listings)).to eq [listing, listing5]
+      end
+
+      it "assigns @listings to filter by the correct payment type" do
+        get :index, session: {user_id: user.id}, params: {home: 1, payment: {'cash' => 1}}
+        expect(assigns(:listings)).to eq [listing2, listing4, listing5]
+      end
+
+      it "assigns @listings to filter by the correct rental time unit" do
+        get :index, session: {user_id: user.id}, params: {home: 1, time: {'hour' => 1}}
+        expect(assigns(:listings)).to eq [listing3]
+      end
+
+      it "assigns @listings by non-descending price order" do
+        get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort Price High to Low"}
+        expect(assigns(:listings)).to eq [listing3, listing2, listing3, listing5, listing4, listing]
+      end
+
+      it "assigns @listings to only contain listings that contain the substring inputted in search" do
+        get :index, session: {user_id: user.id}, params: {home: 2, search: "2"}
+        expect(assigns(:listings)).to eq [listing2]
+      end
+
     end
 
     describe "GET #show" do
