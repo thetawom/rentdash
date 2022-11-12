@@ -34,17 +34,38 @@ class RentalRequestsController < ApplicationController
     end
   end
 
-  def destroy
-    @rental_request = RentalRequest.find_by id: params[:id]
-    if @rental_request.requester == current_user
-      unless @rental_request.nil?
-        @rental_request.destroy
-        flash[:notice] = "Request for #{@rental_request.listing.name} was deleted."
-      end
-      redirect_to my_requests_path
-    else
+  def edit
+    @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
+    redirect_to my_requests_path if @rental_request.nil?
+    if @rental_request.status != "pending"
+      flash[:notice] = "You can no longer make any changes."
       redirect_to my_requests_path
     end
+  end
+
+  def update
+    @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
+    if @rental_request.nil? or @rental_request.status != "pending"
+      redirect_to my_requests_path
+    else
+      @rental_request.update(rental_request_params)
+      if @rental_request.valid?
+        flash[:notice] = "Request for #{@rental_request.listing.name} was updated!"
+        redirect_to my_requests_path @rental_request.id
+      else
+        flash[:errors] = @rental_request.errors
+        redirect_to rental_request_path
+      end
+    end
+  end
+
+  def destroy
+    @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
+    unless @rental_request.nil?
+      @rental_request.destroy
+      flash[:notice] = "Request for #{@rental_request.listing.name} was deleted."
+    end
+    redirect_to my_requests_path
   end
 
   def mine
@@ -73,7 +94,7 @@ class RentalRequestsController < ApplicationController
 
   private
   def rental_request_params
-    params.require(:rental_request).permit(:pick_up_date, :return_date)
+    params.require(:rental_request).permit(:pick_up_time, :return_time)
   end
 
 end

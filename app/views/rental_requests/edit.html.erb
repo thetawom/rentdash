@@ -1,0 +1,11 @@
+<%=yield%><%= render "shared/navbar" %>
+
+<h2>Edit Existing Rental Request</h2>
+<%= form_tag rental_request_path(@rental_request), :method => :put do %>
+  <%= label :rental_request, :pick_up_time, "Pick-up Time" %>
+  <%= datetime_field :rental_request, :pick_up_time %>
+  <%= label :rental_request, :return_time, "Return Time" %>
+  <%= datetime_field :rental_request, :return_time %>
+  <%= submit_tag "Update Rental Request", class: "btn btn-primary" %><br/>
+  <%= link_to "Cancel", listings_path, class: "btn btn-secondary" %>
+<% end %>
