@@ -138,6 +138,25 @@ RSpec.describe RentalRequestsController, type: :controller do
       end
     end
 
+    describe "POST #decline" do
+      it "creates a new rental from request" do
+        request = instance_double("RentalRequest", id: "1", listing: listing, listing_id: listing.id)
+        expect(RentalRequest).to receive(:find_by).and_return(request)
+        expect(request).to receive(:decline)
+        post :decline, params: {id: request.id}, session: {user_id: user.id}
+      end
+
+      it "redirects to request page if user is the owner" do
+        post :decline, params: {id: request.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listing_rental_requests_path(listing.id)
+      end
+
+      it "redirects to request page if user is not the owner" do
+        post :decline, params: {id: request.id}, session: {user_id: request.requester.id}
+        expect(response).to redirect_to rental_request_path(request.id)
+      end
+    end
+
     describe "#rental_request_params" do
       controller = RentalRequestsController.new
       it "raises ParameterMissing error if there is no user parameter" do
@@ -205,6 +224,18 @@ RSpec.describe RentalRequestsController, type: :controller do
     describe "GET #mine" do
       it "redirects to login page" do
         get :mine
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "POST #approve" do
+      it "redirects to login page" do
+        post :approve, params: {id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "POST #decline" do
+      it "redirects to login page" do
+        post :decline, params: {id: 1}
         expect(response).to redirect_to login_path
       end
     end
