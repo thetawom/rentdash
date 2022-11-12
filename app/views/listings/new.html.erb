@@ -33,7 +33,7 @@
           Deposit Amount
           <br>
           <br>
-          Item Category: <%= f.select :item_category, item_category_options %><br>
+          Item Category: <%= f.select :item_category, item_category_options, { include_blank: true } %><br>
           <br>
           <%= f.submit "Add Listing" %>
         <% end %>

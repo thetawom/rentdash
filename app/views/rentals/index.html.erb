@@ -12,6 +12,7 @@
     <th>Return Date</th>
     <th>Pick-up Location</th>
     <th>Payment Method</th>
+    <th>Status</th>
   </tr>
   <% @rentals.each do |rental| %>
     <tr>
@@ -20,6 +21,7 @@
       <td><%= rental.request.return_date %></td>
       <td><%= rental.listing.pick_up_location %></td>
       <td><%= rental.payment_method %></td>
+      <td><%= rental.status %></td>
     </tr>
   <% end %>
   </tbody>

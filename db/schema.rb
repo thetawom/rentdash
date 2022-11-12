@@ -10,15 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_11_020948) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_12_042658) do
   create_table "listings", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.string "pick_up_location"
-    t.decimal "fee"
-    t.integer "fee_unit"
-    t.integer "fee_time"
-    t.decimal "deposit"
+    t.decimal "fee", null: false
+    t.integer "fee_unit", null: false
+    t.integer "fee_time", null: false
+    t.decimal "deposit", default: "0.0", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "owner_id", null: false
@@ -33,13 +33,14 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_11_020948) do
     t.datetime "updated_at", null: false
     t.integer "listing_id", null: false
     t.integer "requester_id", null: false
+    t.integer "status", default: 0, null: false
     t.index ["listing_id"], name: "index_rental_requests_on_listing_id"
     t.index ["requester_id"], name: "index_rental_requests_on_requester_id"
   end
 
   create_table "rentals", force: :cascade do |t|
     t.integer "payment_method"
-    t.integer "status"
+    t.integer "status", default: 0, null: false
     t.integer "listing_id", default: 0, null: false
     t.integer "request_id", default: 0, null: false
     t.integer "renter_id", default: 0, null: false

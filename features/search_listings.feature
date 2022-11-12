@@ -32,5 +32,6 @@ Feature: search through all listings by listing name
         Given I am on the listings page
         When  I fill in "search" with "bunny"
         And I press "Search"
-        Then I should see "Bunny"
-        And I should see "Seabunny"
+        Then I should see the following listings
+
+        

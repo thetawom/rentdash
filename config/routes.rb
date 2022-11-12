@@ -9,6 +9,7 @@ Rails.application.routes.draw do
   resources :listings, only: [:show, :index, :new, :create, :edit, :update, :destroy] do
     resources :rental_requests, path: "requests", only: [:show, :index, :new, :create, :destroy], shallow: true  do
       post "approve", on: :member
+      post "decline", on: :member
     end
   end
   resources :rentals, only: [:show, :index, :new, :create]

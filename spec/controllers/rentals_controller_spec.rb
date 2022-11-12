@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe RentalRequestsController, type: :controller do
+RSpec.describe RentalsController, type: :controller do
 
   context "user is logged in" do
 
@@ -107,7 +107,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to redirect_to my_requests_path
       end
     end
-    
+
     describe "GET #mine" do
       let(:other_listing) { FactoryBot.create(:listing) }
       let(:my_request) { FactoryBot.create(:rental_request, listing: other_listing, requester: user) }
@@ -185,18 +185,6 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to redirect_to login_path
       end
     end
-    # describe "GET #edit" do
-    #   it "redirects to login page" do
-    #     get :edit, params: {id: 1}
-    #     expect(response).to redirect_to login_path
-    #   end
-    # end
-    # describe "PATCH #update" do
-    #   it "redirects to login page" do
-    #     patch :update, params: {id: 1}
-    #     expect(response).to redirect_to login_path
-    #   end
-    # end
     describe "DELETE #destroy" do
       it "redirects to login page" do
         delete :destroy, params: {id: 1}

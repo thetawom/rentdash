@@ -2,12 +2,12 @@ class ListingsController < ApplicationController
 
   def index
     @listings = Listing.all
-    @all_categories = Listing.all_categories
-    @all_payment_types = Listing.all_payment_types
-    @all_rental_times = Listing.all_rental_times
+    @all_categories = Listing.item_category_options
+    @all_payment_types = Listing.fee_unit_options
+    @all_rental_times = Listing.fee_time_options
     @payment_types_dictionary = {'karma' => 0, 'cash' => 1}
     @rental_times_dictionary = {'hour' => 0, 'day' => 1, 'week' => 2}
-
+    puts(params)
     if params[:home] == nil
       redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
     elsif params[:home] == '2'
@@ -20,14 +20,14 @@ class ListingsController < ApplicationController
     end
 
     if session[:category] == nil
-      @item_categories_to_show = Listing.all_categories
+      @item_categories_to_show = Listing.item_category_options
     else
       @item_categories_to_show = session[:category].keys
       @item_categories_hash = Hash[@item_categories_to_show.collect {|v| [v, 1]}]
     end
 
     if session[:payment] == nil
-      @payment_types_to_show = Listing.all_payment_types
+      @payment_types_to_show = Listing.fee_unit_options
     else
       @payment_types_to_show = session[:payment].keys
       @payment_types_original = Hash[@payment_types_to_show.collect {|v| [v, 1]}]
@@ -35,7 +35,7 @@ class ListingsController < ApplicationController
     end
 
     if session[:time] == nil
-      @rental_times_to_show = Listing.all_rental_times
+      @rental_times_to_show = Listing.fee_time_options
     else
       @rental_times_to_show = session[:time].keys
       @rental_times_original = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
@@ -54,8 +54,6 @@ class ListingsController < ApplicationController
     elsif session[:sort] && session[:sort] == "Sort by Oldest"
       @listings = @listings.order("created_at")
     end
-
-    @listings
 
   end
 
