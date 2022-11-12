@@ -1,41 +1,8 @@
+
 <%=yield%><%= render "shared/navbar" %>
 
-  <div class="content">
-  <h2>Request for <em><%= @listing.name %></em></h2>
-  
-  <div class="row">
-    <div class="col-6">
-      <p>
-        Requester: <%= @rental_request.requester.full_name %><br>
-        Pick-up Date: <%= @rental_request.pick_up_date %><br>
-        Return Date: <%= @rental_request.return_date %><br>
-      </p>
-    </div>
-    <div class="col-6", align="center"> </div>
-      
-  </div>
+<h2>Request for <em><%= @listing.name %></em></h2>
 
-<<<<<<< HEAD
-  <div class="row", style="margin: 0px">
-    <% if @is_my_request %>
-      <%= link_to 'Edit', root_path, :class => 'btn btn-primary', :style=> 'margin:5px' %>
-      <%= button_to 'Delete', rental_request_path(@rental_request.id), method: :delete, :class => 'btn btn-danger', :style=> 'margin:5px'%>
-    <% end %>
-    <% if @is_my_listing %>
-      <%= button_to 'Approve', root_path, :class => 'btn btn-primary' %>
-      <%= button_to 'Decline', rental_request_path(@rental_request.id), method: :delete, :class => 'btn btn-danger' %>
-    <% end %>
-  </div>
-  <div class="row", style="margin: 0px">
-    <%= link_to 'View listing', listing_path(@listing.id), :class => 'btn btn-primary', :style=> 'margin:5px' %>
-    <% if @is_my_request %>
-      <%= link_to 'Back to my requests', my_requests_path, :class => 'btn btn-primary', :style=> 'margin:5px' %>
-    <% end %>
-    <% if @is_my_listing %>
-      <%= link_to 'Back to requests for this item', listing_rental_requests_path(@listing.id), :class => 'btn btn-primary' %>
-    <% end %>
-  </div>
-=======
 <ul id="details">
   <li>
     Requester:
@@ -75,5 +42,4 @@
   <% if @is_my_listing %>
     <%= link_to "Back to requests for this item", listing_rental_requests_path(@listing.id), :class => "btn btn-primary" %>
   <% end %>
->>>>>>> cd3821bb56787dde226bb8f0e54f7a0b166da084
 </div>
