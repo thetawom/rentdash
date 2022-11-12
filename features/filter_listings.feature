@@ -13,7 +13,7 @@ Feature: display listings filtered by item categories, payment type, rental time
             |Bunny                 |a stuffed animal           |EC              |5.00|karma   |hour    |13.00  |school       |
             |Penguin               |a stuffed animal           |EC              |5.00|karma   |hour    |13.00  |technology   |
             |Cow                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |tools        |
-            |Cat                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |technology   |
+            |Capybara              |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |technology   |
             |Dog                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |school       |
             |Bull                  |an excellent vacuum cleaner|Wien Hall       |1.03|karma   |day     |12.50  |tools        |
             |Fish                  |a stuffed animal           |EC              |5.00|karma   |day     |13.00  |school       |
@@ -30,12 +30,12 @@ Feature: display listings filtered by item categories, payment type, rental time
 
     Scenario: restrict to item listings with "dollar" currency, "day" time units, "tools" and "technology" item categories
         Given I am on the listings page
-        When I check the following currencies: dollars
-        And I check the following time units: day
+        When I check the following fee units: dollars
+        And I uncheck the following fee units: karma
+        And I check the following fee times: day
+        And I uncheck the following fee times: hour, week
         And I check the following item categories: tools, technology
-        And I uncheck the following currencies: karma
-        And I uncheck the following time units: hour, week
         And I uncheck the following item categories: school, cleaning, clothing, books
         And I press "Refresh"
         Then I should see the following listings: Doraemon, Bat
-        And I should not see the following listings: Dyson V11 Torque Drive, Bunny, Penguin, Cow, Cat, Dog, Bull, Fish, Kitten, Pikachu, Goldfish, Bear, Bird, Seabear, Seabunny, Seapenguin
+        And I should not see the following listings: Dyson V11 Torque Drive, Bunny, Penguin, Cow, Capybara, Dog, Bull, Fish, Kitten, Pikachu, Goldfish, Bear, Bird, Seabear, Seabunny, Seapenguin

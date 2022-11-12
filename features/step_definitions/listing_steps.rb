@@ -54,32 +54,32 @@ When /^I add a new listing with information$/ do |listings|
   click_button "Add Listing"
 end
 
-When /I (un)?check the following currencies: (.*)/ do |uncheck, filter_list|
+When /I (un)?check the following fee units: (.*)/ do |uncheck, filter_list|
   filter_list.split(", ").each do |filter|
-    if uncheck == false
-      step %Q{I check "#{filter}"}
+    if uncheck.nil?
+      step %Q{I check "fee_units_#{filter}"}
     else
-      step %Q{I uncheck "#{filter}"}
+      step %Q{I uncheck "fee_units_#{filter}"}
     end
   end
 end
 
-When /I (un)?check the following time units: (.*)/ do |uncheck, filter_list|
+When /I (un)?check the following fee times: (.*)/ do |uncheck, filter_list|
   filter_list.split(", ").each do |filter|
-    if uncheck == false
-      step %Q{I check "#{filter}"}
+    if uncheck.nil?
+      step %Q{I check "fee_times_#{filter}"}
     else
-      step %Q{I uncheck "#{filter}"}
+      step %Q{I uncheck "fee_times_#{filter}"}
     end
   end
 end
 
 When /I (un)?check the following item categories: (.*)/ do |uncheck, filter_list|
   filter_list.split(", ").each do |filter|
-    if uncheck == false
-      step %Q{I check "#{filter}"}
+    if uncheck.nil?
+      step %Q{I check "categories_#{filter}"}
     else
-      step %Q{I uncheck "#{filter}"}
+      step %Q{I uncheck "categories_#{filter}"}
     end
   end
 end
@@ -124,21 +124,13 @@ Then /^I should see all my listings$/ do
 end
 
 Then /^I should (not )?see the following listings: (.*)$/ do |no, listings_list|
-  # Take a look at web_steps.rb Then /^(?:|I )should see "([^"]*)"$/
   listings_list.split(", ").each do |listing|
-    if no == false
-      step %Q{I should not see "#{listing}"}
-    else
+    if no.nil?
       step %Q{I should see "#{listing}"}
+    else
+      step %Q{I should not see "#{listing}"}
     end
   end
-end
-
-Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
-  #  ensure that that e1 occurs before e2.
-  #  page.body is the entire content of the page as a string.
-  regexp = /#{e1}.*#{e2}/m
-  expect(page.body) =~ regexp
 end
 
 Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |listing_name, location|

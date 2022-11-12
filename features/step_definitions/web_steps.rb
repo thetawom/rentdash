@@ -25,3 +25,8 @@ end
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
   fill_in(field, :with => value)
 end
+
+Then /I should see "(.*)" before "(.*)"/ do |e1, e2|
+  regexp = /#{e1}.*#{e2}/m
+  expect(page.body) =~ regexp
+end
