@@ -11,21 +11,16 @@ RSpec.describe RentalRequest, type: :model do
     end
   end
 
-  describe "#to_rental" do
+  describe "#approve" do
     let(:rental_request) {FactoryBot.create(:rental_request)}
     it "should create a rental object with consistent information" do
-      rental = rental_request.to_rental
+      rental = rental_request.approve
       expect(rental.valid?).to eq true
       expect(rental.request).to eq rental_request
       expect(rental.renter).to eq rental_request.requester
       expect(rental.listing).to eq rental_request.listing
       expect(rental.status).to eq "upcoming"
       expect(rental.payment_method).to be_nil
-    end
-    it "should create a rental object with payment method set" do
-      rental = rental_request.to_rental :venmo
-      expect(rental.valid?).to eq true
-      expect(rental.payment_method).to eq "venmo"
     end
   end
 

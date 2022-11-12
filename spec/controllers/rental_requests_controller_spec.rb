@@ -65,7 +65,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(RentalRequest).to receive(:new).and_return(rental_request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
         post :create, params: {listing_id: listing.id}, session: {user_id: user.id}
-        expect(response).to redirect_to listing_path listing.id
+        expect(response).to redirect_to rental_request_path rental_request.id
       end
 
       it "redirects to new rental request page if params are invalid" do
@@ -92,17 +92,12 @@ RSpec.describe RentalRequestsController, type: :controller do
         delete :destroy, params: {id: request.id}, session: {user_id: user.id}
       end
 
-      it "redirects to my requests page if user is the requester" do
+      it "redirects to my requests page" do
         delete :destroy, params: {id: request.id}, session: {user_id: request.requester.id}
         expect(response).to redirect_to my_requests_path
       end
 
-      it "redirects to listing requests page if user is the owner" do
-        delete :destroy, params: {id: request.id}, session: {user_id: user.id}
-        expect(response).to redirect_to listing_rental_requests_path(listing.id)
-      end
-
-      it "does not delete request if user is neither owner nor requester" do
+      it "does not delete request if user is not the requester" do
         requester = instance_double("User")
         listing = instance_double("Listing", owner: requester)
         request = instance_double("RentalRequest", id: "1", listing: listing, requester: requester)
@@ -129,7 +124,7 @@ RSpec.describe RentalRequestsController, type: :controller do
       it "creates a new rental from request" do
         request = instance_double("RentalRequest", id: "1", listing: listing, listing_id: listing.id)
         expect(RentalRequest).to receive(:find_by).and_return(request)
-        expect(request).to receive(:to_rental)
+        expect(request).to receive(:approve)
         post :approve, params: {id: request.id}, session: {user_id: user.id}
       end
 
