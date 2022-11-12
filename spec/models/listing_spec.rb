@@ -12,7 +12,6 @@ RSpec.describe Listing, type: :model do
       expect(listing.errors[:fee]).to_not be_empty
       expect(listing.errors[:fee_unit]).to_not be_empty
       expect(listing.errors[:fee_time]).to_not be_empty
-      expect(listing.errors[:deposit]).to_not be_empty
     end
     it "should return false when rental fee is negative" do
       listing = FactoryBot.create(:listing)
