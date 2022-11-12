@@ -9,16 +9,16 @@
 <br>
 <br>
 <div class="row">
-  <div class="col-5">  
+  <div class="col-2">  
     <h4> Filter By </h4>
   </div>
-  <div class="col-5", align="right">
+  <div class="col-7">
     <%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
     <%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
     <%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
     <%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
   </div>
-  <div class="col-2", style="display: flex; justify-content: center; align-items:center">
+  <div class="col-3", style="display: flex; justify-content: center; align-items:center">
     <%= form_tag(listings_path, method: :get) do %>
     <%= text_field_tag(:search, params[:search]) %>
     <%= hidden_field_tag(:home, '2') %>
