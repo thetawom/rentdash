@@ -27,7 +27,7 @@ class RentalRequestsController < ApplicationController
     @rental_request.save
     
     if @rental_request.valid?
-      redirect_to listing_path params[:listing_id]
+      redirect_to rental_request_path @rental_request.id
     else
       flash[:errors] = @rental_request.errors
       redirect_to new_listing_rental_request_path params[:listing_id]
@@ -42,12 +42,6 @@ class RentalRequestsController < ApplicationController
         flash[:notice] = "Request for #{@rental_request.listing.name} was deleted."
       end
       redirect_to my_requests_path
-    elsif @rental_request.listing.owner == current_user
-      unless @rental_request.nil?
-        @rental_request.destroy
-        flash[:notice] = "Request for #{@rental_request.listing.name} was declined."
-      end
-      redirect_to listing_rental_requests_path(@rental_request.listing.id)
     else
       redirect_to my_requests_path
     end
@@ -60,7 +54,17 @@ class RentalRequestsController < ApplicationController
   def approve
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.listing.owner == current_user
-      @rental_request.to_rental
+      @rental_request.approve
+      redirect_to listing_rental_requests_path(@rental_request.listing_id)
+    else
+      redirect_to rental_request_path(@rental_request.id)
+    end
+  end
+
+  def decline
+    @rental_request = RentalRequest.find_by id: params[:id]
+    if @rental_request.listing.owner == current_user
+      @rental_request.decline
       redirect_to listing_rental_requests_path(@rental_request.listing_id)
     else
       redirect_to rental_request_path(@rental_request.id)
