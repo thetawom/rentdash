@@ -98,10 +98,9 @@ RSpec.describe RentalRequestsController, type: :controller do
       end
 
       it "does not delete request if user is not the requester" do
-        requester = instance_double("User")
-        listing = instance_double("Listing", owner: requester)
-        request = instance_double("RentalRequest", id: "1", listing: listing, requester: requester)
-        expect(RentalRequest).to receive(:find_by).and_return(request)
+        other_user = FactoryBot.create(:user)
+        request = instance_double("RentalRequest", id: "1", listing: listing, requester: other_user)
+        expect(RentalRequest).to receive(:find_by).with(id: "1", requester: user).and_return(nil)
         expect(request).to_not receive(:destroy)
         delete :destroy, params: {id: request.id}, session: {user_id: user.id}
         expect(response).to redirect_to my_requests_path

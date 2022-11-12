@@ -1,56 +1,48 @@
 class ListingsController < ApplicationController
 
   def index
-    @listings = Listing.all
-    @all_categories = Listing.item_category_options
-    @all_payment_types = Listing.fee_unit_options
-    @all_rental_times = Listing.fee_time_options
-    if params[:home] == nil
-      redirect_to listings_path(:category => session[:category], :payment => session[:payment], :times => session[:time], :sort => session[:sort], :search => session[:search], :home => "1")
-    elsif params[:home] == '2'
-      session[:search] = params[:search]
-    else
-      session[:category] = params[:category]
-      session[:payment] = params[:payment]
-      session[:time] = params[:time]
-      session[:sort] = params[:sort]
+    @filtered_params = filter_params
+
+    categories = @filtered_params[:categories]&.keys
+    fee_units = @filtered_params[:fee_units]&.keys
+    fee_times = @filtered_params[:fee_times]&.keys
+    sort = @filtered_params[:sort]
+    search = @filtered_params[:search]
+
+    unless @filtered_params[:home]
+      categories = session[:categories] if categories.nil?
+      fee_units = session[:fee_units] if fee_units.nil?
+      fee_times = session[:fee_times] if fee_times.nil?
+      sort = session[:sort] if sort.nil?
+      search = session[:search] if search.nil?
+      categories_hash = categories && Hash[categories.collect {|v| [v, 1]}]
+      fee_units_hash = fee_units && Hash[fee_units.collect {|v| [v, 1]}]
+      fee_times_hash = fee_times && Hash[fee_times.collect {|v| [v, 1]}]
+      redirect_to listings_path categories: categories_hash, fee_units: fee_units_hash, fee_times: fee_times_hash, sort: sort, search: search, home: "1"
     end
 
-    if session[:category] == nil
-      @item_categories_to_show = Listing.item_category_options
-    else
-      @item_categories_to_show = session[:category].keys
-      @item_categories_hash = Hash[@item_categories_to_show.collect {|v| [v, 1]}]
+    @listings = Listing.with_filters(categories, fee_units, fee_times, search)
+
+    case sort
+      when "Sort Price High to Low" then @listings = @listings.order("fee").reverse
+      when "Sort Price Low to High" then @listings = @listings.order("fee")
+      when "Sort by Newest" then @listings = @listings.order("created_at").reverse
+      when "Sort by Oldest" then @listings = @listings.order("created_at")
+      else sort = nil
     end
 
-    if session[:payment] == nil
-      @payment_types_to_show = Listing.fee_unit_options
-    else
-      @payment_types_to_show = session[:payment].keys
-      @payment_types_original = Hash[@payment_types_to_show.collect {|v| [v, 1]}]
-      @payment_types_hash = Hash[@payment_types_to_show.collect {|v| [Listing.fee_units[v], 1]}]
-    end
+    session[:categories] = categories
+    session[:fee_units] = fee_units
+    session[:fee_times] = fee_times
+    session[:sort] = sort
+    session[:search] = search
 
-    if session[:time] == nil
-      @rental_times_to_show = Listing.fee_time_options
-    else
-      @rental_times_to_show = session[:time].keys
-      @rental_times_original = Hash[@rental_times_to_show.collect {|v| [v, 1]}]
-      @rental_times_hash = Hash[@rental_times_to_show.collect {|v| [Listing.fee_times[v], 1]}]
-    end
-    
-    @listings = Listing.with_filters(@item_categories_hash, @payment_types_hash, @rental_times_hash, session[:search])
-
-    if session[:sort] && session[:sort] == "Sort Price High to Low"
-      @listings = @listings.order("fee").reverse
-    elsif session[:sort] && session[:sort] == "Sort Price Low to High"
-      @listings = @listings.order("fee")
-    elsif session[:sort] && session[:sort] == "Sort by Newest"
-      @listings = @listings.order("created_at").reverse
-    elsif session[:sort] && session[:sort] == "Sort by Oldest"
-      @listings = @listings.order("created_at")
-    end
-
+    @all_categories = Listing.all_item_categories
+    @all_fee_units = Listing.all_fee_units
+    @all_fee_times = Listing.all_fee_times
+    @categories_to_show = categories.nil? ? @all_categories : categories
+    @fee_units_to_show = fee_units.nil? ? @all_fee_units : fee_units
+    @fee_times_to_show = fee_times.nil? ? @all_fee_times : fee_times
   end
 
   def show
@@ -110,6 +102,13 @@ class ListingsController < ApplicationController
   end
 
   private
+
+  def filter_params
+    params.permit(:home, :sort, :search,
+                  categories: Listing.all_item_categories,
+                  fee_units: Listing.all_fee_units,
+                  fee_times: Listing.all_fee_times)
+  end
   def listing_params
     params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category)
   end

@@ -3,6 +3,7 @@ require "rails_helper"
 RSpec.describe ListingsController, type: :controller do
 
   context "user is logged in and is the listing owner" do
+
     let(:user) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: user) }
     let(:listing2) { FactoryBot.create(:listing, name:"Item 2", fee: 110.00, fee_unit: "dollars", item_category: "school", owner:user)}
@@ -14,23 +15,17 @@ RSpec.describe ListingsController, type: :controller do
       it "renders the index template" do
         get :index, session: {user_id: user.id}, params: {home: 1}
         expect(response).to render_template "index"
-        expect(assigns(:listings)).to eq [listing, listing2, listing3, listing4, listing5]
       end
-      #pending "RSpec tests for sorting and filtering"
-      # it "assigns @listings" do
-      #   allow(Listing).to receive(:all).and_return [listing]
-      #   get :index, session: {user_id: user.id}
-      #   expect(assigns(:listings)).to eq [listing]
-      # end
 
       it "redirects to previous index state if coming from a non-index link" do
-        get :index, session: {user_id: user.id}, params: {}
-        expect(response).to redirect_to listings_path(:home => 1)
+        get :index, session: {user_id: user.id}
+        expect(response).to redirect_to listings_path(home: 1)
       end
 
       it "assigns @listings to filter by the correct item category" do
+        expected_listings = [listing, listing5]
         get :index, session: {user_id: user.id}, params: {home: 1, category: {"books" => 1}}
-        expect(assigns(:listings)).to eq [listing, listing5]
+        expect(assigns(:listings)).to eq expected_listings
       end
 
       it "assigns @listings to filter by the correct payment type" do
@@ -38,35 +33,40 @@ RSpec.describe ListingsController, type: :controller do
         expect(assigns(:listings)).to eq [listing2, listing4, listing5]
       end
 
-      it "assigns @listings to filter by the correct rental time unit" do
+      it "assigns @listings to filter by the correct fee time" do
+        expected_listings = [listing3]
         get :index, session: {user_id: user.id}, params: {home: 1, time: {"hour" => 1}}
-        expect(assigns(:listings)).to eq [listing3]
+        expect(assigns(:listings)).to eq expected_listings
       end
 
       it "assigns @listings by descending price order" do
+        expected_listings = [listing3, listing2, listing4, listing5, listing]
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort Price High to Low"}
-        expect(assigns(:listings)).to eq [listing3, listing2, listing4, listing5, listing]
+        expect(assigns(:listings)).to eq expected_listings
       end
 
       it "assigns @listings by non-descending price order" do
+        expected_listings = [listing3, listing2, listing4, listing5, listing].reverse
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort Price Low to High"}
-        expect(assigns(:listings)).to eq [listing3, listing2, listing4, listing5, listing].reverse
+        expect(assigns(:listings)).to eq expected_listings
       end
 
       it "assigns @listings by newest" do
+        expected_listings = [listing5, listing4, listing3, listing2, listing].reverse
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort by Newest"}
-        expect(assigns(:listings)).to eq [listing5, listing4, listing3, listing2, listing].reverse
+        expect(assigns(:listings)).to eq expected_listings
       end
 
       it "assigns @listings by oldest" do
+        expected_listings = [listing5, listing4, listing3, listing2, listing]
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort by Oldest"}
-        expect(assigns(:listings)).to eq [listing5, listing4, listing3, listing2, listing]
+        expect(assigns(:listings)).to eq expected_listings
       end
 
-
       it "assigns @listings to only contain listings that contain the substring inputted in search" do
+        expected_listings = [listing2]
         get :index, session: {user_id: user.id}, params: {home: 2, search: "2"}
-        expect(assigns(:listings)).to eq [listing2]
+        expect(assigns(:listings)).to eq expected_listings
       end
 
     end
@@ -97,7 +97,7 @@ RSpec.describe ListingsController, type: :controller do
 
     describe "POST #create" do
       it "creates new listing if params are valid" do
-        listing = instance_double("Listing", id: "1")
+        listing = instance_double("Listing", id: "1", name: "")
         allow(listing).to receive(:valid?).and_return(true)
         expect(listing).to receive(:owner=)
         expect(listing).to receive(:save)
@@ -159,7 +159,7 @@ RSpec.describe ListingsController, type: :controller do
         expect(Listing).to receive(:find_by).and_return(listing)
         expect(listing).to receive(:destroy)
         delete :destroy, params: {id: listing.id}, session: {user_id: user.id}
-        expect(response).to redirect_to listings_path
+        expect(response).to redirect_to my_listings_path
       end
     end
 
