@@ -51,6 +51,10 @@ Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([
   expect(page.body).to have_content /Pick-up Time:(\s*) #{pick_up_time}/
 end
 
+Then /^I should see the status of this request as "([^"]*)"$/ do |status|
+  expect(page.body).to have_content status
+end
+
 def create_rental_requests_with_owner(owner, request_hashes, listing)
   request_hashes.each do |request|
     request = RentalRequest.new request

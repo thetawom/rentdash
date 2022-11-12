@@ -2,6 +2,10 @@ Given /^I am on the listings page$/ do
   step %{I go to the listings page}
 end
 
+Given /^I am on my listings page$/ do
+  step %{I go to my listings page}
+end
+
 Given /^I am on the new listing page$/ do
   step %{I go to the new listing page}
 end
@@ -27,6 +31,10 @@ end
 
 When /^I go to the listings page$/ do
   visit listings_path
+end
+
+When /^I go to my listings page$/ do
+  visit my_listings_path
 end
 
 When /^I go to the new listing page$/ do
@@ -86,6 +94,10 @@ end
 
 Then /^I should (?:|still )be on the listings page$/ do
   expect(URI.parse(current_url).path).to eq listings_path
+end
+
+Then /^I should (?:|still )be on my listings page$/ do
+  expect(URI.parse(current_url).path).to eq my_listings_path
 end
 
 Then /^I should (?:|still )be on the new listing page$/ do
