@@ -34,15 +34,15 @@
 
 <table class="table table-striped col-md-12" id="listings">
   <thead>
+    <tr>
+      <th>Item Name</th>
+      <th>Description</th>
+      <th>Pick-up Location</th>
+      <th>Rental Fee</th>
+      <th>Deposit</th>
+    </tr>
   </thead>
   <tbody>
-  <tr>
-    <th>Item Name</th>
-    <th>Description</th>
-    <th>Pick-up Location</th>
-    <th>Rental Fee</th>
-    <th>Deposit</th>
-  </tr>
   <% @listings.each do |listing| %>
     <tr>
       <td><%= link_to listing.name, listing_path(listing.id)%></td>

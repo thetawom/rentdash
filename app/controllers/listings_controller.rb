@@ -70,6 +70,7 @@ class ListingsController < ApplicationController
     @listing.owner = current_user
     @listing.save
     if @listing.valid?
+      flash[:success] = "Listing for #{@listing.name} was successfully created!"
       redirect_to listing_path @listing.id
     else
       flash[:warning] = @listing.errors

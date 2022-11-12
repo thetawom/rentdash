@@ -4,15 +4,15 @@
 
 <table class="table table-striped col-md-12">
   <thead>
+    <tr>
+      <th>Requester</th>
+      <th>Pick-up Date</th>
+      <th>Return Date</th>
+      <th>Status</th>
+      <th></th>
+    </tr>
   </thead>
   <tbody>
-  <tr>
-    <th>Requester</th>
-    <th>Pick-up Date</th>
-    <th>Return Date</th>
-    <th>Status</th>
-    <th></th>
-  </tr>
   <% @rental_requests.each do |request| %>
     <tr>
       <td><%= request.requester.full_name %></td>
