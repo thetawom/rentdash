@@ -34,7 +34,7 @@ RSpec.describe ListingsController, type: :controller do
       end
 
       it "assigns @listings to filter by the correct payment type" do
-        get :index, session: {user_id: user.id}, params: {home: 1, payment: {"cash" => 1}}
+        get :index, session: {user_id: user.id}, params: {home: 1, payment: {"dollars" => 1}}
         expect(assigns(:listings)).to eq [listing2, listing4, listing5]
       end
 
