@@ -21,16 +21,18 @@
   </li>
 </ul>
 
-<div class="row">
-  <% if @is_my_request %>
-    <%= link_to "Edit", root_path, :class => "btn btn-primary" %>
-    <%= button_to "Delete", rental_request_path(@rental_request.id), method: :delete, :class => "btn btn-danger"%>
-  <% end %>
-  <% if @is_my_listing and @rental_request.status == "pending" %>
-    <%= button_to "Approve", approve_rental_request_path(@rental_request.id), method: :post, class: "btn btn-primary" %>
-    <%= button_to "Decline", decline_rental_request_path(@rental_request.id), method: :post, class: "btn btn-danger" %>
-  <% end %>
-</div>
+<% if @rental_request.status == "pending" %>
+  <div class="row">
+    <% if @is_my_request %>
+      <%= link_to "Edit", root_path, :class => "btn btn-primary" %>
+      <%= button_to "Delete", rental_request_path(@rental_request.id), method: :delete, :class => "btn btn-danger"%>
+    <% end %>
+    <% if @is_my_listing %>
+      <%= button_to "Approve", approve_rental_request_path(@rental_request.id), method: :post, class: "btn btn-primary" %>
+      <%= button_to "Decline", decline_rental_request_path(@rental_request.id), method: :post, class: "btn btn-danger" %>
+    <% end %>
+  </div>
+<% end %>
 <div class="row">
   <%= link_to "View listing", listing_path(@listing.id), :class => "btn btn-primary" %>
   <% if @is_my_request %>

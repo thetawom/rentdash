@@ -5,9 +5,6 @@
 <div class = "content">
 
 <h2>All Listings</h2>
-<%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
-
-
 <div class="row">
   <div class="col-8">
     <%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
@@ -19,7 +16,7 @@
     <%= form_tag(listings_path, method: :get) do %>
     <%= text_field_tag(:search, params[:search]) %>
     <%= hidden_field_tag(:home, '2') %>
-    <%= submit_tag ("Search") %>
+    <%= submit_tag("Search") %>
   <% end %>
   </div>
 </div>

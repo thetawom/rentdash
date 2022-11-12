@@ -14,13 +14,11 @@ class Listing < ApplicationRecord
 
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
-    enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school, :other], _default: :other
-    enum sort_category: [:newest, :price]
-
+    enum item_category: [:books, :clothing, :tools, :cleaning, :technology, :school]
 
     def self.with_filters(category_list, payment_type_list, rental_time_list, search_term)
         if category_list == nil
-            category_list = Listing.all_categories
+            category_list = Listing.item_category_options
         else
             category_list = category_list.keys
         end
@@ -44,16 +42,16 @@ class Listing < ApplicationRecord
         return Listing.where(item_category: category_list, fee_unit: payment_type_list, fee_time: rental_time_list)
     end
 
-    def self.all_rental_times
-        return %w[hour day week]
+    def self.fee_time_options
+        return self.fee_times.keys
     end
 
-    def self.all_categories
-        return %w[books clothing tools cleaning technology school]
+    def self.item_category_options
+        return self.item_categories.keys
     end
     
-    def self.all_payment_types
-        return %w[karma cash]
+    def self.fee_unit_options
+        return self.fee_units.keys
     end
 
 end

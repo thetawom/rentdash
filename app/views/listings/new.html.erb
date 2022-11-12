@@ -12,6 +12,6 @@
   Rental Fee Unit: <%= f.select :fee_unit, fee_unit_options %><br>
   Rental Fee Time: <%= f.select :fee_time, fee_time_options %><br>
   Deposit Amount: <%= f.number_field :deposit, step: 0.01 %><br>
-  Item Category: <%= f.select :item_category, item_category_options %><br>
+  Item Category: <%= f.select :item_category, item_category_options, { include_blank: true } %><br>
   <%= f.submit "Add Listing" %>
 <% end %>
