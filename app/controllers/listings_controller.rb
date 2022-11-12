@@ -5,7 +5,7 @@ class ListingsController < ApplicationController
     @all_categories = Listing.item_category_options
     @all_payment_types = Listing.fee_unit_options
     @all_rental_times = Listing.fee_time_options
-    @payment_types_dictionary = {'karma' => 0, 'cash' => 1}
+    @payment_types_dictionary = {'karma' => 0, 'dollars' => 1}
     @rental_times_dictionary = {'hour' => 0, 'day' => 1, 'week' => 2}
     puts(params)
     if params[:home] == nil
