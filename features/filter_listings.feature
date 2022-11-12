@@ -30,7 +30,7 @@ Feature: display listings filtered by item categories, payment type, rental time
 
     Scenario: restrict to item listings with "dollar" currency, "day" time units, "tools" and "technology" item categories
         Given I am on the listings page
-        When I check the following currencies: cash
+        When I check the following currencies: dollars
         And I check the following time units: day
         And I check the following item categories: tools, technology
         And I uncheck the following currencies: karma
