@@ -22,6 +22,19 @@ RSpec.describe RentalRequest, type: :model do
       expect(rental.status).to eq "upcoming"
       expect(rental.payment_method).to be_nil
     end
+
+    it "should mark the rental request as approved" do
+      rental_request.approve
+      expect(rental_request.status).to eq "approved"
+    end
+  end
+
+  describe "#decline" do
+    let(:rental_request) {FactoryBot.create(:rental_request)}
+    it "should mark the rental request as declined" do
+      rental_request.decline
+      expect(rental_request.status).to eq "declined"
+    end
   end
 
 end

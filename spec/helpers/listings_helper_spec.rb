@@ -24,4 +24,15 @@ RSpec.describe ListingsHelper, type: :helper do
     end
   end
 
+  describe "#item_category_options" do
+    it "generates options tags with all of the values" do
+      options_enum = {"other" => 0, "kangaroo_toys" => 1, "magic_boomerangs" => 2}
+      allow(Listing).to receive(:item_categories).and_return(options_enum)
+      options_str = item_category_options
+      options_enum.keys.each do |key|
+        expect(options_str).to include "value=\"#{key}\""
+      end
+    end
+  end
+
 end

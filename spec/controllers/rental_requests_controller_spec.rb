@@ -184,18 +184,18 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to redirect_to login_path
       end
     end
-    # describe "GET #edit" do
-    #   it "redirects to login page" do
-    #     get :edit, params: {id: 1}
-    #     expect(response).to redirect_to login_path
-    #   end
-    # end
-    # describe "PATCH #update" do
-    #   it "redirects to login page" do
-    #     patch :update, params: {id: 1}
-    #     expect(response).to redirect_to login_path
-    #   end
-    # end
+    describe "GET #edit" do
+      it "redirects to login page" do
+        get :edit, params: {id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "PATCH #update" do
+      it "redirects to login page" do
+        patch :update, params: {id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
     describe "DELETE #destroy" do
       it "redirects to login page" do
         delete :destroy, params: {id: 1}
