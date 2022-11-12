@@ -105,7 +105,7 @@ class ListingsController < ApplicationController
       @listing.destroy
       flash[:notice] = "#{@listing.name} was deleted."
     end
-    redirect_to listings_path
+    redirect_to my_listings_path
   end
 
   def mine

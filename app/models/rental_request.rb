@@ -1,6 +1,7 @@
 class RentalRequest < ApplicationRecord
     belongs_to :listing
     belongs_to :requester, class_name: "User"
+    has_one :rental, foreign_key: "request_id", dependent: :destroy
 
     validates :status, presence: true
     validates :pick_up_date, presence: true

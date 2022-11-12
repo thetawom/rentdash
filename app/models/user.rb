@@ -1,6 +1,7 @@
 class User < ApplicationRecord
-  has_many :listings, foreign_key: "owner_id"
-  has_many :rental_requests, foreign_key: "requester_id"
+  has_many :listings, foreign_key: "owner_id", dependent: :destroy
+  has_many :rental_requests, foreign_key: "requester_id", dependent: :destroy
+  has_many :rentals, foreign_key: "renter_id", dependent: :destroy
 
   has_secure_password
 
