@@ -43,14 +43,11 @@
     </div>
   </div>
 
-  <% if @is_mine %>
-    <div class="row", style="margin: 0px">
-        <%= link_to 'Edit', edit_listing_path(@listing), :class => 'btn btn-primary' %>
-    </div>
-    <br>
-    <div class="row", style="margin: 0px">
-        <%= button_to 'Delete', listing_path(@listing), :class => 'btn btn-primary', :method => :delete%>
-    </div>
-  <% end %>
+  <div class="row", style="margin: 0px">
+    <% if @is_mine %>
+      <%= link_to 'Edit', edit_listing_path(@listing), :class => 'btn btn-primary', :style=> 'margin:5px' %>
+      <%= button_to 'Delete', listing_path(@listing), :class => 'btn btn-danger', :method => :delete, :style=> 'margin:5px' %>
+    <% end %>
+  </div>
 
 </div>

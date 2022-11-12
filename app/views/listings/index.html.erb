@@ -5,17 +5,20 @@
 <div class = "content">
 
 <h2>All Listings</h2>
-<%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
-
-
+<%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary"%>
+<br>
+<br>
 <div class="row">
-  <div class="col-8">
-    <%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
-    <%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
-    <%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
-    <%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1")%>
+  <div class="col-5">  
+    <h4> Filter By </h4>
   </div>
-  <div class="col-4", align="right">
+  <div class="col-5", align="right">
+    <%=link_to "Sort Price High to Low", listings_path(:sort => "Sort Price High to Low", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
+    <%=link_to "Sort Price Low to High", listings_path(:sort => "Sort Price Low to High", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
+    <%=link_to "Sort by Newest", listings_path(:sort => "Sort by Newest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
+    <%=link_to "Sort by Oldest", listings_path(:sort => "Sort by Oldest", :category => @item_categories_hash, :payment => @payment_types_original, :time => @rental_times_original, :home => "1"), :class=> 'btn btn-primary', :style=> "margin: 5px"%>
+  </div>
+  <div class="col-2", style="display: flex; justify-content: center; align-items:center">
     <%= form_tag(listings_path, method: :get) do %>
     <%= text_field_tag(:search, params[:search]) %>
     <%= hidden_field_tag(:home, '2') %>
@@ -23,14 +26,9 @@
   <% end %>
   </div>
 </div>
-<br>
-
 
 <div class="row">
   <div class="col-2">
-  <h4> Filter By </h4>
-
-
     <%= form_tag listings_path, method: :get, id: 'item_filtering_form' do %>
       <%= submit_tag 'Refresh', id: 'filters_submit', class: 'btn btn-primary' %>
       <br>
@@ -64,7 +62,6 @@
       <%= hidden_field_tag(:home, '1') %>
       <br>
     <% end %>
-    Sorting
   </div>
   
   <div class="col-10">
@@ -76,11 +73,8 @@
           <div class="card-body">
             <h5 class="card-title"><%= listing.name %></h5>
             <p class="card-text">
-              Item Category: <%= listing.item_category %> <br>
-              Description: <%= listing.description %> <br>
-              Pick-Up Location: <%= listing.pick_up_location %> <br>
               Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
-              Deposit: <%= listing.deposit %> dollars <br>
+              Item Category: <%= listing.item_category %> <br>
             </p>
             <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
         

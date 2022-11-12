@@ -1,5 +1,7 @@
 <%=yield%><%= render "shared/navbar" %>
 
-<%= content_tag :h1, current_user.welcome %>
+<div class="content">
+    <%= content_tag :h1, current_user.welcome %>
 
-<%= button_to "Sign out", logout_path, method: :delete %>
+    <%= button_to "Sign out", logout_path, method: :delete %>
+</div>

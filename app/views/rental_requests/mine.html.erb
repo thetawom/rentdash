@@ -1,24 +1,26 @@
 <%=yield%><%= render "shared/navbar" %>
 
-<h2>My Requests</h2>
+<div class="content">
+  <h2>My Requests</h2>
 
-<table class="table table-striped col-md-12">
-  <thead>
-  </thead>
-  <tbody>
-    <tr>
-      <th>Listing</th>
-      <th>Pick-up Date</th>
-      <th>Return Date</th>
-      <th></th>
-    </tr>
-    <% @rental_requests.each do |rental_request| %>
+  <table class="table table-striped col-md-12">
+    <thead>
+    </thead>
+    <tbody>
       <tr>
-        <td><%= link_to rental_request.listing.name, listing_path(rental_request.listing.id) %></td>
-        <td><%= rental_request.pick_up_date %></td>
-        <td><%= rental_request.return_date %></td>
-        <td><%= link_to "Details", rental_request_path(rental_request.id) %></td>
+        <th>Listing</th>
+        <th>Pick-up Date</th>
+        <th>Return Date</th>
+        <th></th>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+      <% @rental_requests.each do |rental_request| %>
+        <tr>
+          <td><%= link_to rental_request.listing.name, listing_path(rental_request.listing.id) %></td>
+          <td><%= rental_request.pick_up_date %></td>
+          <td><%= rental_request.return_date %></td>
+          <td><%= link_to "Details", rental_request_path(rental_request.id) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
