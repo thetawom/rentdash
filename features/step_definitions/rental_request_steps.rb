@@ -43,6 +43,14 @@ Then(/^I should be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_
   visit rental_request_path request.id
 end
 
+Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/) do |first_name, last_name, listing_name, pick_up_time|
+  requester = User.find_by first_name: first_name, last_name: last_name
+  listing = Listing.find_by name: listing_name
+  request = RentalRequest.find_by requester: requester, listing: listing
+  visit rental_request_path request.id
+  expect(page.body).to have_content /Pick-up Time:(\s*) #{pick_up_time}/
+end
+
 def create_rental_requests_with_owner(owner, request_hashes, listing)
   request_hashes.each do |request|
     request = RentalRequest.new request
