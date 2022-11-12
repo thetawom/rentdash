@@ -21,7 +21,7 @@
   <div class="col-3", style="display: flex; justify-content: center; align-items:center">
     <%= form_tag(listings_path, method: :get) do %>
     <%= text_field_tag(:search, @filtered_params[:search]) %>
-    <%= hidden_field_tag(:home, "2") %>
+    <%= hidden_field_tag(:home, "1") %>
     <%= submit_tag("Search") %>
   <% end %>
   </div>

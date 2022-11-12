@@ -15,11 +15,11 @@ When /^(?:|I )uncheck (?:the\s+)?"([^"]*)"(?:\s*checkbox)?$/ do |field|
 end
 
 Then /^I should see "([^"]*)"$/ do |text|
-  expect(page).to have_text text
+  expect(page).to have_content text
 end
 
 Then /^(?:|I )should not see "([^"]*)"$/ do |text|
-  expect(page).to_not have_text text
+  expect(page).to_not have_content text
 end
 
 When /^(?:|I )fill in "([^"]*)" with "([^"]*)"$/ do |field, value|
