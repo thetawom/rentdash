@@ -10,12 +10,16 @@
     <th>Listing</th>
     <th>Pick-up Date</th>
     <th>Return Date</th>
+    <th>Pick-up Location</th>
+    <th>Payment Method</th>
   </tr>
   <% @rentals.each do |rental| %>
     <tr>
       <td><%= link_to rental.listing.name, listing_path(rental.listing.id) %></td>
       <td><%= rental.request.pick_up_date %></td>
       <td><%= rental.request.return_date %></td>
+      <td><%= rental.listing.pick_up_location %></td>
+      <td><%= rental.payment_method %></td>
     </tr>
   <% end %>
   </tbody>

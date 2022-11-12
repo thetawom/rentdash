@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe RentalRequestsController, type: :controller do
-  context "user is logged in..." do
+
+  context "user is logged in" do
+
     let(:user) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: user) }
     let(:request) { FactoryBot.create(:rental_request, listing: listing)}
@@ -122,7 +124,25 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(assigns(:rental_requests)).to_not include request
       end
     end
-    
+
+    describe "POST #approve" do
+      it "creates a new rental from request" do
+        request = instance_double("RentalRequest", id: "1", listing: listing, listing_id: listing.id)
+        expect(RentalRequest).to receive(:find_by).and_return(request)
+        expect(request).to receive(:to_rental)
+        post :approve, params: {id: request.id}, session: {user_id: user.id}
+      end
+
+      it "redirects to request page if user is the owner" do
+        post :approve, params: {id: request.id}, session: {user_id: user.id}
+        expect(response).to redirect_to listing_rental_requests_path(listing.id)
+      end
+
+      it "redirects to request page if user is not the owner" do
+        post :approve, params: {id: request.id}, session: {user_id: request.requester.id}
+        expect(response).to redirect_to rental_request_path(request.id)
+      end
+    end
 
     describe "#rental_request_params" do
       controller = RentalRequestsController.new
@@ -143,6 +163,57 @@ RSpec.describe RentalRequestsController, type: :controller do
       end
     end
 
+  end
+
+  context "user is not logged in" do
+    describe "GET #index" do
+      it "redirects to login page" do
+        get :index, params: {listing_id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "GET #show" do
+      it "redirects to login page" do
+        get :show, params: {id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "GET #new" do
+      it "redirects to login page" do
+        get :new, params: {listing_id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "POST #create" do
+      it "redirects to login page" do
+        post :create, params: {listing_id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    # describe "GET #edit" do
+    #   it "redirects to login page" do
+    #     get :edit, params: {id: 1}
+    #     expect(response).to redirect_to login_path
+    #   end
+    # end
+    # describe "PATCH #update" do
+    #   it "redirects to login page" do
+    #     patch :update, params: {id: 1}
+    #     expect(response).to redirect_to login_path
+    #   end
+    # end
+    describe "DELETE #destroy" do
+      it "redirects to login page" do
+        delete :destroy, params: {id: 1}
+        expect(response).to redirect_to login_path
+      end
+    end
+    describe "GET #mine" do
+      it "redirects to login page" do
+        get :mine
+        expect(response).to redirect_to login_path
+      end
+    end
   end
 
 end

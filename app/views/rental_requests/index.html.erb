@@ -17,7 +17,10 @@
       <td><%= request.requester.full_name %></td>
       <td><%= request.pick_up_date %></td>
       <td><%= request.return_date %></td>
-      <td><%= button_to "Approve" %><%= button_to "Decline", rental_request_path(request.id), method: :delete %></td>
+      <td>
+        <%= button_to "Approve", approve_rental_request_path(request.id), method: :post %>
+        <%= button_to "Decline", rental_request_path(request.id), method: :delete %>
+      </td>
       <td><%= link_to "Details", rental_request_path(id: request.id) %></td>
     </tr>
   <% end %>

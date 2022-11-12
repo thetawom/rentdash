@@ -57,6 +57,16 @@ class RentalRequestsController < ApplicationController
     @rental_requests = RentalRequest.where(requester: current_user)
   end
 
+  def approve
+    @rental_request = RentalRequest.find_by id: params[:id]
+    if @rental_request.listing.owner == current_user
+      @rental_request.to_rental
+      redirect_to listing_rental_requests_path(@rental_request.listing_id)
+    else
+      redirect_to rental_request_path(@rental_request.id)
+    end
+  end
+
   private
   def rental_request_params
     params.require(:rental_request).permit(:pick_up_date, :return_date)
