@@ -24,8 +24,8 @@ Feature: submit rental request
         When I add a new rental request with information
             |pick_up_time           |return_time            |
             |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
-        Then I should be on the listing page for "Dyson V11 Torque Drive"
-        When I follow "My Requests"
+        Then I should be on Frankie Valli's request page for "Dyson V11 Torque Drive"
+        When I follow "Back to my requests"
         Then I should see "2022-10-28 00:00:00 UTC"
         And I should see "2022-10-29 00:00:00 UTC"
         And I should see "Dyson V11 Torque Drive"

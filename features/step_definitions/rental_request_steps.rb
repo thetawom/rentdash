@@ -36,6 +36,12 @@ Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do 
   expect(URI.parse(current_url).path).to eq new_listing_rental_request_path listing.id
 end
 
+Then(/^I should be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_name, last_name, listing_name|
+  requester = User.find_by first_name: first_name, last_name: last_name
+  listing = Listing.find_by name: listing_name
+  request = RentalRequest.find_by requester: requester, listing: listing
+  visit rental_request_path request.id
+end
 
 def create_rental_requests_with_owner(owner, request_hashes, listing)
   request_hashes.each do |request|
