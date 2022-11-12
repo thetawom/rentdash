@@ -1,23 +1,32 @@
 
 
 <h2>Edit Existing Listing</h2>
-<%= form_tag listing_path(@listing), :method => :put do %>
-  <%= label :listing, :name, "Name", class: "col-form-label" %>
-  <%= text_field :listing, :name, class: "form-control" %><br/>
-  <%= label :listing, :description, "Description", class: "col-form-label"  %>
-  <%= text_field :listing, :description, class: "form-control" %><br/>
-  <%= label :listing, :pick_up_location, "Pick-up Location", class: "col-form-label"  %>
-  <%= text_field :listing, :pick_up_location, class: "form-control" %><br/>
-  <%= label :listing, :fee, "Rental Fee", class: "col-form-label"  %>
-  <%= text_field :listing, :fee, class: "form-control" %><br/>
-  <%= label :listing, :fee_unit, "Rental Fee Unit", class: "col-form-label"  %>
-  <%= select :listing, :fee_unit, fee_unit_options, {:class => "form-control col-1"} %><br/>
-  <%= label :listing, :fee_time, "Rental Fee Time", class: "col-form-label"  %>
-  <%= select :listing, :fee_time, fee_time_options, {:class => "form-control col-1"} %><br/>
-  <%= label :listing, :deposit, "Deposit Amount", class: "col-form-label"  %>
-  <%= text_field :listing, :deposit, class: "form-control" %><br/>
-  <%= label :listing, :item_category, "Item Category", class: "col-form-label"  %>
-  <%= select :listing, :item_category, item_category_options, { include_blank: true } %><br>
-  <%= submit_tag "Update Listing Info", class: "btn btn-primary" %><br/>
+<%= form_with model: @listing, url: listing_path(@listing), method: :patch do |f| %>
+  <%= f.label :name, "Name", class: "col-form-label" %>
+  <%= f.text_field :name, class: "form-control" %>
+  <br/>
+  <%= f.label :description, "Description", class: "col-form-label"  %>
+  <%= f.text_field :description, class: "form-control" %>
+  <br/>
+  <%= f.label :pick_up_location, "Pick-up Location", class: "col-form-label"  %>
+  <%= f.text_field :pick_up_location, class: "form-control" %>
+  <br/>
+  <%= f.label :fee, "Rental Fee", class: "col-form-label"  %>
+  <%= f.text_field :fee, class: "form-control" %>
+  <br/>
+  <%= f.label :fee_unit, "Rental Fee Unit", class: "col-form-label"  %>
+  <%= f.select :fee_unit, fee_unit_options(@listing), class: "form-control col-1" %>
+  <br/>
+  <%= f.label :fee_time, "Rental Fee Time", class: "col-form-label"  %>
+  <%= f.select :fee_time, fee_time_options(@listing), class: "form-control col-1" %>
+  <br/>
+  <%= f.label :deposit, "Deposit Amount", class: "col-form-label"  %>
+  <%= f.text_field :deposit, class: "form-control" %>
+  <br/>
+  <%= f.label :item_category, "Item Category", class: "col-form-label"  %>
+  <%= f.select :item_category, item_category_options(@listing), class: "form-control col-1" %>
+  <br/>
+  <%= f.submit "Update Listing Info", class: "btn btn-primary" %>
+  <br/>
   <%= link_to "Cancel", listing_path(@listing), class: "btn btn-secondary" %>
 <% end %>
