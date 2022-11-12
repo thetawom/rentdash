@@ -72,7 +72,7 @@ class ListingsController < ApplicationController
     if @listing.valid?
       redirect_to listing_path @listing.id
     else
-      flash[:errors] = @listing.errors
+      flash[:warning] = @listing.errors
       redirect_to new_listing_path
     end
   end
@@ -92,7 +92,7 @@ class ListingsController < ApplicationController
         flash[:notice] = "#{@listing.name} was updated!"
         redirect_to listing_path @listing.id
       else
-        flash[:errors] = @listing.errors
+        flash[:warning] = @listing.errors
         redirect_to new_listing_path
       end
     end

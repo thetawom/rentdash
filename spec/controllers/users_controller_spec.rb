@@ -38,7 +38,7 @@ RSpec.describe UsersController, type: :controller do
       expect(User).to receive(:create).and_return(user)
       allow_any_instance_of(UsersController).to receive(:user_params)
       post :create
-      expect(flash[:errors]).to_not be_nil
+      expect(flash[:warning]).to_not be_nil
       expect(response).to redirect_to new_user_path
     end
   end

@@ -79,7 +79,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(RentalRequest).to receive(:new).and_return(rental_request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
         post :create, params:{listing_id:listing.id}, session: {user_id: user.id}
-        expect(flash[:errors]).to_not be_nil
+        expect(flash[:warning]).to_not be_nil
         expect(response).to redirect_to new_listing_rental_request_path
       end
     end

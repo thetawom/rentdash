@@ -1,7 +1,7 @@
-<%=yield%><%= render "shared/navbar" %>
 
-<% if flash[:errors] %>
-  <%= content_tag :p, flash[:errors] %>
+
+<% if flash[:warning] %>
+  <%= content_tag :p, flash[:warning] %>
 <% end %>
 
 <div class="container">

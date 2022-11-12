@@ -1,19 +1,5 @@
-
-<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width,initial-scale=1">
-  <%= csrf_meta_tags %>
-  <%= csp_meta_tag %>
-
-  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <%= stylesheet_link_tag "application", "data-turbo-track": "reload" %>
-  <%= javascript_importmap_tags %>
-</head>
-
-<body>
- <nav class="navbar navbar-expand-lg navbar-light bg-light">
+<% if current_user %>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="/listings">RentDash</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -42,51 +28,4 @@
     </ul>
   </div>
  </nav>
- <%= yield %>
-</body>
-</html>
-
-<% if false %>
-<style>
-    .nav-ul {
-        list-style-type: none;
-        margin: 0;
-        padding: 0;
-        overflow: hidden;
-        background-color: #333;
-    }
-
-    .nav-li {
-        float: left;
-    }
-
-    .right {
-        float: right;
-    }
-
-    .nav-li a {
-        display: block;
-        color: white;
-        text-align: center;
-        padding: 14px 16px;
-        text-decoration: none;
-    }
-
-    .nav-li a:hover {
-        background-color: #111;
-    }
-</style>
-<header class="navbar navbar-inverse">
-  <div class="navbar-class">
-    <div class="container">
-      <ul class="nav navbar-nav nav-ul">
-        <li class="nav-li"><%=link_to "All Listings", listings_path %></li>
-        <li class="nav-li"><%= link_to"My Listings", my_listings_path %></li>
-        <li class="nav-li"><%= link_to "My Requests", my_requests_path %></li>
-        <li class="nav-li right"><%= button_to "Sign out", logout_path, method: :delete %></li>
-        <li class="nav-li right"><%= link_to "Profile", user_path(current_user.id) %></li>
-      </ul>
-    </div>
-  </div>
-</header>
-<%end%>
+<% end %>

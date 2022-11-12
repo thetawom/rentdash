@@ -29,7 +29,7 @@ class RentalRequestsController < ApplicationController
     if @rental_request.valid?
       redirect_to rental_request_path @rental_request.id
     else
-      flash[:errors] = @rental_request.errors
+      flash[:warning] = @rental_request.errors
       redirect_to new_listing_rental_request_path params[:listing_id]
     end
   end

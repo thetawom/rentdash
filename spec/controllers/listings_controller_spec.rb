@@ -116,7 +116,7 @@ RSpec.describe ListingsController, type: :controller do
         expect(Listing).to receive(:new).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         post :create, session: {user_id: user.id}
-        expect(flash[:errors]).to_not be_nil
+        expect(flash[:warning]).to_not be_nil
         expect(response).to redirect_to new_listing_path
       end
     end
@@ -148,7 +148,7 @@ RSpec.describe ListingsController, type: :controller do
         expect(Listing).to receive(:find_by).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         post :update, params: {id: listing.id}, session: {user_id: user.id}
-        expect(flash[:errors]).to_not be_nil
+        expect(flash[:warning]).to_not be_nil
         expect(response).to redirect_to new_listing_path
       end
     end
