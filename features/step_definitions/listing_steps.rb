@@ -48,7 +48,7 @@ When /^I add a new listing with information$/ do |listings|
   %w[name description pick_up_location fee deposit].each do |field|
     fill_in "listing_#{field}", with: listing[field] if listing.key? field
   end
-  %w[fee_unit fee_time].each do |field|
+  %w[fee_unit fee_time item_category].each do |field|
     select listing[field], from: "listing_#{field}" if listing.key? field
   end
   click_button "Add Listing"

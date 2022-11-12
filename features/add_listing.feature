@@ -15,7 +15,7 @@ Feature: add listing
     Then I should be on the new listing page
     When I add a new listing with information
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
-      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |tools        |
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |Tools        |
     Then I should be on the listing page for "Dyson V11 Torque Drive"
     When I go to the listings page
     Then I should see a listing for "Dyson V11 Torque Drive"
@@ -31,7 +31,7 @@ Feature: add listing
     Given I am on the new listing page
     When I add a new listing with information
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
-      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |-2     |tools        |
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |-2     |Tools        |
     Then I should still be on the new listing page
 
   Scenario: user views their own listings
