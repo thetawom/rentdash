@@ -106,7 +106,7 @@ Then /^I should (not )?see a listing for "([^"]*)"$/ do |not_exists, listing_nam
   if not_exists.nil?
     expect(page).to have_text listing_name
   else
-    expect(page).to_not have_text listing_name
+    expect(page.find_by_id("main")).to_not have_text listing_name
   end
 end
 
