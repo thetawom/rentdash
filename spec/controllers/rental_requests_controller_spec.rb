@@ -148,12 +148,12 @@ RSpec.describe RentalRequestsController, type: :controller do
       end
       it "returns only listing parameters with others filtered" do
         params = ActionController::Parameters.new({
-                                                    rental_request: { pick_up_date: "2022-10-28 00:00:00 UTC", return_date: "2022-10-29 00:00:00 UTC" },
+                                                    rental_request: { pick_up_time: "2022-10-28 00:00:00 UTC", return_time: "2022-10-29 00:00:00 UTC" },
                                                     gunk: { hunk: "hunk" }
                                                   })
         allow(controller).to receive(:params).and_return(params)
         rental_request_params = controller.send(:rental_request_params)
-        expect(rental_request_params).to include(:pick_up_date, :return_date)
+        expect(rental_request_params).to include(:pick_up_time, :return_time)
         expect(rental_request_params).to_not include(:junk)
       end
     end

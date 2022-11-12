@@ -20,8 +20,8 @@
     </div>
     <div class="col-sm">
       <%= form_for [@listing, @rental_request] do |f| %>
-          Pick-up Date: <%= f.date_field :pick_up_date %><br>
-          Return Date: <%= f.date_field :return_date %><br><br>
+          Pick-up Date: <%= f.datetime_field :pick_up_time %><br>
+          Return Date: <%= f.datetime_field :return_time %><br><br>
 <!--      <i>The deposit and rental fee, if applicable, will be charged using the selected payment method.</i>-->
           Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit <br>
           <br>

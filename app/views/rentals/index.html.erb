@@ -17,8 +17,8 @@
   <% @rentals.each do |rental| %>
     <tr>
       <td><%= link_to rental.listing.name, listing_path(rental.listing.id) %></td>
-      <td><%= rental.request.pick_up_date %></td>
-      <td><%= rental.request.return_date %></td>
+      <td><%= rental.request.pick_up_time %></td>
+      <td><%= rental.request.return_time %></td>
       <td><%= rental.listing.pick_up_location %></td>
       <td><%= rental.payment_method %></td>
       <td><%= rental.status %></td>

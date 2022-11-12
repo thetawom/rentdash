@@ -21,7 +21,7 @@ end
 
 When /^I add a new rental request with information$/ do |rental_requests|
   rental_request = rental_requests.hashes[0]
-  %w[pick_up_date return_date].each do |field|
+  %w[pick_up_time return_time].each do |field|
     fill_in "rental_request_#{field}", with: rental_request[field] if rental_request.key? field
   end
   click_button "Submit Rental Request"

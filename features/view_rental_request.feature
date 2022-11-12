@@ -17,10 +17,10 @@ Feature: view rental request
             |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
             |Mr. Bunny             |the best bunny alive       |East Campus     |11.03|karma   |hour    |13.50  |
         And I have the following rental requests for "Dyson V11 Torque Drive"
-            |pick_up_date           |return_date            |
+            |pick_up_time           |return_time            |
             |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
         And "Frankie Valli" has the following rental requests for "Mr. Bunny"
-            |pick_up_date           |return_date            |
+            |pick_up_time           |return_time            |
             |2022-12-28 00:00:00 UTC|2023-01-29 00:00:00 UTC|
         
     Scenario: user sees their own rental requests

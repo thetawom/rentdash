@@ -10,11 +10,11 @@
   </li>
   <li>
     Pick-up Date:
-    <%= @rental_request.pick_up_date %>
+    <%= @rental_request.pick_up_time %>
   </li>
   <li>
     Return Date:
-    <%= @rental_request.return_date %>
+    <%= @rental_request.return_time %>
   </li>
   <li>
     Status:
@@ -25,7 +25,7 @@
 <% if @rental_request.status == "pending" %>
   <div class="row">
     <% if @is_my_request %>
-      <%= link_to "Edit", root_path, :class => "btn btn-primary" %>
+      <%= link_to "Edit", edit_rental_request_path(@rental_request), :class => "btn btn-primary" %>
       <%= button_to "Delete", rental_request_path(@rental_request.id), method: :delete, :class => "btn btn-danger"%>
     <% end %>
     <% if @is_my_listing %>

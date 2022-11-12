@@ -22,7 +22,7 @@ Feature: submit rental request
         When I follow "Rent this!"
         Then I should be on the new rental request page for "Dyson V11 Torque Drive"
         When I add a new rental request with information
-            |pick_up_date           |return_date            |
+            |pick_up_time           |return_time            |
             |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
         Then I should be on the listing page for "Dyson V11 Torque Drive"
         When I follow "My Requests"
@@ -33,7 +33,7 @@ Feature: submit rental request
     Scenario: user adds a rental request without filling in all required fields
         Given I am on the new rental request page for "Dyson V11 Torque Drive"
         When I add a new rental request with information
-            |pick_up_date           |
+            |pick_up_time           |
             |2022-10-28 00:00:00 UTC|
         Then I should still be on the new rental request page for "Dyson V11 Torque Drive"
     

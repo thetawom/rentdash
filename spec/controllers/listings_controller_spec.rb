@@ -1,4 +1,4 @@
-require 'rails_helper'
+require "rails_helper"
 
 RSpec.describe ListingsController, type: :controller do
 
@@ -29,17 +29,17 @@ RSpec.describe ListingsController, type: :controller do
       end
 
       it "assigns @listings to filter by the correct item category" do
-        get :index, session: {user_id: user.id}, params: {home: 1, category: {'books' => 1}}
+        get :index, session: {user_id: user.id}, params: {home: 1, category: {"books" => 1}}
         expect(assigns(:listings)).to eq [listing, listing5]
       end
 
       it "assigns @listings to filter by the correct payment type" do
-        get :index, session: {user_id: user.id}, params: {home: 1, payment: {'cash' => 1}}
+        get :index, session: {user_id: user.id}, params: {home: 1, payment: {"cash" => 1}}
         expect(assigns(:listings)).to eq [listing2, listing4, listing5]
       end
 
       it "assigns @listings to filter by the correct rental time unit" do
-        get :index, session: {user_id: user.id}, params: {home: 1, time: {'hour' => 1}}
+        get :index, session: {user_id: user.id}, params: {home: 1, time: {"hour" => 1}}
         expect(assigns(:listings)).to eq [listing3]
       end
 
@@ -50,12 +50,12 @@ RSpec.describe ListingsController, type: :controller do
 
       it "assigns @listings by non-descending price order" do
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort Price Low to High"}
-        expect(assigns(:listings)).to eq [listing3, listing2, listing4, listing5, listing].reverse()
+        expect(assigns(:listings)).to eq [listing3, listing2, listing4, listing5, listing].reverse
       end
 
       it "assigns @listings by newest" do
         get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort by Newest"}
-        expect(assigns(:listings)).to eq [listing5, listing4, listing3, listing2, listing].reverse()
+        expect(assigns(:listings)).to eq [listing5, listing4, listing3, listing2, listing].reverse
       end
 
       it "assigns @listings by oldest" do
@@ -192,7 +192,7 @@ RSpec.describe ListingsController, type: :controller do
     describe "DELETE #destroy" do
       it "redirects to listings page" do
         delete :destroy, params: {id: listing.id}, session: {user_id: user.id}
-        expect(response).to redirect_to listings_path
+        expect(response).to redirect_to my_listings_path
       end
     end
   end
