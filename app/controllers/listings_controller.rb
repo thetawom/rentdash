@@ -44,7 +44,7 @@ class ListingsController < ApplicationController
     @fee_units_to_show = fee_units.nil? ? @all_fee_units : fee_units
     @fee_times_to_show = fee_times.nil? ? @all_fee_times : fee_times
 
-    @heading = search&.blank? ? "All Listings" : "Search results for \"#{search}\""
+    @heading = (search.nil? or search == "") ? "All Listings" : "Search results for \"#{search}\""
   end
 
   def show
