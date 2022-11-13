@@ -1,31 +1,35 @@
 <% if current_user %>
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="/listings">RentDash</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <%=link_to "All Listings", listings_path, class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= link_to "My Listings", my_listings_path, class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= link_to "My Rentals", rentals_path, class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= link_to "My Requests", my_requests_path, class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= link_to "Profile", user_path(current_user.id), class: "nav-link"%>
-      </li>
-      <li class="nav-item">
-        <%= button_to "Sign out", logout_path, method: :delete, style: "border:none; background-color:transparent", class: "nav-link"%>
-      </li>
-    </ul>
-  </div>
- </nav>
+  <nav class="navbar navbar-expand-md navbar-light bg-light">
+    <div class="container-fluid">
+      <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2 justify-content-end">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <%= link_to "My Listings", my_listings_path, class: "nav-link"%>
+          </li>
+          <li class="nav-item">
+            <%= link_to "My Rentals", rentals_path, class: "nav-link"%>
+          </li>
+          <li class="nav-item">
+            <%= link_to "My Requests", my_requests_path, class: "nav-link"%>
+          </li>
+        </ul>
+      </div>
+      <div class="mx-auto order-0">
+        <a class="navbar-brand mx-auto" href="/listings">RentDash</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".dual-collapse2">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      </div>
+      <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
+            <%= link_to "Profile", user_path(current_user.id), class: "nav-link"%>
+          </li>
+          <li class="nav-item">
+            <%= button_to "Sign out", logout_path, method: :delete, style: "border:none; background-color:transparent", class: "nav-link"%>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 <% end %>
