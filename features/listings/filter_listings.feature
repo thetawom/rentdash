@@ -28,6 +28,7 @@ Feature: display listings filtered by item categories, payment type, rental time
             |Seabunny              |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |technology   |
             |Seapenguin            |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |school       |
 
+    @javascript
     Scenario: restrict to item listings with "dollar" currency, "day" time units, "tools" and "technology" item categories
         Given I am on the listings page
         When I check the following fee units: dollars
@@ -36,6 +37,5 @@ Feature: display listings filtered by item categories, payment type, rental time
         And I uncheck the following fee times: hour, week
         And I check the following item categories: tools, technology
         And I uncheck the following item categories: school, cleaning, clothing, books
-        And I press "Refresh"
         Then I should see the following listings: Doraemon, Bat
         And I should not see the following listings: Dyson V11 Torque Drive, Bunny, Penguin, Cow, Capybara, Dog, Bull, Fish, Kitten, Pikachu, Goldfish, Bear, Bird, Seabear, Seabunny, Seapenguin

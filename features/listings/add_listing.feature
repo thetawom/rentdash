@@ -9,7 +9,7 @@ Feature: add listing
       |frankie@gmail.com |Frankie    |Valli     |password123 |
 
   Scenario: user successfully adds a new listing
-    Given I am on the listings page
+    Given I am on my listings page
     Then I should see "Add new listing"
     When I follow "Add new listing"
     Then I should be on the new listing page

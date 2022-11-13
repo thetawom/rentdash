@@ -18,10 +18,10 @@ gem "puma", "~> 5.0"
 # Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
 gem "importmap-rails"
 
-# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+# Hotwire"s SPA-like page accelerator [https://turbo.hotwired.dev]
 gem "turbo-rails"
 
-# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+# Hotwire"s modest JavaScript framework [https://stimulus.hotwired.dev]
 gem "stimulus-rails"
 
 # Build JSON APIs with ease [https://github.com/rails/jbuilder]
@@ -60,6 +60,8 @@ group :development, :test do
   gem "database_cleaner"
   gem "factory_bot_rails"
   gem "simplecov", require: false
+  gem "poltergeist"
+  gem "byebug", "~> 11.1"
 end
 
 group :development do
@@ -77,8 +79,5 @@ group :production do
   gem "pg"
 end
 
-
-gem "byebug", "~> 11.1", :groups => [:development, :test]
-
-gem 'bootstrap', '~> 4.4.1'
-gem 'jquery-rails'
+gem "bootstrap", "~> 4.4.1"
+gem "jquery-rails"

@@ -89,6 +89,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    cliver (0.3.2)
     concurrent-ruby (1.1.10)
     crass (1.0.6)
     cucumber (8.0.0)
@@ -190,6 +191,10 @@ GEM
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     pg (1.4.4)
+    poltergeist (1.18.1)
+      capybara (>= 2.1, < 4)
+      cliver (~> 0.3.1)
+      websocket-driver (>= 0.2.0)
     popper_js (1.16.1)
     public_suffix (5.0.0)
     puma (5.6.5)
@@ -323,6 +328,7 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   pg
+  poltergeist
   puma (~> 5.0)
   rails (~> 7.0.4)
   rails-controller-testing

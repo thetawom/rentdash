@@ -33,6 +33,10 @@ When /^I go to the listings page$/ do
   visit listings_path
 end
 
+When /^I click on the listing for "([^"]*)"$/ do |listing_name|
+  find(".card-title", text: listing_name).find("~a", text: "Details").click
+end
+
 When /^I go to my listings page$/ do
   visit my_listings_path
 end
