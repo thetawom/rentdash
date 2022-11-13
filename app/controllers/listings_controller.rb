@@ -1,3 +1,4 @@
+require 'date'
 class ListingsController < ApplicationController
 
   def index
@@ -45,6 +46,7 @@ class ListingsController < ApplicationController
     @fee_times_to_show = fee_times.nil? ? @all_fee_times : fee_times
 
     @heading = (search.nil? or search == "") ? "All Listings" : "Search results for \"#{search}\""
+
   end
 
   def show
@@ -100,7 +102,16 @@ class ListingsController < ApplicationController
   end
 
   def mine
+    current_time = DateTime.now
     @listings = Listing.where(owner: current_user)
+    @requests = RentalRequest.where(listing_id: @listings.pluck(:id))
+    @rentals = Rental.where(listing_id: @listings.pluck(:id))
+    @rentals.each do |rental|
+      if current_time >= rental.request.pick_up_time and current_time <= rental.request.return_time
+        rental.status = "ongoing"
+        rental.save
+      end
+    end
   end
 
   private
