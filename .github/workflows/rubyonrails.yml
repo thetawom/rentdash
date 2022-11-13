@@ -39,12 +39,13 @@ jobs:
       # Add or replace test runners here
       - name: Run RSpec tests
         run: bundle exec rspec spec
-      - name: Run Cucumber tests
-        run: bundle exec cucumber
       - name: Upload coverage report
         uses: codecov/codecov-action@v3
         with:
           file: ./coverage/.resultset.json
+      - name: Run Cucumber tests
+        run: bundle exec cucumber
+
 
 #   lint:
 #     runs-on: ubuntu-latest
