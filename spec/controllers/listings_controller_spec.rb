@@ -6,12 +6,13 @@ RSpec.describe ListingsController, type: :controller do
 
     let(:user) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: user) }
-    let(:listing2) { FactoryBot.create(:listing, name:"Item 2", fee: 110.00, fee_unit: "dollars", item_category: "school", owner:user)}
-    let(:listing3) { FactoryBot.create(:listing, name:"Item 3", fee: 115.00, fee_time: "hour", item_category: "technology", owner:user)}
-    let(:listing4) { FactoryBot.create(:listing, name:"Item 4", fee: 15.00, fee_unit: "dollars", item_category: "tools", owner:user)}
-    let(:listing5) { FactoryBot.create(:listing, name:"Item 5", fee: 13.00, fee_unit: "dollars", owner:user)}
 
     describe "GET #index" do
+      let(:listing2) { FactoryBot.create(:listing, name:"Item 2", fee: 110.00, fee_unit: "dollars", item_category: "school", owner:user)}
+      let(:listing3) { FactoryBot.create(:listing, name:"Item 3", fee: 115.00, fee_time: "hour", item_category: "technology", owner:user)}
+      let(:listing4) { FactoryBot.create(:listing, name:"Item 4", fee: 15.00, fee_unit: "dollars", item_category: "tools", owner:user)}
+      let(:listing5) { FactoryBot.create(:listing, name:"Item 5", fee: 13.00, fee_unit: "dollars", owner:user)}
+
       it "renders the index template" do
         get :index, session: {user_id: user.id}, params: {home: 1}
         expect(response).to render_template "index"
@@ -116,7 +117,7 @@ RSpec.describe ListingsController, type: :controller do
         expect(Listing).to receive(:new).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         post :create, session: {user_id: user.id}
-        expect(flash[:warning]).to_not be_nil
+        expect(flash[:error]).to_not be_nil
         expect(response).to redirect_to new_listing_path
       end
     end
@@ -148,7 +149,7 @@ RSpec.describe ListingsController, type: :controller do
         expect(Listing).to receive(:find_by).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         post :update, params: {id: listing.id}, session: {user_id: user.id}
-        expect(flash[:warning]).to_not be_nil
+        expect(flash[:error]).to_not be_nil
         expect(response).to redirect_to new_listing_path
       end
     end

@@ -29,32 +29,35 @@ class RentalRequestsController < ApplicationController
     if @rental_request.valid?
       redirect_to rental_request_path @rental_request.id
     else
-      flash[:warning] = @rental_request.errors
+      flash[:error] = @rental_request.errors
       redirect_to new_listing_rental_request_path params[:listing_id]
     end
   end
 
   def edit
     @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
-    redirect_to my_requests_path if @rental_request.nil?
-    if @rental_request.status != "pending"
-      flash[:notice] = "You can no longer make any changes."
+    if @rental_request.nil?
       redirect_to my_requests_path
+    elsif @rental_request.status != "pending"
+      flash[:error] = "You can no longer make any changes."
+      redirect_to rental_request_path(@rental_request.id)
     end
   end
 
   def update
     @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
-    if @rental_request.nil? or @rental_request.status != "pending"
+    if @rental_request.nil?
       redirect_to my_requests_path
+    elsif @rental_request.status != "pending"
+      redirect_to rental_request_path @rental_request.id
     else
       @rental_request.update(rental_request_params)
       if @rental_request.valid?
-        flash[:notice] = "Request for #{@rental_request.listing.name} was updated!"
-        redirect_to my_requests_path @rental_request.id
+        flash[:success] = "Request for #{@rental_request.listing.name} was updated!"
+        redirect_to rental_request_path @rental_request.id
       else
-        flash[:errors] = @rental_request.errors
-        redirect_to rental_request_path
+        flash[:error] = @rental_request.errors
+        redirect_to new_listing_rental_request_path @rental_request.listing.id
       end
     end
   end

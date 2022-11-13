@@ -14,7 +14,7 @@ class UsersController < ApplicationController
       session[:user_id] = @user.id
       redirect_to user_path @user.id
     else
-      flash[:warning] = @user.errors
+      flash[:error] = @user.errors
       redirect_to new_user_path
     end
   end
