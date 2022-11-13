@@ -9,16 +9,15 @@ Feature: search through all listings by listing name
             |frankie@gmail.com |Frankie    |Valli     |password123 |
         And I have the following listings
             |name        |description      |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
-            |Bunny       |a stuffed animal |EC              |5.00|karma   |hour    |13.00  |school       |
-            |Penguin     |a stuffed animal |EC              |5.00|karma   |hour    |1.00   |technology   |
-            |Cow         |a stuffed animal |EC              |5.00|dollars |hour    |3.00   |tools        |
+            |Anteater    |a stuffed animal |EC              |5.00|karma   |hour    |13.00  |school       |
+            |Aardvark    |a stuffed animal |EC              |5.00|karma   |hour    |1.00   |technology   |
+            |Ant         |a stuffed animal |EC              |5.00|dollars |hour    |3.00   |tools        |
     
-    Scenario: Search for listings that contain the substring bunny
+    Scenario: Search for listings that contain the substring ant
         Given I am on the listings page
-        Then I should see the following listings: Bunny
-        When I fill in "search" with "bunny"
-        And I press "Search"
-        Then I should see the following listings: Bunny
-        And I should not see the following listings: Penguin, Cow
+        Then I should see the following listings: Anteater, Aardvark, Ant
+        When I search the term "ant"
+        Then I should see the following listings: Anteater, Ant
+        And I should not see the following listings: Aardvark
 
         

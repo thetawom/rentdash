@@ -92,6 +92,11 @@ When /I (un)?check the following item categories: (.*)/ do |uncheck, filter_list
   end
 end
 
+When /I search the term "([^"]*)"/ do |search_term|
+  fill_in "search", with: search_term
+  click_button "Search"
+end
+
 Then /^I should (?:|still )be on the listings page$/ do
   expect(URI.parse(current_url).path).to eq listings_path
 end
