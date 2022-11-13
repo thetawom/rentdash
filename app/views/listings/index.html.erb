@@ -1,11 +1,21 @@
 <div class="container-fluid">
-  <h2>All Listings</h2>
+  <div class="row">
+    <h2 class="col-3 mb-0">All Listings</h2>
+    <div class="col-9 mt-2">
+      <div class="float-right">
+      <%= form_tag listings_path, method: :get do %>
+        <%= text_field_tag :search, @filtered_params[:search] %>
+        <%= hidden_field_tag :home, "1" %>
+        <%= submit_tag "Search" %>
+      <% end %>
+      </div>
+    </div>
+  </div>
   <hr>
   <div class="row">
     <div class="col-2">
       <h4>Filter By</h4>
       <%= form_tag listings_path, method: :get, id: "item_filtering_form" do %>
-        <%#= submit_tag "Refresh", id: "filters_submit", class: "btn btn-primary" %>
         <h6 class="mt-3 mb-1">Category:</h6>
         <% @all_categories.each do |category| %>
           <div class="form-check ml-2">
@@ -31,37 +41,26 @@
       <% end %>
     </div>
     <div class="col-10">
-      <div class="row">
-        <div class="col-7">
-          <%=link_to "Sort Price High to Low", listings_path(sort: "Sort Price High to Low", categories: @filtered_params[:categories], fee_units: @filtered_params[:fee_units], fee_times: @filtered_params[:fee_times], home: "1"), class: "btn btn-primary", style: "margin: 5px"%>
-          <%=link_to "Sort Price Low to High", listings_path(sort: "Sort Price Low to High", categories: @filtered_params[:categories], fee_units: @filtered_params[:fee_units], fee_times: @filtered_params[:fee_times], home: "1"), class: "btn btn-primary", style: "margin: 5px"%>
-          <%=link_to "Sort by Newest", listings_path(sort: "Sort by Newest", categories: @filtered_params[:categories], fee_units: @filtered_params[:fee_units], fee_times: @filtered_params[:fee_times], home: "1"), class: "btn btn-primary", style: "margin: 5px"%>
-          <%=link_to "Sort by Oldest", listings_path(sort: "Sort by Oldest", categories: @filtered_params[:categories], fee_units: @filtered_params[:fee_units], fee_times: @filtered_params[:fee_times], home: "1"), class: "btn btn-primary", style: "margin: 5px"%>
-        </div>
-        <div class="col-5">
-          <%= form_tag listings_path, method: :get do %>
-            <%= text_field_tag :search, @filtered_params[:search] %>
-            <%= hidden_field_tag :home, "1" %>
-            <%= submit_tag "Search" %>
-          <% end %>
-        </div>
+      <div class="float-right">
+        <%= form_tag listings_path(categories: @filtered_params[:categories], fee_units: @filtered_params[:fee_units], fee_times: @filtered_params[:fee_times], home: "1"), method: :get, local: true do %>
+          <%= select_tag :sort, options_for_select(["Sort Price High to Low", "Sort Price Low to High", "Sort by Newest", "Sort by Oldest"], @filtered_params[:sort]), onchange: "this.form.submit()" %>
+        <% end %>
       </div>
-      <div class="row">
-          <% @listings.each do |listing| %>
-            <div class="col-4">
-              <div class="card">
-                <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
-                <div class="card-body">
-                  <h5 class="card-title"><%= listing.name %></h5>
-                  <p class="card-text">
-                    Fee: <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
-                    Item Category: <%= listing.item_category %> <br>
-                  </p>
-                  <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
-              </div>
+      <div class="row mt-5">
+        <% @listings.each do |listing| %>
+          <div class="col-4">
+          <div class="card">
+            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+            <div class="card-body">
+              <h5 class="card-title"><%= listing.name %></h5>
+              <p class="card-text">
+                <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
+              </p>
+              <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
             </div>
-          <%end%>
-        </div>
+          </div>
+          </div>
+        <%end%>
       </div>
     </div>
   </div>

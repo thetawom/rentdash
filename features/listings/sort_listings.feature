@@ -28,23 +28,26 @@ Feature: display listings filtered by item categories, payment type, rental time
             |Seabunny              |a stuffed animal           |EC              |5.00|dollars |week    |123.00 |technology   |
             |Seapenguin            |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |school       |
 
-    
+    @javascript
     Scenario: Sort listings in non-descending price order
         Given I am on the listings page
-        When I follow "Sort Price High to Low"
+        When I sort the listings by "Sort Price High to Low"
         Then I should see "Bird" before "Kitten"
 
+    @javascript
     Scenario: Sort listings in descending price order
         Given I am on the listings page
-        When I follow "Sort Price Low to High"
+        When I sort the listings by "Sort Price Low to High"
         Then I should see "Kitten" before "Bird"
 
+    @javascript
     Scenario: Sort listings from newest to oldest
         Given I am on the listings page
-        When I follow "Sort by Newest"
+        When I sort the listings by "Sort by Newest"
         Then I should see "Dyson V11 Torque Drive" before "Bat"
 
+    @javascript
     Scenario: Sort listings from oldest to newest
         Given I am on the listings page
-        When I follow "Sort by Oldest"
+        When I sort the listings by "Sort by Oldest"
         Then I should see "Bunny" before "Dyson V11 Torque Drive"

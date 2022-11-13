@@ -96,6 +96,10 @@ When /I (un)?check the following item categories: (.*)/ do |uncheck, filter_list
   end
 end
 
+When /I sort the listings by "([^"]*)"/ do |sort|
+  select sort, from: "sort"
+end
+
 When /I search the term "([^"]*)"/ do |search_term|
   fill_in "search", with: search_term
   click_button "Search"
