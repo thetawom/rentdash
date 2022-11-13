@@ -1,7 +1,7 @@
 <div class="container-fluid">
   <div class="row">
-    <h2 class="col-3 mb-0">All Listings</h2>
-    <div class="col-9 mt-2">
+    <h2 class="col-6 mb-0"><%= @heading %></h2>
+    <div class="col-6 mt-2">
       <div class="float-right">
       <%= form_tag listings_path, method: :get do %>
         <%= text_field_tag :search, @filtered_params[:search] %>
