@@ -1,13 +1,14 @@
 <div class="container-fluid">
   <div class="row">
-    <h2 class="col-6 mb-0"><%= @heading %></h2>
-    <div class="col-6 mt-2">
+    <h2 class="col-5 mb-0"><%= @heading %></h2>
+    <div class="col-7 mt-2">
       <div class="float-right">
-      <%= form_tag listings_path, method: :get do %>
-        <%= text_field_tag :search, @filtered_params[:search] %>
-        <%= hidden_field_tag :home, "1" %>
-        <%= submit_tag "Search" %>
-      <% end %>
+        <%= form_tag listings_path, method: :get do %>
+          <%= link_to "Add Listing", new_listing_path, class: "btn btn-outline-primary btn-sm mb-1 mr-1" %>
+          <%= text_field_tag :search, @filtered_params[:search]%>
+          <%= hidden_field_tag :home, "1" %>
+          <%= submit_tag "Search"%>
+        <% end %>
       </div>
     </div>
   </div>
@@ -49,16 +50,16 @@
       <div class="row mt-5">
         <% @listings.each do |listing| %>
           <div class="col-4">
-          <div class="card">
-            <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
-            <div class="card-body">
-              <h5 class="card-title"><%= listing.name %></h5>
-              <p class="card-text">
-                <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
-              </p>
-              <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
+            <div class="card mb-4">
+              <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+              <div class="card-body">
+                <h5 class="card-title"><%= listing.name %></h5>
+                <p class="card-text">
+                  <%= listing.fee %> <%= listing.fee_unit %> per <%= listing.fee_time %> <br>
+                </p>
+                <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary" %>
+              </div>
             </div>
-          </div>
           </div>
         <%end%>
       </div>
