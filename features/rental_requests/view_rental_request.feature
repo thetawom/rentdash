@@ -33,9 +33,9 @@ Feature: view rental request
     
     Scenario: user sees rental requests for their listing
         Given I am on the listing page for "Mr. Bunny"
-        When I follow "View requests for this item"
-        Then I should see "2022-12-28 00:00:00 UTC"
-        And I should see "2023-01-29 00:00:00 UTC"
+        When I follow "Manage Requests"
+        Then I should see "Wed 12/28/22 12:00 AM"
+        And I should see "Sun 01/29/23 12:00 AM"
         And I should see "Mr. Bunny"
 
         

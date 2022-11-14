@@ -34,7 +34,7 @@ When /^I go to the listings page$/ do
 end
 
 When /^I click on the listing for "([^"]*)"$/ do |listing_name|
-  find(".card-title", text: listing_name).find("~a", text: "Details").click
+  find(".card-title", text: listing_name).first(:xpath, ".//..").find("a", text: "Details").click
 end
 
 When /^I go to my listings page$/ do
@@ -161,7 +161,7 @@ end
 Then /^the pick-up location of "(.*)" should be "(.*)"$/ do |listing_name, location|
   listing = Listing.find_by name: listing_name
   visit listing_path listing.id
-  expect(page.body).to match /Pick-up Location:(\s*)#{location}/
+  expect(page.body).to have_text /Pick-up Spot:(\s*)#{location}/
 end
 
 def create_listings_with_owner(owner, listing_hashes)

@@ -19,9 +19,9 @@ Feature: delete rental request
 
   Scenario: delete the rental request
     Given I am on the listings page
-    When I follow "My Requests"
-    Then I should be on my rental requests page
+    When I follow "My Rentals"
+    Then I should be on my rentals page
     And I should see "Dyson V11 Torque Drive"
     And I follow "Details"
     And I press "Delete"
-    Then I should be on my rental requests page
+    Then I should be on the rental request page for "Dyson V11 Torque Drive"

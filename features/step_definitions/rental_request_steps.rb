@@ -27,8 +27,17 @@ When /^I add a new rental request with information$/ do |rental_requests|
   click_button "Submit Rental Request"
 end
 
+Then /^I should (?:|still )be on my rentals page$/ do
+  expect(URI.parse(current_url).path).to eq rentals_path
+end
+
 Then /^I should (?:|still )be on my rental requests page$/ do
   expect(URI.parse(current_url).path).to eq my_requests_path
+end
+
+Then /^I should (?:|still )be on the rental request page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  expect(URI.parse(current_url).path).to eq listing_rental_requests_path listing.id
 end
 
 Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do |listing_name|
@@ -52,7 +61,11 @@ Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([
 end
 
 Then /^I should see the status of this request as "([^"]*)"$/ do |status|
-  expect(page.body).to have_content status
+  if status == "approved"
+    page.should have_css("i.text-success")
+  else
+    page.should have_css("i.text-danger")
+  end
 end
 
 def create_rental_requests_with_owner(owner, request_hashes, listing)
