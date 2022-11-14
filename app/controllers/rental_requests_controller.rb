@@ -67,12 +67,14 @@ class RentalRequestsController < ApplicationController
 
   def destroy
     @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
-    @listing = @rental_request.listing
-    unless @rental_request.nil?
+    if @rental_request.nil?
+      redirect_to my_requests_path
+    else
+      listing = @rental_request.listing
       @rental_request.destroy
       flash[:notice] = "Request for #{@rental_request.listing.name} was deleted."
+      redirect_to listing_rental_requests_path listing.id
     end
-    redirect_to listing_rental_requests_path @listing.id
   end
 
   def mine
@@ -83,16 +85,20 @@ class RentalRequestsController < ApplicationController
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.listing.owner == current_user
       @rental_request.approve
+      redirect_to listing_rental_requests_path @rental_request.listing.id
+    else
+      redirect_to my_requests_path
     end
-    redirect_to listing_rental_requests_path @rental_request.listing.id
   end
 
   def decline
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.listing.owner == current_user
       @rental_request.decline
+      redirect_to listing_rental_requests_path @rental_request.listing.id
+    else
+      redirect_to my_requests_path
     end
-    redirect_to listing_rental_requests_path @rental_request.listing.id
   end
 
   private

@@ -10,15 +10,27 @@ RSpec.describe RentalRequestsController, type: :controller do
     let(:request) { FactoryBot.create(:rental_request, listing: listing, requester: requester)}
 
     describe "GET #index" do
+      let(:other_request) { FactoryBot.create(:rental_request, listing: listing) }
+      let(:irrelevant_request) { FactoryBot.create(:rental_request) }
+
       it "renders the index template" do
         get :index, params: {listing_id: listing.id}, session: {user_id: owner.id}
         expect(response).to render_template "index"
       end
 
-      it "assigns @rental_requests" do
+      it "assigns @rental_requests when user is the listing owner" do
         get :index, params: {listing_id: listing.id}, session: {user_id: owner.id}
         expect(assigns(:listing)).to eq listing
-        expect(assigns(:rental_requests)).to eq [request]
+        expect(assigns(:rental_requests)).to include request
+        expect(assigns(:rental_requests)).to include other_request
+        expect(assigns(:rental_requests)).to_not include irrelevant_request
+      end
+
+      it "assigns @rental_requests when user is the requester" do
+        get :index, params: {listing_id: listing.id}, session: {user_id: requester.id}
+        expect(assigns(:rental_requests)).to include request
+        expect(assigns(:rental_requests)).to_not include other_request
+        expect(assigns(:rental_requests)).to_not include irrelevant_request
       end
     end
 
@@ -42,6 +54,7 @@ RSpec.describe RentalRequestsController, type: :controller do
       it "redirects to my requests page if user is neither owner nor requester" do
         other_user = FactoryBot.create(:user)
         get :show, params: {id: request.id}, session: {user_id: other_user.id}
+        expect(response).to redirect_to my_requests_path
       end
     end
 
@@ -62,7 +75,7 @@ RSpec.describe RentalRequestsController, type: :controller do
 
     describe "POST #create" do
       it "creates new rental request if params are valid" do
-        rental_request = instance_double("RentalRequest", id: "1")
+        rental_request = instance_double("RentalRequest", id: "1", listing: listing)
         allow(rental_request).to receive(:valid?).and_return(true)
         allow(rental_request).to receive(:listing_id=)
         allow(rental_request).to receive(:requester=)
@@ -70,7 +83,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(RentalRequest).to receive(:new).and_return(rental_request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
         post :create, params: {listing_id: listing.id}, session: {user_id: owner.id}
-        expect(response).to redirect_to rental_request_path rental_request.id
+        expect(response).to redirect_to listing_rental_requests_path listing.id
       end
 
       it "redirects to new rental request page if params are invalid" do
@@ -102,11 +115,11 @@ RSpec.describe RentalRequestsController, type: :controller do
         get :edit, params: {id: request.id}, session: {user_id: owner.id}
         expect(response).to redirect_to my_requests_path
       end
-      it "redirects to request page if request is no longer pending" do
+      it "redirects to listing requests page if request is no longer pending" do
         request.approve
         get :edit, params: {id: request.id}, session: {user_id: requester.id}
         expect(flash[:error]).to_not be_nil
-        expect(response).to redirect_to rental_request_path(request.id)
+        expect(response).to redirect_to listing_rental_requests_path listing.id
       end
     end
 
@@ -117,7 +130,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(RentalRequest).to receive(:find_by).and_return(request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
         post :update, params: {id: request.id}, session: {user_id: requester.id}
-        expect(response).to redirect_to rental_request_path request.id
+        expect(response).to redirect_to listing_rental_requests_path listing.id
       end
       it "redirects to new listing page if params are invalid" do
         errors = instance_double("ActiveModel::Errors")
@@ -133,10 +146,10 @@ RSpec.describe RentalRequestsController, type: :controller do
         post :update, params: {id: request.id}, session: {user_id: owner.id}
         expect(response).to redirect_to my_requests_path
       end
-      it "redirects to request page if request is no longer pending" do
+      it "redirects to listing requests page if request is no longer pending" do
         request.approve
         post :update, params: {id: request.id}, session: {user_id: requester.id}
-        expect(response).to redirect_to rental_request_path(request.id)
+        expect(response).to redirect_to listing_rental_requests_path listing.id
       end
     end
 
@@ -148,9 +161,9 @@ RSpec.describe RentalRequestsController, type: :controller do
         delete :destroy, params: {id: request.id}, session: {user_id: requester.id}
       end
 
-      it "redirects to my requests page" do
+      it "redirects to listing requests page" do
         delete :destroy, params: {id: request.id}, session: {user_id: requester.id}
-        expect(response).to redirect_to my_requests_path
+        expect(response).to redirect_to listing_rental_requests_path listing.id
       end
 
       it "does not delete request if user is not the requester" do
@@ -186,9 +199,9 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to redirect_to listing_rental_requests_path(listing.id)
       end
 
-      it "redirects to request page if user is not the owner" do
+      it "redirects to my requests page if user is not the owner" do
         post :approve, params: {id: request.id}, session: {user_id: requester.id}
-        expect(response).to redirect_to rental_request_path(request.id)
+        expect(response).to redirect_to my_requests_path
       end
     end
 
@@ -202,12 +215,12 @@ RSpec.describe RentalRequestsController, type: :controller do
 
       it "redirects to request page if user is the owner" do
         post :decline, params: {id: request.id}, session: {user_id: owner.id}
-        expect(response).to redirect_to listing_rental_requests_path(listing.id)
+        expect(response).to redirect_to listing_rental_requests_path listing.id
       end
 
-      it "redirects to request page if user is not the owner" do
+      it "redirects to my requests page if user is not the owner" do
         post :decline, params: {id: request.id}, session: {user_id: requester.id}
-        expect(response).to redirect_to rental_request_path(request.id)
+        expect(response).to redirect_to my_requests_path
       end
     end
 
