@@ -1,6 +1,4 @@
-
-
-<h2><em><%= @rental.name %></em></h2>
+<h2><%= @rental.listing.name %></h2>
 
 <ul id="details">
   <li>
@@ -9,14 +7,10 @@
   </li>
   <li>
     Pick-up Location:
-    <%= @rental.request.pick_up_location %>
+    <%= @rental.listing.pick_up_location %>
   </li>
   <li>
     Payment Method:
-    <%= @rental.request.payment_method %>
+    <%= @rental.payment_method %>
   </li>
 </ul>
-
-<div class="row">
-  <%= link_to 'See Item Listing', listing_path() %>
-</div>

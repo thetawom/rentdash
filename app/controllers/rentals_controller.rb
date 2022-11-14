@@ -13,4 +13,8 @@ class RentalsController < ApplicationController
     end
   end
 
+  def show
+    @rental = Rental.find_by(id: params[:id])
+  end
+
 end
