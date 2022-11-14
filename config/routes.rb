@@ -12,7 +12,9 @@ Rails.application.routes.draw do
       post "decline", on: :member
     end
   end
-  resources :rentals, only: [:show, :index, :edit, :update]
+  resources :rentals, only: [:show, :index, :edit, :update] do
+    post "cancel", on: :member
+  end
 
   get "login", to: "sessions#new", as: :login
   post "login", to: "sessions#create"

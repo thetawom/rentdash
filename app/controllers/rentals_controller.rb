@@ -39,6 +39,15 @@ class RentalsController < ApplicationController
     end
   end
 
+  def cancel
+    @rental = Rental.find_by id: params[:id]
+    unless @rental.nil? or @rental.listing.owner != current_user
+      @rental.update status: "cancelled"
+      flash[:notice] = "Rental for #{@rental.listing.name} was cancelled."
+    end
+    redirect_to rental_path @rental.id
+  end
+
   private
 
   def rental_params

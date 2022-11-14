@@ -17,5 +17,6 @@
     Status:
     <%= @rental.status %>
   </li>
-  <%= link_to "Edit", edit_rental_path(@rental) %>
+  <%= link_to "Edit", edit_rental_path(@rental), class: "btn btn-primary" %>
+  <%= button_to "Cancel", cancel_rental_path(@rental), method: :post, class: "btn btn-danger" %>
 </ul>
