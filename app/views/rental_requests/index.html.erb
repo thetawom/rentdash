@@ -1,26 +1,43 @@
+<div class="container mt-5">
+  <%= render partial: "listings/listing_main", locals: {show_details_btn: true} %>
+  <hr>
+  <table class="table table-responsive-sm col-md-12 text-center">
+    <thead>
+      <tr>
+        <th></th>
+        <th>Requester</th>
+        <th>Pick-up Time</th>
+        <th>Return Time</th>
 
-
-<h2>Rental Requests for <em><%= @listing.name %></em></h2>
-
-<table class="table table-striped col-md-12">
-  <thead>
-    <tr>
-      <th>Requester</th>
-      <th>Pick-up Time</th>
-      <th>Return Time</th>
-      <th>Status</th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-  <% @rental_requests.each do |request| %>
-    <tr>
-      <td><%= request.requester.full_name %></td>
-      <td><%= request.pick_up_time %></td>
-      <td><%= request.return_time %></td>
-      <td><%= request.status %></td>
-      <td><%= link_to "Details", rental_request_path(id: request.id) %></td>
-    </tr>
-  <% end %>
-  </tbody>
-</table>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+    <% @rental_requests.each do |request| %>
+      <tr>
+        <td>
+          <% case request.status %>
+          <% when "approved" %>
+            <i class="fa-sharp fa-solid fa-circle-check text-success"></i>
+          <% when "pending" %>
+            <i class="fa-sharp fa-solid fa-circle-question text-warning"></i>
+          <% when "declined" %>
+            <i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i>
+          <% end %>
+        </td>
+        <td><%= request.requester.full_name %></td>
+        <td><%= request.pick_up_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
+        <td><%= request.return_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
+        <td>
+          <% if request.status == "pending" %>
+            <div class="d-flex justify-content-center">
+              <%= button_to "Approve", approve_rental_request_path(request.id), method: :post, class: "btn btn-success btn-sm mx-1" %>
+              <%= button_to "Decline", decline_rental_request_path(request.id), method: :post, class: "btn btn-danger btn-sm mx-1" %>
+            </div>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+    </tbody>
+  </table>
+</div>

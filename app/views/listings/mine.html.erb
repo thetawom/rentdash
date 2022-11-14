@@ -1,25 +1,29 @@
 
 
-<h2>Ongoing/Scheduled Rentals</h2>
+<h2>Approved Requests</h2>
 <div class="row row-cols-3 g-3">
-  <% @rentals.where(status: %w[upcoming ongoing]).each do |rental| %>
-    <div class = "col">
-      <div class="card">
-        <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
-        <div class="card-body">
-          <h5 class="card-title"><%= rental.listing.name %></h5> <br>
-          <p class="card-text">
-            <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
-          </p>
-          <%= link_to "View rental", rental_request_path(rental.request.id), class:"btn btn-secondary" %>
+  <% if @rentals.where(status: %w[upcoming ongoing]).size == 0 %>
+    You have no approved requests!
+  <% else %>
+    <% @rentals.where(status: %w[upcoming ongoing]).each do |rental| %>
+      <div class = "col">
+        <div class="card">
+          <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+          <div class="card-body">
+            <h5 class="card-title"><%= rental.listing.name %></h5> <br>
+            <p class="card-text">
+              <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
+            </p>
+            <%= link_to "View rental", rental_request_path(rental.request.id), class:"btn btn-secondary" %>
 
+          </div>
         </div>
+        <br>
       </div>
-      <br>
-    </div>
-  <%end%>
+    <%end%>
+  <% end %>
 </div>
-<h2>New Rental Requests</h2>
+<h2>Pending Requests</h2>
 <div class="row row-cols-3 g-3">
   <% @requests.where(status: "pending").each do |request| %>
     <div class = "col">
