@@ -143,6 +143,8 @@ GEM
       factory_bot (~> 6.2.0)
       railties (>= 5.0.0)
     ffi (1.15.5)
+    font-awesome-sass (6.2.0)
+      sassc (~> 2.0)
     globalid (1.0.0)
       activesupport (>= 5.0)
     i18n (1.12.0)
@@ -324,6 +326,7 @@ DEPENDENCIES
   database_cleaner
   debug
   factory_bot_rails
+  font-awesome-sass
   importmap-rails
   jbuilder
   jquery-rails
