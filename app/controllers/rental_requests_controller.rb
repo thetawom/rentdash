@@ -1,8 +1,11 @@
 class RentalRequestsController < ApplicationController
   def index
     @listing = Listing.find_by(id: params[:listing_id])
-    redirect_to listing_path @listing.id if @listing.owner != current_user
-    @rental_requests = RentalRequest.where(listing_id: params[:listing_id])
+    if @listing.owner == current_user
+      @rental_requests = RentalRequest.where(listing_id: params[:listing_id])
+    else
+      @rental_requests = RentalRequest.where(listing_id: params[:listing_id], requester: current_user)
+    end
   end
 
   def show
@@ -27,7 +30,7 @@ class RentalRequestsController < ApplicationController
     @rental_request.save
     
     if @rental_request.valid?
-      redirect_to rental_request_path @rental_request.id
+      redirect_to listing_rental_requests_path @rental_request.listing.id
     else
       flash[:error] = @rental_request.errors
       redirect_to new_listing_rental_request_path params[:listing_id]
@@ -40,7 +43,7 @@ class RentalRequestsController < ApplicationController
       redirect_to my_requests_path
     elsif @rental_request.status != "pending"
       flash[:error] = "You can no longer make any changes."
-      redirect_to rental_request_path(@rental_request.id)
+      redirect_to listing_rental_requests_path @rental_request.listing.id
     end
   end
 
@@ -49,12 +52,12 @@ class RentalRequestsController < ApplicationController
     if @rental_request.nil?
       redirect_to my_requests_path
     elsif @rental_request.status != "pending"
-      redirect_to rental_request_path @rental_request.id
+      redirect_to listing_rental_requests_path @rental_request.listing.id
     else
       @rental_request.update(rental_request_params)
       if @rental_request.valid?
         flash[:success] = "Request for #{@rental_request.listing.name} was updated!"
-        redirect_to rental_request_path @rental_request.id
+        redirect_to listing_rental_requests_path @rental_request.listing.id
       else
         flash[:error] = @rental_request.errors
         redirect_to new_listing_rental_request_path @rental_request.listing.id
@@ -64,11 +67,12 @@ class RentalRequestsController < ApplicationController
 
   def destroy
     @rental_request = RentalRequest.find_by id: params[:id], requester: current_user
+    @listing = @rental_request.listing
     unless @rental_request.nil?
       @rental_request.destroy
       flash[:notice] = "Request for #{@rental_request.listing.name} was deleted."
     end
-    redirect_to my_requests_path
+    redirect_to listing_rental_requests_path @listing.id
   end
 
   def mine
@@ -79,20 +83,16 @@ class RentalRequestsController < ApplicationController
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.listing.owner == current_user
       @rental_request.approve
-      redirect_to listing_rental_requests_path(@rental_request.listing_id)
-    else
-      redirect_to rental_request_path(@rental_request.id)
     end
+    redirect_to listing_rental_requests_path @rental_request.listing.id
   end
 
   def decline
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.listing.owner == current_user
       @rental_request.decline
-      redirect_to listing_rental_requests_path(@rental_request.listing_id)
-    else
-      redirect_to rental_request_path(@rental_request.id)
     end
+    redirect_to listing_rental_requests_path @rental_request.listing.id
   end
 
   private

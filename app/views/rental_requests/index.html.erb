@@ -8,7 +8,6 @@
         <th>Requester</th>
         <th>Pick-up Time</th>
         <th>Return Time</th>
-
         <th>Actions</th>
       </tr>
     </thead>
@@ -30,12 +29,19 @@
         <td><%= request.return_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
         <td>
           <% if request.status == "pending" %>
-            <div class="d-flex justify-content-center">
-              <%= button_to "Approve", approve_rental_request_path(request.id), method: :post, class: "btn btn-success btn-sm mx-1" %>
-              <%= button_to "Decline", decline_rental_request_path(request.id), method: :post, class: "btn btn-danger btn-sm mx-1" %>
-            </div>
+            <% if request.listing.owner == current_user %>
+              <div class="d-flex justify-content-center">
+                <%= button_to "Approve", approve_rental_request_path(request.id), method: :post, class: "btn btn-success btn-sm mx-1" %>
+                <%= button_to "Decline", decline_rental_request_path(request.id), method: :post, class: "btn btn-danger btn-sm mx-1" %>
+              </div>
+            <% else %>
+              <div class="d-flex justify-content-center">
+                <%= link_to "Edit", edit_rental_request_path(request.id), class: "btn btn-warning btn-sm mx-1" %>
+                <%= button_to "Cancel", rental_request_path(request.id), method: :delete, class: "btn btn-danger btn-sm mx-1" %>
+              </div>
+            <% end %>
           <% elsif request.status == "approved" %>
-              <%= link_to "View Rental", rental_path(request.rental.id), method: :post %>
+              <%= link_to "View Rental", rental_path(request.rental.id) %>
           <% end %>
         </td>
       </tr>

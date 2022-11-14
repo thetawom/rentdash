@@ -11,7 +11,7 @@
       <div class="d-flex justify-content-center mt-2">
         <% if @listing.owner == current_user %>
           <% if defined? show_requests_btn and show_requests_btn%>
-            <%= link_to("View Requests", listing_rental_requests_path(@listing.id), class: "btn btn-info mx-1") %>
+            <%= link_to("Manage Requests", listing_rental_requests_path(@listing.id), class: "btn btn-info mx-1") %>
           <% end %>
           <% if defined? show_details_btn and show_details_btn %>
             <%= link_to("View Details", listing_path(@listing.id), class: "btn btn-secondary mx-1") %>
@@ -20,6 +20,12 @@
           <%= button_to("Delete", listing_path(@listing), class: "btn btn-danger mx-1", method: :delete) %>
         <% else %>
           <%= link_to "Rent this!", new_listing_rental_request_path(@listing.id), class: "btn btn-success" %>
+          <% if defined? show_requests_btn and show_requests_btn%>
+            <%= link_to("View Requests", listing_rental_requests_path(@listing.id), class: "btn btn-info mx-1") %>
+          <% end %>
+          <% if defined? show_details_btn and show_details_btn %>
+            <%= link_to("View Details", listing_path(@listing.id), class: "btn btn-secondary mx-1") %>
+          <% end %>
         <% end %>
       </div>
     </div>
