@@ -13,4 +13,9 @@
     Payment Method:
     <%= @rental.payment_method %>
   </li>
+  <li>
+    Status:
+    <%= @rental.status %>
+  </li>
+  <%= link_to "Edit", edit_rental_path(@rental) %>
 </ul>

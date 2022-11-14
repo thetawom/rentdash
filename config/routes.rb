@@ -12,7 +12,7 @@ Rails.application.routes.draw do
       post "decline", on: :member
     end
   end
-  resources :rentals, only: [:show, :index, :new, :create]
+  resources :rentals, only: [:show, :index, :edit, :update]
 
   get "login", to: "sessions#new", as: :login
   post "login", to: "sessions#create"

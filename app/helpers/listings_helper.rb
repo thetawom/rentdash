@@ -8,5 +8,4 @@ module ListingsHelper
   def item_category_options(listing = nil)
     options_for_select(Listing.item_categories.map{|key, value| [key.titleize, key]}, listing&.item_category)
   end
-
 end

@@ -1,8 +1,6 @@
-
-
-<h2>Approved Requests</h2>
+<h2>Currently renting out ...</h2>
 <div class="row row-cols-3 g-3">
-  <% if @approved.size == 0 %>
+  <% if @ongoing.size == 0 %>
     <div class = "col">
       <div class="card">
         <div class="card-body">
@@ -14,7 +12,7 @@
       <br>
     </div>
   <% else %>
-    <% @approved.each do |rental| %>
+    <% @ongoing.each do |rental| %>
       <div class = "col">
         <div class="card">
           <div class="card-body">
@@ -22,7 +20,7 @@
             <p class="card-text">
               <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
             </p>
-            <%= link_to "View rental", rental_request_path(rental.request.id), class:"btn btn-secondary" %>
+            <%= link_to "View rental", rental_path(rental.id), class:"btn btn-secondary" %>
 
           </div>
         </div>
@@ -31,6 +29,39 @@
     <%end%>
   <%end%>
 </div>
+
+<h2>Approved Requests</h2>
+<div class="row row-cols-3 g-3">
+  <% if @upcoming.size == 0 %>
+    <div class = "col">
+      <div class="card">
+        <div class="card-body">
+          <p class="card-text">
+            There are no approved rental requests at the moment.
+          </p>
+        </div>
+      </div>
+      <br>
+    </div>
+  <% else %>
+    <% @upcoming.each do |rental| %>
+      <div class = "col">
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title"><%= rental.listing.name %></h5> <br>
+            <p class="card-text">
+              <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
+            </p>
+            <%= link_to "View rental", rental_path(rental.id), class:"btn btn-secondary" %>
+
+          </div>
+        </div>
+        <br>
+      </div>
+    <%end%>
+  <%end%>
+</div>
+
 <h2>Pending Requests</h2>
 <div class="row row-cols-3 g-3">
   <% if @pending.size == 0 %>

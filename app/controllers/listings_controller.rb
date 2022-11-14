@@ -102,18 +102,14 @@ class ListingsController < ApplicationController
   end
 
   def mine
-    current_time = DateTime.now
     @listings = Listing.where(owner: current_user)
+
     @requests = RentalRequest.where(listing_id: @listings.pluck(:id))
     @pending = @requests.where(status: "pending")
+
     @rentals = Rental.where(listing_id: @listings.pluck(:id))
-    @rentals.each do |rental|
-      if current_time >= rental.request.pick_up_time and current_time <= rental.request.return_time
-        rental.status = "ongoing"
-        rental.save
-      end
-    end
-    @approved = @rentals.where(status: %w[upcoming ongoing])
+    @upcoming = @rentals.where(status: "upcoming")
+    @ongoing = @rentals.where(status: "ongoing")
   end
 
   private
