@@ -1,53 +1,62 @@
-
-
-<div class = "content">
-  <%= link_to 'Back to listings', listings_path, :class => 'btn btn-primary col-1' %>
-  <br>
-  <br>
-
+<div class="container mt-5">
   <div class="row">
-    <div class="col-4">
-      <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+    <div class="col-md-5 col-sm-12 mb-2">
+      <img class="img-fluid" src="https://dummyimage.com/450x350/dee2e6/6c757d.jpg" alt="Card image cap">
     </div>
-    <div class="col-8", align="center">
-      <h2><em><%= @listing.name %></em></h2>
-      <h5><%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %></h5>
-      <p>
-        Category: <%= @listing.item_category %><br>
-        Description: <%= @listing.description %>
-      </p>
-
-
-    <% if @is_mine %>
-      <%= link_to 'View requests for this item', listing_rental_requests_path(@listing.id), :class => 'btn btn-primary col-3' %>
-    <% else %>
-      <%= link_to 'Rent this!', new_listing_rental_request_path(@listing.id), :class => 'btn btn-primary col-2' %>
-    <% end %>
-      
+    <div class="col-md-7 col-sm-12 text-center d-flex align-items-center justify-content-center">
+      <div>
+        <p class="text-uppercase"><%= @listing.item_category %> · <%= @listing.owner.full_name %></p>
+        <h2><%= @listing.name %></h2>
+        <h5 class="mt-3"><%= @listing.fee %> <%= @listing.fee_unit %> / <%= @listing.fee_time %></h5>
+        <p class="mx-3 my-4"><%= @listing.description %></p>
+        <div class="d-flex justify-content-center mt-2">
+          <% if @is_mine %>
+            <%= link_to "View Requests", listing_rental_requests_path(@listing.id), class: "btn btn-info mx-1" %>
+            <%= link_to "Edit", edit_listing_path(@listing), class: "btn btn-primary mx-1" %>
+            <%= button_to "Delete", listing_path(@listing), class: "btn btn-danger mx-1", method: :delete %>
+          <% else %>
+            <%= link_to "Rent this!", new_listing_rental_request_path(@listing.id), class: "btn btn-success" %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
-
   <hr>
-
-  <div class="row">
-    <div class="col-4">
-      <h4> Terms of Rental </h4>
-      <p>
-        Deposit: <%= @listing.deposit %> <%= @listing.fee_unit %><br>
-        Pick-up Location: <%= @listing.pick_up_location %><br>
-        Owner: <%= @listing.owner.full_name %>
-      </p>
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0 text-uppercase">Terms of Rental</h6>
+        </div>
+        <ul class="list-group list-group-flush">
+          <li class="list-group-item"><span>Deposit:</span> $<%= @listing.deposit %></li>
+          <li class="list-group-item"><span>Pick-up Spot:</span> <%= @listing.pick_up_location %></li>
+          <li class="list-group-item"><span>Condition:</span> Good</li>
+        </ul>
+      </div>
     </div>
-    <div class="col-8", align="center">
-      
+    <div class="col-md-8 col-sm-12">
+      <div class="card">
+        <div class="card-header">
+          <h6 class="mb-0 text-uppercase">Comments from Renters</h6>
+        </div>
+        <div class="card-body">
+          <div class="card-columns">
+            <% %w(Awesome Competitive Charming Dazzling Excellent Incredible).each do |word| %>
+              <div class="card">
+                <div class="card-body px-3 py-2">
+                  <div class="card-text text-center">
+                    <%= word %> item!
+                    <p class="d-inline-block mb-0 text-muted">
+                      <% 5.times.each do %><i class="fa-solid fa-star"></i><% end %>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
-
-  <div class="row", style="margin: 0px">
-    <% if @is_mine %>
-      <%= link_to 'Edit', edit_listing_path(@listing), :class => 'btn btn-primary', :style=> 'margin:5px' %>
-      <%= button_to 'Delete', listing_path(@listing), :class => 'btn btn-danger', :method => :delete, :style=> 'margin:5px' %>
-    <% end %>
-  </div>
-
 </div>
