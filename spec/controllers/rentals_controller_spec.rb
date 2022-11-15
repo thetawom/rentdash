@@ -151,15 +151,19 @@ RSpec.describe RentalsController, type: :controller do
 
       let(:rental) { request.approve }
 
-      it "updates the status of the rental to cancelled" do
-        rental = instance_double("Rental", id: 1, listing: listing)
+      it "updates the status of the rental to cancelled if user is owner" do
+        rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
         expect(Rental).to receive(:find_by).and_return(rental)
         expect(rental).to receive(:update).with(status: "cancelled")
         post :cancel, params: {id: rental.id}, session: {user_id: owner.id}
+        expect(response).to redirect_to rental_path rental.id
       end
 
-      it "redirects to the rental page" do
-        post :cancel, params: {id: rental.id}, session: {user_id: owner.id}
+      it "updates the status of the rental to cancelled if user is renter" do
+        rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
+        expect(Rental).to receive(:find_by).and_return(rental)
+        expect(rental).to receive(:update).with(status: "cancelled")
+        post :cancel, params: {id: rental.id}, session: {user_id: renter.id}
         expect(response).to redirect_to rental_path rental.id
       end
 
@@ -169,9 +173,10 @@ RSpec.describe RentalsController, type: :controller do
         expect(response).to redirect_to my_listings_path
       end
 
-      it "redirects to listing page if user is not owner" do
-        post :cancel, params: {id: rental.id}, session: {user_id: renter.id}
-        expect(response).to redirect_to listing_path rental.listing.id
+      it "redirects to listing page if user is not owner or renter" do
+        other_user = FactoryBot.create(:user)
+        post :cancel, params: {id: rental.id}, session: {user_id: other_user.id}
+        expect(response).to redirect_to rentals_path
       end
 
     end

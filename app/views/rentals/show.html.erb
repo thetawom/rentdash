@@ -17,7 +17,9 @@
     Status:
     <%= @rental.status %>
   </li>
-  <%= link_to "Edit Rental Details", edit_rental_path(@rental), class: "btn btn-primary" %>
+  <% if current_user == @rental.listing.owner %>
+    <%= link_to "Edit Rental Details", edit_rental_path(@rental), class: "btn btn-primary" %>
+  <% end %>
   <% if @rental.status == "upcoming" %>
     <%= button_to "Cancel Rental", cancel_rental_path(@rental), method: :post, class: "btn btn-danger" %>
   <% end %>

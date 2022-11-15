@@ -1,8 +1,8 @@
 require 'date'
 class RentalsController < ApplicationController
 
-  before_action :require_renter_or_listing_owner, only: :show
-  before_action :require_listing_owner, only: [:edit, :update, :cancel]
+  before_action :require_renter_or_listing_owner, only: [:show, :cancel]
+  before_action :require_listing_owner, only: [:edit, :update]
 
   def index
     @rentals = Rental.where(renter: current_user)
