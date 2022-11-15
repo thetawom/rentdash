@@ -139,7 +139,7 @@ RSpec.describe ListingsController, type: :controller do
         allow(listing).to receive(:update)
         expect(Listing).to receive(:find_by).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
-        post :update, params: {id: listing.id}, session: {user_id: user.id}
+        patch :update, params: {id: listing.id}, session: {user_id: user.id}
         expect(response).to redirect_to listing_path listing.id
       end
       it "redirects to new listing page if params are invalid" do
@@ -148,7 +148,7 @@ RSpec.describe ListingsController, type: :controller do
         allow(listing).to receive(:update)
         expect(Listing).to receive(:find_by).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
-        post :update, params: {id: listing.id}, session: {user_id: user.id}
+        patch :update, params: {id: listing.id}, session: {user_id: user.id}
         expect(flash[:error]).to_not be_nil
         expect(response).to redirect_to new_listing_path
       end

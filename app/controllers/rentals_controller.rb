@@ -24,10 +24,11 @@ class RentalsController < ApplicationController
     @rental.request.update rental_request_params
     if @rental.valid? and @rental.request.valid?
       flash[:success] = "Request for #{@rental.listing.name} was updated!"
+      redirect_to rental_path @rental.id
     else
-      flash[:error] = @rental.errors.merge(@rental_request.errors)
+      flash[:error] = @rental.errors.merge!(@rental.request.errors)
+      redirect_to edit_rental_path @rental.id
     end
-    redirect_to rental_path @rental.id
   end
 
   def cancel

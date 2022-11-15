@@ -118,40 +118,40 @@ RSpec.describe RentalRequestsController, type: :controller do
 
     describe "PATCH #update" do
 
-      it "updates listing if params are valid" do
-        request = instance_double("RentalRequest", id: "1", valid?: true, status: "pending", listing: listing, requester: requester)
-        allow(request).to receive(:update)
+      it "updates request if params are valid" do
+        request = instance_double("RentalRequest", id: 1, valid?: true, status: "pending", listing: listing, requester: requester)
+        expect(request).to receive(:update)
         expect(RentalRequest).to receive(:find_by).and_return(request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-        post :update, params: {id: request.id}, session: {user_id: requester.id}
+        patch :update, params: {id: request.id}, session: {user_id: requester.id}
         expect(response).to redirect_to listing_rental_requests_path listing.id
       end
 
       it "redirects to new listing page if params are invalid" do
         errors = instance_double("ActiveModel::Errors")
-        request = instance_double("RentalRequest", id: "1", valid?: false, status: "pending", listing: listing, requester: requester, errors: errors)
-        allow(request).to receive(:update)
+        request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester, errors: errors)
+        expect(request).to receive(:update)
         expect(RentalRequest).to receive(:find_by).and_return(request)
         allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-        post :update, params: {id: request.id}, session: {user_id: requester.id}
+        patch :update, params: {id: request.id}, session: {user_id: requester.id}
         expect(flash[:error]).to_not be_nil
-        expect(response).to redirect_to new_listing_rental_request_path listing.id
+        expect(response).to redirect_to edit_rental_request_path request.id
       end
 
       it "redirects to listings page if request does not exist" do
         expect(RentalRequest).to receive(:find_by).and_return(nil)
-        post :update, params: {id: 0}, session: {user_id: owner.id}
+        patch :update, params: {id: 0}, session: {user_id: owner.id}
         expect(response).to redirect_to listings_path
       end
 
       it "redirects to listing page if user is not requester" do
-        post :update, params: {id: request.id}, session: {user_id: owner.id}
+        patch :update, params: {id: request.id}, session: {user_id: owner.id}
         expect(response).to redirect_to listing_path listing.id
       end
 
       it "redirects to listing requests page if request is no longer pending" do
         request.approve
-        post :update, params: {id: request.id}, session: {user_id: requester.id}
+        patch :update, params: {id: request.id}, session: {user_id: requester.id}
         expect(response).to redirect_to listing_rental_requests_path listing.id
       end
 
@@ -241,29 +241,6 @@ RSpec.describe RentalRequestsController, type: :controller do
 
     end
 
-    describe "#rental_request_params" do
-
-      controller = RentalRequestsController.new
-
-      it "raises ParameterMissing error if there is no user parameter" do
-        params = ActionController::Parameters.new({ fake: { fake: "hello" } })
-        allow(controller).to receive(:params).and_return(params)
-        expect{controller.send(:rental_request_params)}.to raise_error(ActionController::ParameterMissing)
-      end
-
-      it "returns only listing parameters with others filtered" do
-        params = ActionController::Parameters.new({
-                                                    rental_request: { pick_up_time: "2022-10-28 00:00:00 UTC", return_time: "2022-10-29 00:00:00 UTC" },
-                                                    gunk: { hunk: "hunk" }
-                                                  })
-        allow(controller).to receive(:params).and_return(params)
-        rental_request_params = controller.send(:rental_request_params)
-        expect(rental_request_params).to include(:pick_up_time, :return_time)
-        expect(rental_request_params).to_not include(:junk)
-      end
-
-    end
-
   end
 
   context "user is not logged in" do
@@ -315,6 +292,31 @@ RSpec.describe RentalRequestsController, type: :controller do
         expect(response).to redirect_to login_path
       end
     end
+  end
+
+  describe "#rental_request_params" do
+
+    controller = RentalRequestsController.new
+
+    it "raises ParameterMissing error if there is no rental_request parameter" do
+      params_hash = { fake: { fake: "hello" } }
+      allow(controller).to receive(:params).and_return ActionController::Parameters.new params_hash
+      expect{controller.send(:rental_request_params)}.to raise_error ActionController::ParameterMissing
+    end
+
+    it "returns only listing parameters with others filtered" do
+      params_hash = {
+        rental_request: { pick_up_time: "2022-10-28 00:00:00 UTC",
+                          return_time: "2022-10-29 00:00:00 UTC",
+                          junk: "junk" },
+        gunk: { hunk: "hunk" }
+      }
+      allow(controller).to receive(:params).and_return ActionController::Parameters.new params_hash
+      rental_request_params = controller.send :rental_request_params
+      expect(rental_request_params).to include :pick_up_time, :return_time
+      expect(rental_request_params).to_not include  :junk, :gunk, :hunk
+    end
+
   end
 
 end

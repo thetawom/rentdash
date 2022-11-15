@@ -48,7 +48,7 @@ class RentalRequestsController < ApplicationController
         redirect_to listing_rental_requests_path @rental_request.listing.id
       else
         flash[:error] = @rental_request.errors
-        redirect_to new_listing_rental_request_path @rental_request.listing.id
+        redirect_to edit_rental_request_path @rental_request.id
       end
     end
   end
