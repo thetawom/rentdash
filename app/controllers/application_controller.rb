@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
 
   def current_user
     if session[:user_id]
-      user = User.find_by(id: session[:user_id])
+      user = User.find_by id: session[:user_id]
       if user.nil?
-        session.clear
+        session[:user_id] = nil
       else
         @current_user ||= user
       end
