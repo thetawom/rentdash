@@ -19,11 +19,10 @@ Feature: edit rental request
     
   Scenario: user navigates to the edit rental request page from the details page
     Given I am on the listings page
-    When I follow "My Requests"
-    Then I should be on my rental requests page
+    When I follow "My Rentals"
+    Then I should be on my rentals page
     And I should see "Dyson V11 Torque Drive"
     And I follow "Details"
-    And I follow "Edit"
     When I fill in "Pick-up Time" with "2022-11-16 01:00:00 UTC"
     And I press "Update Rental Request"
-    Then the pick-up time of Cat W's request for "Dyson V11 Torque Drive" should be "2022-11-16 01:00:00 UTC"
+    Then I should see that the request for "Dyson V11 Torque Drive" was successfully updated

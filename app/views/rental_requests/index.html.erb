@@ -19,7 +19,7 @@
             <i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i>
           <% elsif request.status == "pending" %>
             <i class="fa-sharp fa-solid fa-circle-question text-warning"></i>
-          <% elsif request.stats == "declined" %>
+          <% elsif request.status == "approved" %>
             <i class="fa-sharp fa-solid fa-circle-check text-success"></i>
           <% end %>
         </td>

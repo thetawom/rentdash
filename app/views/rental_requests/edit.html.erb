@@ -5,5 +5,5 @@
   <%= label :rental_request, :return_time, "Return Time" %>
   <%= datetime_field :rental_request, :return_time %>
   <%= submit_tag "Update Rental Request", class: "btn btn-primary" %><br/>
-  <%= link_to "Cancel", listing_rental_requests_path(@rental_request.listing.id), class: "btn btn-secondary" %>
+  <%= link_to "Cancel", rentals_path, class: "btn btn-secondary" %>
 <% end %>

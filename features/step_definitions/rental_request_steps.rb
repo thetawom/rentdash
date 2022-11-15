@@ -44,8 +44,8 @@ end
 Then(/^I should be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_name, last_name, listing_name|
   requester = User.find_by first_name: first_name, last_name: last_name
   listing = Listing.find_by name: listing_name
-  request = RentalRequest.find_by requester: requester, listing: listing
-  visit rental_request_path request.id
+  # request = RentalRequest.find_by requester: requester, listing: listing
+  visit new_listing_rental_request_path listing.id
 end
 
 Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/) do |first_name, last_name, listing_name, pick_up_time|
@@ -62,6 +62,10 @@ Then /^I should see the status of this request as "([^"]*)"$/ do |status|
   else
     page.should have_css("i.text-danger")
   end
+end
+
+Then(/^I should see that the request for "([^"]*)" was successfully updated$/) do |listing_name|
+  expect(page.body).to have_content /Request for #{listing_name} was updated!/
 end
 
 def create_rental_requests_with_owner(owner, request_hashes, listing)
