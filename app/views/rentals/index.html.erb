@@ -86,7 +86,7 @@
             <p class="card-text">
               <%= request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
             </p>
-            <%= link_to "Details", edit_rental_request_path(request.id), class:"btn btn-secondary" %>
+            <%= link_to "Details", listing_rental_requests_path(request.listing.id), class:"btn btn-secondary" %>
           </div>
         </div>
         <br>

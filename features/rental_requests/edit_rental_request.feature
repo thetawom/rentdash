@@ -23,6 +23,7 @@ Feature: edit rental request
     Then I should be on my rentals page
     And I should see "Dyson V11 Torque Drive"
     And I follow "Details"
+    And I follow "Edit"
     When I fill in "Pick-up Time" with "2022-11-16 01:00:00 UTC"
     And I press "Update Rental Request"
     Then I should see that the request for "Dyson V11 Torque Drive" was successfully updated
