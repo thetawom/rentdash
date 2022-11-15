@@ -15,13 +15,12 @@
     <% @rental_requests.each do |request| %>
       <tr>
         <td>
-          <% case request.status %>
-          <% when "approved" %>
-            <i class="fa-sharp fa-solid fa-circle-check text-success"></i>
-          <% when "pending" %>
-            <i class="fa-sharp fa-solid fa-circle-question text-warning"></i>
-          <% when "declined" %>
+          <% if request.status == "declined" or request.rental&.status == "cancelled" %>
             <i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i>
+          <% elsif request.status == "pending" %>
+            <i class="fa-sharp fa-solid fa-circle-question text-warning"></i>
+          <% elsif request.stats == "declined" %>
+            <i class="fa-sharp fa-solid fa-circle-check text-success"></i>
           <% end %>
         </td>
         <td><%= request.requester.full_name %></td>

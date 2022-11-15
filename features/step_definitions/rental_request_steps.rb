@@ -31,10 +31,6 @@ Then /^I should (?:|still )be on my rentals page$/ do
   expect(URI.parse(current_url).path).to eq rentals_path
 end
 
-Then /^I should (?:|still )be on my rental requests page$/ do
-  expect(URI.parse(current_url).path).to eq my_requests_path
-end
-
 Then /^I should (?:|still )be on the rental request page for "([^"]*)"$/ do |listing_name|
   listing = Listing.find_by name: listing_name
   expect(URI.parse(current_url).path).to eq listing_rental_requests_path listing.id
