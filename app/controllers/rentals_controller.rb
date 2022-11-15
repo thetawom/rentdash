@@ -1,6 +1,9 @@
 require 'date'
 class RentalsController < ApplicationController
 
+  before_action :require_renter_or_listing_owner, only: :show
+  before_action :require_listing_owner, only: [:edit, :update, :cancel]
+
   def index
     @rentals = Rental.where(renter: current_user)
     @requests = RentalRequest.where(requester: current_user)
@@ -10,41 +13,26 @@ class RentalsController < ApplicationController
   end
 
   def show
-    @rental = Rental.find_by id: params[:id]
-    redirect_to rentals_path unless @rental.listing.owner == current_user or @rental.renter == current_user
   end
 
   def edit
-    @rental = Rental.find_by id: params[:id]
-    if @rental.nil? or @rental.listing.owner != current_user
-      redirect_to my_listings_path
-    else
-      @rental_request = @rental.request
-    end
+    @rental_request = @rental.request
   end
 
   def update
-    @rental = Rental.find_by id: params[:id]
-    if @rental.nil? or @rental.listing.owner != current_user
-      redirect_to my_listings_path
+    @rental.update rental_params
+    @rental.request.update rental_request_params
+    if @rental.valid? and @rental.request.valid?
+      flash[:success] = "Request for #{@rental.listing.name} was updated!"
     else
-      @rental.update rental_params
-      @rental.request.update rental_request_params
-      if @rental.valid? and @rental.request.valid?
-        flash[:success] = "Request for #{@rental.listing.name} was updated!"
-      else
-        flash[:error] = @rental.errors.merge(@rental_request.errors)
-      end
-      redirect_to rental_path @rental.id
+      flash[:error] = @rental.errors.merge(@rental_request.errors)
     end
+    redirect_to rental_path @rental.id
   end
 
   def cancel
-    @rental = Rental.find_by id: params[:id]
-    unless @rental.nil? or @rental.listing.owner != current_user
-      @rental.update status: "cancelled"
-      flash[:notice] = "Rental for #{@rental.listing.name} was cancelled."
-    end
+    @rental.update status: "cancelled"
+    flash[:notice] = "Rental for #{@rental.listing.name} was cancelled."
     redirect_to rental_path @rental.id
   end
 
@@ -56,6 +44,24 @@ class RentalsController < ApplicationController
 
   def rental_request_params
     params.require(:rental_request).permit(:pick_up_time, :return_time)
+  end
+
+  def require_renter_or_listing_owner
+    @rental = Rental.find_by id: params[:id]
+    if @rental.nil?
+      redirect_to my_listings_path
+    elsif @rental.renter != current_user and @rental.listing.owner != current_user
+      redirect_to rentals_path
+    end
+  end
+
+  def require_listing_owner
+    @rental = Rental.find_by id: params[:id]
+    if @rental.nil?
+      redirect_to my_listings_path
+    elsif @rental.listing.owner != current_user
+      redirect_to listing_path @rental.listing
+    end
   end
 
 end
