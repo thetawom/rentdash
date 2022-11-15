@@ -1,32 +1,28 @@
-
-
-<% if flash[:error] %>
-  <%= content_tag :p, flash[:error] %>
-<% end %>
-
-<div class="container">
-
-  <h2>Rental Request for <em><%= @listing.name %></em></h2>
-
-  <div class="row">
-    <div class="col-sm">
-      <ul id="details">
-        <li>Description: <%= @listing.description %></li>
-        <li>Pick-up Location: <%= @listing.pick_up_location %></li>
-        <li>Fee: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %></li>
-        <li>Deposit: <%= @listing.deposit %> <%= @listing.fee_unit %></li>
-        <li>Owner: <%= @listing.owner.full_name %></li>
-      </ul>
+<div class="container mt-5">
+  <%= render partial: "listings/listing_main", locals: {show_details_btn: true, show_requests_btn: true} %>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-sm-12">
+      <%= render partial: "listings/listing_terms_of_rental" %>
     </div>
-    <div class="col-sm">
-      <%= form_for [@listing, @rental_request] do |f| %>
-          Pick-up Time: <%= f.datetime_field :pick_up_time %><br>
-          Return Time: <%= f.datetime_field :return_time %><br><br>
-<!--      <i>The deposit and rental fee, if applicable, will be charged using the selected payment method.</i>-->
-          Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit <br>
-          <br>
-          <%= f.submit "Submit Rental Request" %>
-      <% end %>
+    <div class="col-md-8 col-sm-12">
+      <div class="card border-success">
+        <div class="card-header">
+          <h6 class="mb-0 text-uppercase">Rental Request Form</h6>
+        </div>
+        <div class="card-body">
+          <%= form_for [@listing, @rental_request] do |f| %>
+            <%= f.label :pick_up_time, "Pick-up Time" %>
+            <%= f.datetime_field :pick_up_time, class: "form-control mb-3" %>
+            <%= f.label :return_time, "Return Time" %>
+            <%= f.datetime_field :return_time, class: "form-control mb-3" %>
+            <p>
+              Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
+            </p>
+            <%= f.submit "Submit Rental Request", class: "btn btn-success" %>
+          <% end %>
+        </div>
+      </div>
     </div>
   </div>
 </div>

@@ -19,7 +19,9 @@
           <%= link_to("Edit", edit_listing_path(@listing), class: "btn btn-warning mx-1") %>
           <%= button_to("Delete", listing_path(@listing), class: "btn btn-danger mx-1", method: :delete) %>
         <% else %>
-          <%= link_to "Rent this!", new_listing_rental_request_path(@listing.id), class: "btn btn-success" %>
+          <% if defined? show_rent_btn and show_rent_btn %>
+            <%= link_to "Rent this!", new_listing_rental_request_path(@listing.id), class: "btn btn-success mx-1" %>
+          <% end %>
           <% if defined? show_requests_btn and show_requests_btn%>
             <%= link_to("View Requests", listing_rental_requests_path(@listing.id), class: "btn btn-info mx-1") %>
           <% end %>
