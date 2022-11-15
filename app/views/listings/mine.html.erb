@@ -1,11 +1,11 @@
-<h2>Currently renting out ...</h2>
+<h3>Currently renting out ...</h3>
 <div class="row row-cols-3 g-3">
   <% if @ongoing.size == 0 %>
     <div class = "col">
       <div class="card">
         <div class="card-body">
           <p class="card-text">
-            There are no approved rental requests at the moment.
+            You are not currently renting out any items.
           </p>
         </div>
       </div>
@@ -30,14 +30,16 @@
   <%end%>
 </div>
 
-<h2>Approved Requests</h2>
+<hr>
+
+<h3>Approved Requests</h3>
 <div class="row row-cols-3 g-3">
   <% if @upcoming.size == 0 %>
     <div class = "col">
       <div class="card">
         <div class="card-body">
           <p class="card-text">
-            There are no approved rental requests at the moment.
+            You have no approved rental requests at the moment.
           </p>
         </div>
       </div>
@@ -53,7 +55,6 @@
               <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
             </p>
             <%= link_to "View rental", rental_path(rental.id), class:"btn btn-secondary" %>
-
           </div>
         </div>
         <br>
@@ -62,14 +63,16 @@
   <%end%>
 </div>
 
-<h2>Pending Requests</h2>
+<hr>
+
+<h3>Pending Requests</h3>
 <div class="row row-cols-3 g-3">
   <% if @pending.size == 0 %>
     <div class = "col">
       <div class="card">
         <div class="card-body">
           <p class="card-text">
-            There are no new rental requests.
+            You have no new rental requests.
           </p>
         </div>
       </div>
@@ -94,7 +97,9 @@
   <%end%>
 </div>
 
-<h2>Listed Items</h2>
+<hr>
+
+<h3>Listed Items</h3>
 <%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
 <br/>
 <br/>

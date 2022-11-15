@@ -1,6 +1,4 @@
-
-
-<h2>Ongoing Rentals</h2>
+<h3>Ongoing Rentals</h3>
 <div class="row row-cols-3 g-3">
   <% if @ongoing.size == 0 %>
     <div class = "col">
@@ -31,7 +29,9 @@
   <%end%>
 </div>
 
-<h2>Scheduled Rentals</h2>
+<hr>
+
+<h3>Scheduled Rentals</h3>
 <div class="row row-cols-3 g-3">
   <% if @upcoming.size == 0 %>
     <div class = "col">
@@ -62,14 +62,16 @@
   <%end%>
 </div>
 
-<h2>Requests Pending</h2>
+<hr>
+
+<h3>Requests Pending</h3>
 <div class="row row-cols-3 g-3">
   <% if @pending.size == 0 %>
     <div class = "col">
       <div class="card">
         <div class="card-body">
           <p class="card-text">
-            You do not have any requests pending.
+            You do not have any pending rental requests.
           </p>
         </div>
       </div>

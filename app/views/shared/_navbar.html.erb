@@ -4,6 +4,9 @@
       <div class="navbar-collapse collapse w-100 order-1 order-md-0 dual-collapse2 justify-content-end">
         <ul class="navbar-nav mr-auto">
           <li class="nav-item">
+            <%= link_to "Home", listings_path, class: "nav-link"%>
+          </li>
+          <li class="nav-item">
             <%= link_to "My Listings", my_listings_path, class: "nav-link"%>
           </li>
           <li class="nav-item">
@@ -20,7 +23,7 @@
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
-            <%= link_to "Profile", user_path(current_user.id), class: "nav-link"%>
+            <%= link_to "#{current_user.full_name}", user_path(current_user.id), class: "nav-link"%>
           </li>
           <li class="nav-item">
             <%= button_to "Sign out", logout_path, method: :delete, style: "border:none; background-color:transparent", class: "nav-link"%>
