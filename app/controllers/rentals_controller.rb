@@ -13,10 +13,12 @@ class RentalsController < ApplicationController
   end
 
   def show
+    @listing = @rental.listing
   end
 
   def edit
     @rental_request = @rental.request
+    @listing = @rental.listing
   end
 
   def update

@@ -1,30 +1,47 @@
-<h2><%= @rental.listing.name %></h2>
+<div class="container mt-5">
+  <%= render partial: "listings/listing_main", locals: {show_details_btn: true, show_requests_btn: true} %>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-sm-12">
+      <%= render partial: "listings/listing_terms_of_rental" %>
+    </div>
+    <div class="col-md-8 col-sm-12">
+      <div class="card border-info">
+        <div class="card-header">
+          <h6 class="mb-0 text-uppercase">Rental by <%= @rental.renter.full_name %></h6>
+        </div>
+        <div class="card-body">
+          <ul>
+            <li>
+              Pick-up Time:
+              <%= @rental.request.pick_up_time %>
+            </li>
+            <li>
+              Return Time:
+              <%= @rental.request.return_time %>
+            </li>
+            <li>
+              Payment Method:
+              <%= @rental.payment_method %>
+            </li>
+            <li>
+              Status:
+              <%= @rental.status %>
+            </li>
+            <% if current_user == @rental.listing.owner %>
+              <%= link_to "Edit Rental Details", edit_rental_path(@rental), class: "btn btn-warning" %>
+            <% end %>
+            <% if @rental.status == "upcoming" %>
+              <%= button_to "Cancel Rental", cancel_rental_path(@rental), method: :post, class: "btn btn-danger" %>
+            <% end %>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
-<ul id="details">
-  <li>
-    Renter:
-    <%= @rental.renter.full_name %>
-  </li>
-  <li>
-    Rental Dates:
-    <%= @rental.request.pick_up_time %> - <%= @rental.request.return_time %>
-  </li>
-  <li>
-    Pick-up Location:
-    <%= @rental.listing.pick_up_location %>
-  </li>
-  <li>
-    Payment Method:
-    <%= @rental.payment_method %>
-  </li>
-  <li>
-    Status:
-    <%= @rental.status %>
-  </li>
-  <% if current_user == @rental.listing.owner %>
-    <%= link_to "Edit Rental Details", edit_rental_path(@rental), class: "btn btn-primary" %>
-  <% end %>
-  <% if @rental.status == "upcoming" %>
-    <%= button_to "Cancel Rental", cancel_rental_path(@rental), method: :post, class: "btn btn-danger" %>
-  <% end %>
-</ul>
+
+
+<!--<h2><%#= @rental.listing.name %></h2>-->
+
