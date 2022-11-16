@@ -1,3 +1,20 @@
+#################
+# Move these steps to rental_steps.rb
+
+Given /^I am on my rentals page$/ do
+  step %{I go to my rentals page}
+end
+
+When /^I got to my rentals page$/ do
+  visit rentals_path
+end
+
+Then /^I should (?:|still )be on my rentals page$/ do
+  expect(URI.parse(current_url).path).to eq rentals_path
+end
+
+#################
+
 Given /^I am on the rental requests page for "([^"]*)"$/ do |listing_name|
   step %{I go to the rental requests page for "#{listing_name}"}
 end
@@ -53,10 +70,6 @@ end
 When(/^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/) do |first_name, last_name, listing_name|
   rental_request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
   visit rental_path rental_request.id
-end
-
-Then /^I should (?:|still )be on my rentals page$/ do
-  expect(URI.parse(current_url).path).to eq rentals_path
 end
 
 Then /^I should (?:|still )be on the rental requests page for "([^"]*)"$/ do |listing_name|
