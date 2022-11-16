@@ -41,27 +41,7 @@
         <%= select_tag :sort, options_for_select(["Sort Price High to Low", "Sort Price Low to High", "Sort by Newest", "Sort by Oldest"], @filtered_params[:sort]), onchange: "this.form.submit()", class: "form-control form-control-sm" %>
       </div>
       <div class="row mt-5">
-        <% @listings.each do |listing| %>
-          <div class="col-md-4 col-sm-12">
-            <div class="card mb-4">
-              <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
-              <div class="card-body">
-                <h5 class="card-title"><%= listing.name %></h5>
-                <p class="card-text">
-                  <%= listing.fee %> <%= listing.fee_unit %> / <%= listing.fee_time %> <br>
-                </p>
-                <div class="justify-content-end w-100">
-                  <h4 class="d-inline-block mb-0 text-muted">
-                    <% 5.times.each do %><i class="fa-solid fa-star"></i><% end %>
-                  </h4>
-                  <div class="d-inline-block float-right">
-                    <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary btn-sm" %>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        <%end%>
+        <%= render @listings %>
       </div>
     </div>
   </div>

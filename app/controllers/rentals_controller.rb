@@ -7,9 +7,9 @@ class RentalsController < ApplicationController
   def index
     @rentals = Rental.where(renter: current_user)
     @requests = RentalRequest.where(requester: current_user)
-    @pending = @requests.where(status: "pending")
-    @ongoing = @rentals.where(status: "ongoing")
-    @upcoming = @rentals.where(status: "upcoming")
+    @pending_requests = @requests.where(status: "pending")
+    @ongoing_rentals = @rentals.where(status: "ongoing")
+    @upcoming_rentals = @rentals.where(status: "upcoming")
   end
 
   def show

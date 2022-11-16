@@ -1,7 +1,7 @@
 <div class="container mt-5">
   <%= render partial: "listings/listing_main", locals: {show_rent_btn: true, show_details_btn: true} %>
   <hr>
-  <table class="table table-responsive-sm col-md-12 text-center">
+  <table class="table table-responsive-sm table-hover col-md-12 text-center">
     <thead>
       <tr>
         <th></th>
@@ -14,7 +14,7 @@
     <tbody>
     <% @rental_requests.each do |request| %>
       <tr>
-        <td>
+        <td class="align-middle">
           <% if request.status == "declined" or request.rental&.status == "cancelled" %>
             <i class="fa-sharp fa-solid fa-circle-xmark text-danger"></i>
           <% elsif request.status == "pending" %>
@@ -23,10 +23,10 @@
             <i class="fa-sharp fa-solid fa-circle-check text-success"></i>
           <% end %>
         </td>
-        <td><%= request.requester.full_name %></td>
-        <td><%= request.pick_up_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
-        <td><%= request.return_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
-        <td>
+        <td class="align-middle"><%= request.requester.full_name %></td>
+        <td class="align-middle"><%= request.pick_up_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
+        <td class="align-middle"><%= request.return_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
+        <td class="align-middle">
           <% if request.status == "pending" %>
             <% if request.listing.owner == current_user %>
               <div class="d-flex justify-content-center">

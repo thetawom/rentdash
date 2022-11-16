@@ -1,0 +1,19 @@
+<div class="col-md-4 col-sm-12">
+  <div class="card mb-4">
+    <img class="card-img-top" src="https://dummyimage.com/450x300/dee2e6/6c757d.jpg" alt="Card image cap">
+    <div class="card-body">
+      <h5 class="card-title"><%= listing.name %></h5>
+      <p class="card-text">
+        <%= listing.fee %> <%= listing.fee_unit %> / <%= listing.fee_time %> <br>
+      </p>
+      <div class="justify-content-end w-100">
+        <h4 class="d-inline-block mb-0 text-muted">
+          <% 5.times.each do %><i class="fa-solid fa-star"></i><% end %>
+        </h4>
+        <div class="d-inline-block float-right">
+          <%= link_to "Details", listing_path(listing.id), class:"btn btn-outline-secondary btn-sm stretched-link" %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
