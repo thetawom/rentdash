@@ -2,6 +2,10 @@ Given /^I am on the new rental request page for "([^"]*)"$/ do |listing_name|
   step %{I go to the new rental request page for "#{listing_name}"}
 end
 
+Given /^I am on the rental requests page for "([^"]*)"$/ do |listing_name|
+  step %{I go to the rental requests page for "#{listing_name}"}
+end
+
 Given /^I have the following rental requests for "([^"]*)"$/ do |listing_name, rental_requests_table|
   owner = User.find_by email: @user_params["email"]
   listing = Listing.find_by name: listing_name
@@ -17,6 +21,11 @@ end
 When /^I go to the new rental request page for "([^"]*)"$/ do |listing_name|
   listing = Listing.find_by name: listing_name
   visit new_listing_rental_request_path listing.id
+end
+
+When /^I go to the rental requests page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  visit listing_rental_requests_path listing.id
 end
 
 When /^I add a new rental request with information$/ do |rental_requests|
@@ -48,9 +57,17 @@ Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do 
   expect(URI.parse(current_url).path).to eq new_listing_rental_request_path listing.id
 end
 
-Then(/^I should be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_name, last_name, listing_name|
-  listing = Listing.find_by name: listing_name
+Then(/^I should (?:|still )be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_name, last_name, listing_name|
+  owner = User.find_by first_name: first_name, last_name: last_name
+  listing = Listing.find_by name: listing_name, owner: owner
   visit new_listing_rental_request_path listing.id
+end
+
+Then(/^I should (?:|still )be on the edit request page for "([^"]*)"$/) do |listing_name|
+  requester = User.find_by email: @user_params["email"]
+  listing = Listing.find_by name: listing_name
+  request = RentalRequest.find_by requester: requester, listing: listing
+  visit edit_rental_request_path request.id
 end
 
 Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/) do |first_name, last_name, listing_name, pick_up_time|
