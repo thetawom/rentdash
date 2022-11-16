@@ -6,7 +6,7 @@
       <%= render partial: "listings/listing_terms_of_rental" %>
     </div>
     <div class="col-md-8 col-sm-12">
-      <div class="card border-info">
+      <div class="card bg-light border-info">
         <div class="card-header">
           <h6 class="mb-0 text-uppercase">Rental by <%= @rental.renter.full_name %></h6>
         </div>
@@ -29,7 +29,7 @@
               <%= @rental.status %>
             </li>
             <% if current_user == @rental.listing.owner %>
-              <%= link_to "Edit Rental Details", edit_rental_path(@rental), class: "btn btn-warning" %>
+              <%= link_to "Edit Rental Details", edit_rental_path(@rental), class: "btn btn-info" %>
             <% end %>
             <% if @rental.status == "upcoming" %>
               <%= button_to "Cancel Rental", cancel_rental_path(@rental), method: :post, class: "btn btn-danger" %>
