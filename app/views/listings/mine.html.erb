@@ -1,142 +1,119 @@
-<h3>Currently renting out ...</h3>
-<div class="row row-cols-3 g-3">
-  <% if @ongoing.size == 0 %>
-    <div class = "col">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            You are not currently renting out any items.
-          </p>
-        </div>
+<div class="container">
+  <div class="row">
+    <h2 class="col-md-5 col-sm-12 mb-0">My Listings</h2>
+    <div class="col-md-7 col-sm-12 mt-2">
+      <div class="float-right">
+        <%= link_to "Add Listing", new_listing_path, class: "btn btn-outline-primary btn-sm mb-1" %>
       </div>
-      <br>
     </div>
-  <% else %>
-    <% @ongoing.each do |rental| %>
-      <div class = "col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= rental.listing.name %></h5> <br>
-            <p class="card-text">
-              <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
-            </p>
-            <%= link_to "View rental", rental_path(rental.id), class:"btn btn-secondary" %>
+  </div>
+  <hr>
 
-          </div>
-        </div>
-        <br>
+  <div id="my-rentals" class="accordion accordion-flush mt-4">
+
+    <div class="accordion-item">
+      <div id="ongoing-rentals-heading" class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#ongoing-rentals">
+          <h5 class="mb-0 text-uppercase">Currently Renting Out <span class="badge bg-info ml-2"><%= @ongoing_rentals.size %></span></h5>
+        </button>
       </div>
-    <%end%>
-  <%end%>
-</div>
-
-<hr>
-
-<h3>Approved Requests</h3>
-<div class="row row-cols-3 g-3">
-  <% if @upcoming.size == 0 %>
-    <div class = "col">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            You have no approved rental requests at the moment.
-          </p>
-        </div>
-      </div>
-      <br>
-    </div>
-  <% else %>
-    <% @upcoming.each do |rental| %>
-      <div class = "col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= rental.listing.name %></h5> <br>
-            <p class="card-text">
-              <%= rental.request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= rental.request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
-            </p>
-            <%= link_to "View rental", rental_path(rental.id), class:"btn btn-secondary" %>
-          </div>
-        </div>
-        <br>
-      </div>
-    <%end%>
-  <%end%>
-</div>
-
-<hr>
-
-<h3>Pending Requests</h3>
-<div class="row row-cols-3 g-3">
-  <% if @pending.size == 0 %>
-    <div class = "col">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            You have no new rental requests.
-          </p>
-        </div>
-      </div>
-      <br>
-    </div>
-  <% else %>
-    <% @pending.each do |request| %>
-      <div class = "col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= request.listing.name %></h5> <br>
-            <p class="card-text">
-              <%= request.pick_up_time.strftime("%m/%d/%y, %I:%M %P") %> - <%= request.return_time.strftime("%m/%d/%y, %I:%M %P") %> <br>
-            </p>
-            <%= link_to "View request", listing_rental_requests_path(request.listing.id), class:"btn btn-secondary" %>
-
-          </div>
-        </div>
-        <br>
-      </div>
-    <%end%>
-  <%end%>
-</div>
-
-<hr>
-
-<h3>Listed Items</h3>
-<%= link_to "Add new listing", new_listing_path, :class => "btn btn-primary" %>
-<br/>
-<br/>
-<div class="row row-cols-3 g-3">
-  <% if @listings.size == 0 %>
-    <div class = "col">
-      <div class="card">
-        <div class="card-body">
-          <p class="card-text">
-            You do not have any listings.
-          </p>
-        </div>
-      </div>
-      <br>
-    </div>
-  <% else %>
-    <% @listings.each do |listing| %>
-      <div class = "col">
-        <div class="card">
-          <div class="card-body">
-            <h5 class="card-title"><%= listing.name %></h5>
-            <p class="card-text">
-              <%= listing.fee %> <%= listing.fee_unit %> / <%= listing.fee_time %> <br>
-            </p>
-            <div class="justify-content-end w-100">
-              <h4 class="d-inline-block mb-0 text-muted">
-                <% 5.times.each do %><i class="fa-solid fa-star"></i><% end %>
-              </h4>
-              <div class="d-inline-block float-right">
-                <%= link_to "Details", listing_path(listing.id), class:"btn btn-secondary btn-sm" %>
+      <div id="ongoing-rentals" class="accordion-collapse collapse show">
+        <div class="accordion-body py-4">
+          <div class="row row-cols-3 g-3 mb-4">
+            <% if @ongoing_rentals.empty? %>
+              <div class="col-md-4 col-12">
+                <div class="card">
+                  <div class="card-body p-3">
+                    <p class="card-text">
+                      You are not currently renting out any items.
+                    </p>
+                  </div>
+                </div>
               </div>
-            </div>
+            <%end%>
+            <%= render @ongoing_rentals %>
           </div>
         </div>
-        <br>
       </div>
-    <%end%>
-  <%end%>
+    </div>
+
+    <div class="accordion-item">
+      <div id="upcoming-rentals-heading" class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#upcoming-rentals">
+          <h5 class="mb-0 text-uppercase">Approved Rentals <span class="badge bg-success ml-2"><%= @upcoming_rentals.size %></span></h5>
+        </button>
+      </div>
+      <div id="upcoming-rentals" class="accordion-collapse collapse show">
+        <div class="accordion-body py-4">
+          <div class="row row-cols-3 g-3 mb-4">
+            <% if @upcoming_rentals.empty? %>
+              <div class="col-md-4 col-12">
+                <div class="card">
+                  <div class="card-body p-3">
+                    <p class="card-text">
+                      You have not approved any rentals.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <%end%>
+            <%= render @upcoming_rentals %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div id="pending-requests-heading" class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#pending-requests">
+          <h5 class="mb-0 text-uppercase">Pending Requests <span class="badge bg-warning ml-2"><%= @pending_requests.size %></span></h5>
+        </button>
+      </div>
+      <div id="pending-requests" class="accordion-collapse collapse show">
+        <div class="accordion-body py-4">
+          <div class="row row-cols-3 g-3 mb-4">
+            <% if @pending_requests.empty? %>
+              <div class="col-md-4 col-12">
+                <div class="card">
+                  <div class="card-body p-3">
+                    <p class="card-text">
+                      You have no new rental requests at the moment.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <%end%>
+            <%= render @pending_requests %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
+      <div id="listings-heading" class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#listings">
+          <h5 class="mb-0 text-uppercase">All My Listings <span class="badge bg-secondary ml-2"><%= @listings.size %></span></h5>
+        </button>
+      </div>
+      <div id="listings" class="accordion-collapse collapse show">
+        <div class="accordion-body py-4">
+          <div class="row row-cols-3 g-3 mb-4">
+            <% if @listings.empty? %>
+              <div class="col-md-4 col-12">
+                <div class="card">
+                  <div class="card-body p-3">
+                    <p class="card-text">
+                      You do not have any items listed for rental.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <%end%>
+            <%= render @listings %>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

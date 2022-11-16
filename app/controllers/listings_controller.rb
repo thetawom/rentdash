@@ -105,11 +105,11 @@ class ListingsController < ApplicationController
     @listings = Listing.where(owner: current_user)
 
     @requests = RentalRequest.where(listing_id: @listings.pluck(:id))
-    @pending = @requests.where(status: "pending")
+    @pending_requests = @requests.where(status: "pending")
 
     @rentals = Rental.where(listing_id: @listings.pluck(:id))
-    @upcoming = @rentals.where(status: "upcoming")
-    @ongoing = @rentals.where(status: "ongoing")
+    @upcoming_rentals = @rentals.where(status: "upcoming")
+    @ongoing_rentals = @rentals.where(status: "ongoing")
   end
 
   private
