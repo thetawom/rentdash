@@ -40,9 +40,18 @@
       <div class="float-right">
         <%= select_tag :sort, options_for_select(["Sort Price High to Low", "Sort Price Low to High", "Sort by Newest", "Sort by Oldest"], @filtered_params[:sort]), onchange: "this.form.submit()", class: "form-control form-control-sm" %>
       </div>
-      <div class="row mt-5">
-        <%= render @listings %>
-      </div>
+      <% if @listings.empty? %>
+        <div class="jumbotron mt-5 py-5">
+          <h2>Sorry, it looks like there are no listings at the moment.</h2>
+          <hr class="my-4">
+          <h5 class="font-weight-normal mb-4">Be the change you want to see! Have any items you don't need? List them on RentDash to share with others, and make a few bucks along the way!</h5>
+          <%= link_to "Add Listing", new_listing_path, class: "btn btn-primary btn-lg" %>
+        </div>
+      <% else %>
+        <div class="row mt-5">
+          <%= render @listings %>
+        </div>
+      <% end %>
     </div>
   </div>
 </div>
