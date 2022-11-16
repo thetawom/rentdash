@@ -28,7 +28,7 @@ When /^I go to the rental requests page for "([^"]*)"$/ do |listing_name|
   visit listing_rental_requests_path listing.id
 end
 
-When /^I add a new rental request with information$/ do |rental_requests|
+When /^I submit a new rental request with information$/ do |rental_requests|
   rental_request = rental_requests.hashes[0]
   %w[pick_up_time return_time].each do |field|
     fill_in "rental_request_#{field}", with: rental_request[field] if rental_request.key? field
@@ -37,9 +37,7 @@ When /^I add a new rental request with information$/ do |rental_requests|
 end
 
 When(/^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/) do |first_name, last_name, listing_name|
-  requester = User.find_by first_name: first_name, last_name: last_name
-  listing = Listing.find_by name: listing_name
-  request = RentalRequest.find_by requester: requester, listing: listing
+  request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
   visit rental_path request.id
 end
 
@@ -57,23 +55,13 @@ Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do 
   expect(URI.parse(current_url).path).to eq new_listing_rental_request_path listing.id
 end
 
-Then(/^I should (?:|still )be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_name, last_name, listing_name|
-  owner = User.find_by first_name: first_name, last_name: last_name
-  listing = Listing.find_by name: listing_name, owner: owner
-  visit new_listing_rental_request_path listing.id
-end
-
 Then(/^I should (?:|still )be on the edit request page for "([^"]*)"$/) do |listing_name|
-  requester = User.find_by email: @user_params["email"]
-  listing = Listing.find_by name: listing_name
-  request = RentalRequest.find_by requester: requester, listing: listing
+  request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
   visit edit_rental_request_path request.id
 end
 
 Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/) do |first_name, last_name, listing_name, pick_up_time|
-  requester = User.find_by first_name: first_name, last_name: last_name
-  listing = Listing.find_by name: listing_name
-  request = RentalRequest.find_by requester: requester, listing: listing
+  request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
   visit rental_request_path request.id
   expect(page.body).to have_content /Pick-up Time:(\s*) #{pick_up_time}/
 end
@@ -103,3 +91,8 @@ def create_rental_requests_with_owner(owner, request_hashes, listing)
   end
 end
 
+def find_request_with_requester_name(requester_hash, listing_name)
+  requester = User.find_by requester_hash
+  listing = Listing.find_by name: listing_name
+  RentalRequest.find_by requester: requester, listing: listing
+end
