@@ -16,6 +16,10 @@ Then /^I should be on my rental page for "([^"]*)"$/ do |listing_name|
   expect(URI.parse(current_url).path).to eq rental_path rental.id
 end
 
+Then /^I should see that the rental is cancelled$/ do
+  page.should have_content "Status: cancelled"
+end
+
 And /^I follow "([^"]*)" for "([^"]*)"$/ do |link, listing_name|
   first("div", text: listing_name).first("a", text: link).click
 end

@@ -1,6 +1,6 @@
-Feature: view rental
-  As a user who is renting an item
-  I want to view the details for the rental
+Feature: cancel rental
+  As a user who currently has a scheduled rental on the platform
+  I want to cancel my scheduled rental
 
   Background: these are the registered users
     Given the following users exist
@@ -16,15 +16,13 @@ Feature: view rental
     And I have the following approved rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |
       |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
-    And I have the following declined rental requests for "Book"
-      |pick_up_time           |return_time            |
-      |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
 
-  Scenario: user sees their own rentals
+  Scenario: user cancels a scheduled rental
     Given I am on the listings page
     When I follow "My Rentals"
     Then I should be on my rentals page
-    And I should not see "Book" in upcoming-rentals
     And I should see "Dyson V11 Torque Drive" in upcoming-rentals
     And I follow "Details" for "Dyson V11 Torque Drive"
     Then I should be on my rental page for "Dyson V11 Torque Drive"
+    And I press "Cancel Rental"
+    Then I should see that the rental is cancelled
