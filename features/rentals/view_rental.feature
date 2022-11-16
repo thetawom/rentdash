@@ -6,6 +6,7 @@ Feature: view rental
     Given the following users exist
       |email             |first_name |last_name |password    |
       |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |ethan@gmail.com   |Ethan      |Wu        |123         |
     Given I am a logged in user with information
       |email             |first_name |last_name |password    |
       |cat@gmail.com     |Cat        |Wu        |123         |
@@ -13,10 +14,13 @@ Feature: view rental
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
       |Book|a book|Furnald Hall       |3.50|dollars   |day    |1.50  |
-    And I have the following approved rental requests for "Dyson V11 Torque Drive"
+    And "Cat Wu" has the following approved rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |
       |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
-    And I have the following declined rental requests for "Book"
+    And "Ethan Wu" has the following approved rental requests for "Dyson V11 Torque Drive"
+      |pick_up_time           |return_time            |
+      |2022-11-28 00:00:00 UTC|2022-11-29 00:00:00 UTC|
+    And "Cat Wu" has the following declined rental requests for "Book"
       |pick_up_time           |return_time            |
       |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
 
@@ -28,3 +32,8 @@ Feature: view rental
     And I should see "Dyson V11 Torque Drive" in upcoming-rentals
     And I follow "Details" for "Dyson V11 Torque Drive"
     Then I should be on my rental page for "Dyson V11 Torque Drive"
+
+  Scenario: user tries to view another user's rentals
+    Given I am on the listings page
+    When I go on Ethan Wu's rental for "Dyson V11 Torque Drive"
+    Then I should be on my rentals page

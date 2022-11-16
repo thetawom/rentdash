@@ -13,7 +13,7 @@ Feature: cancel rental
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
       |Book|a book|Furnald Hall       |3.50|dollars   |day    |1.50  |
-    And I have the following approved rental requests for "Dyson V11 Torque Drive"
+    And "Cat Wu" has the following approved rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |
       |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
 

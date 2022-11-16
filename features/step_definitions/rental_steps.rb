@@ -1,7 +1,14 @@
-Given /^I have the following ([^"]*) rental requests for "([^"]*)"$/ do |status, listing_name, rental_requests_table|
-  owner = User.find_by email: @user_params["email"]
+Given /^"([^"]*) ([^"]*)" has the following ([^"]*) rental requests for "([^"]*)"$/ do |first_name, last_name, status, listing_name, rental_requests_table|
+  owner = User.find_by first_name: first_name, last_name: last_name
   listing = Listing.find_by name: listing_name
   create_rentals owner, status, rental_requests_table.hashes, listing
+end
+
+When(/^I go on ([^"]*) ([^"]*)'s rental for "([^"]*)"$/) do |first_name, last_name, listing_name|
+  renter = User.find_by first_name: first_name, last_name: last_name
+  listing = Listing.find_by name: listing_name
+  rental = Rental.find_by listing_id: listing.id, renter_id: renter.id
+  visit rental_path rental.id
 end
 
 Then /^I should (not )?see "([^"]*)" in ([^"]*)$/ do |not_exists, listing_name, category|
