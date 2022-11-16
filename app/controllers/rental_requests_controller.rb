@@ -36,6 +36,7 @@ class RentalRequestsController < ApplicationController
       flash[:error] = "You can no longer make any changes to this request."
       redirect_to listing_rental_requests_path @rental_request.listing.id
     end
+    @listing = @rental_request.listing
   end
 
   def update

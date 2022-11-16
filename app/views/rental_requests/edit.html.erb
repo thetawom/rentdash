@@ -1,9 +1,29 @@
-<h2>Edit Existing Rental Request</h2>
-<%= form_tag rental_request_path(@rental_request), :method => :put do %>
-  <%= label :rental_request, :pick_up_time, "Pick-up Time" %>
-  <%= datetime_field :rental_request, :pick_up_time %>
-  <%= label :rental_request, :return_time, "Return Time" %>
-  <%= datetime_field :rental_request, :return_time %>
-  <%= submit_tag "Update Rental Request", class: "btn btn-primary" %><br/>
-  <%= link_to "Cancel", rentals_path, class: "btn btn-secondary" %>
-<% end %>
+<div class="container mt-5">
+  <%= render partial: "listings/listing_main", locals: {show_details_btn: true, show_requests_btn: true} %>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-sm-12">
+      <%= render partial: "listings/listing_terms_of_rental" %>
+    </div>
+    <div class="col-md-8 col-sm-12">
+      <div class="card border-warning">
+        <div class="card-header">
+          <h6 class="mb-0 text-uppercase">Rental Request Form</h6>
+        </div>
+        <div class="card-body">
+          <%= form_tag rental_request_path(@rental_request), method: :patch do %>
+            <%= label :rental_request, :pick_up_time, "Pick-up Time" %>
+            <%= datetime_field :rental_request, :pick_up_time, class: "form-control mb-3" %>
+            <%= label :rental_request, :return_time, "Return Time" %>
+            <%= datetime_field :rental_request, :return_time, class: "form-control mb-3" %>
+            <p>
+              Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
+            </p>
+            <%= submit_tag "Update Rental Request", class: "btn btn-warning" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
