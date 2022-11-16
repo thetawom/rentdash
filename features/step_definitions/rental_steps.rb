@@ -27,8 +27,24 @@ Then /^I should see that the rental is cancelled$/ do
   page.should have_content "Status: cancelled"
 end
 
+Then(/^I should see that updating "([^"]*)" was (un)?successful$/) do |listing_name, un_exists|
+  if un_exists.nil?
+    expect(page.body).to have_content /Request for #{listing_name} was updated!/
+  else
+    expect(page.body).to have_content /Error!/
+  end
+end
+
 And /^I follow "([^"]*)" for "([^"]*)"$/ do |link, listing_name|
   first("div", text: listing_name).first("a", text: link).click
+end
+
+And /^I change the status to "([^"]*)"$/ do |status|
+  select status, from: "Status"
+end
+
+And /^I change the pick-up time$/ do
+  fill_in "Pick-up Time", with: ""
 end
 
 def create_rentals (owner, status, request_hashes, listing)
