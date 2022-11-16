@@ -1,25 +1,49 @@
-<div class="container py-5 h-100", style="margin-top: 30px">
+<div class="container vh-100">
   <div class="row d-flex justify-content-center align-items-center h-100">
     <div class="col-12 col-md-8 col-lg-6 col-xl-5">
-      <div class="card shadow-2-strong" style="border-radius: 1rem;">
-        <div class="card-body p-5 text-center">
+      <div class="card mb-5">
+        <div class="card-body">
 
-        <%= content_tag :h1, "Log in" %>
-        No account yet? <%= link_to "Sign up", new_user_path %>
-        <br>
-        <br>
-        <%= form_with url: login_path do |f| %>
-          <%= f.text_field :email %><br>
-          Email Address
-          <br>
-          <br>
-          <%= f.password_field :password %><br>
-          Password
-          <br>
-          <br>
-          
-          <%= f.submit "Sign in!" %>
-        <% end %>
+          <h1 class="card-title text-center mb-4">RentDash</h1>
+
+          <ul class="nav nav-tabs nav-justified mb-3">
+            <li class="nav-item">
+              <%= link_to "Login", login_path, class: "nav-link active" %>
+            </li>
+            <li class="nav-item">
+              <%= link_to "Register", new_user_path, class: "nav-link" %>
+            </li>
+          </ul>
+
+          <%= form_with url: login_path do |f| %>
+            <div class="form-outline my-3">
+              <%= f.label :email, "Email address", class: "form-label" %>
+              <%= f.text_field :email, class: "form-control" %>
+            </div>
+            <div class="form-outline my-3">
+              <%= f.label :password, "Password", class: "form-label" %>
+              <%= f.password_field :password, class: "form-control" %>
+            </div>
+
+            <div class="row my-4">
+              <div class="col-md-6 d-flex justify-content-center">
+                <div class="form-check mb-3 mb-md-0">
+                  <input class="form-check-input" type="checkbox" value="" id="loginCheck" checked />
+                  <label class="form-check-label" for="loginCheck"> Remember me </label>
+                </div>
+              </div>
+
+              <div class="col-md-6 d-flex justify-content-center">
+                <a href="#">Forgot password?</a>
+              </div>
+            </div>
+
+            <%= f.submit "Sign in!", class: "btn btn-primary btn-block mb-4" %>
+            <div class="text-center">
+              <p>Not a member? <%= link_to "Register", new_user_path, class: "btn-link" %></p>
+            </div>
+          <% end %>
+
         </div>
       </div>
     </div>
