@@ -27,6 +27,13 @@ When /^I add a new rental request with information$/ do |rental_requests|
   click_button "Submit Rental Request"
 end
 
+When(/^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/) do |first_name, last_name, listing_name|
+  requester = User.find_by first_name: first_name, last_name: last_name
+  listing = Listing.find_by name: listing_name
+  request = RentalRequest.find_by requester: requester, listing: listing
+  visit rental_path request.id
+end
+
 Then /^I should (?:|still )be on my rentals page$/ do
   expect(URI.parse(current_url).path).to eq rentals_path
 end
@@ -42,9 +49,7 @@ Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do 
 end
 
 Then(/^I should be on ([^"]*) ([^"]*)'s request page for "([^"]*)"$/) do |first_name, last_name, listing_name|
-  requester = User.find_by first_name: first_name, last_name: last_name
   listing = Listing.find_by name: listing_name
-  # request = RentalRequest.find_by requester: requester, listing: listing
   visit new_listing_rental_request_path listing.id
 end
 
@@ -66,6 +71,10 @@ end
 
 Then(/^I should see that the request for "([^"]*)" was successfully updated$/) do |listing_name|
   expect(page.body).to have_content /Request for #{listing_name} was updated!/
+end
+
+Then(/^I should not see a request from "([^"]*)"$/) do |name|
+  page.should_not have_content /#{name}/
 end
 
 def create_rental_requests_with_owner(owner, request_hashes, listing)

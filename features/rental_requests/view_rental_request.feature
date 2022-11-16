@@ -7,6 +7,7 @@ Feature: view rental request
         Given the following users exist
             |email             |first_name |last_name |password    |
             |frankie@gmail.com |Frankie    |Valli     |password123 |
+            |cat@gmail.com     |Cat        |Wu        |123         |
         Given I am a logged in user with information
             |email             |first_name |last_name |password    |
             |nathan@gmail.com  |Nathan     |Nguyen    |asdfjkl;    |
@@ -22,6 +23,9 @@ Feature: view rental request
         And "Frankie Valli" has the following rental requests for "Mr. Bunny"
             |pick_up_time           |return_time            |
             |2022-12-28 00:00:00 UTC|2023-01-29 00:00:00 UTC|
+        And "Cat Wu" has the following rental requests for "Dyson V11 Torque Drive"
+            |pick_up_time           |return_time            |
+            |2022-11-28 10:00:00 UTC|2022-12-20 00:00:00 UTC|
         
     Scenario: user sees their own rental requests
         Given I am on the listings page
@@ -38,5 +42,8 @@ Feature: view rental request
         And I should see "Sun 01/29/23 12:00 AM"
         And I should see "Mr. Bunny"
 
-        
+    Scenario: user tries to look at another user's rental requests
+        Given I am on the listings page
+        When I go on Cat Wu's request for "Dyson V11 Torque Drive"
+        Then I should be on my listings page
         

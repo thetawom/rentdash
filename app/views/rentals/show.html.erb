@@ -2,6 +2,10 @@
 
 <ul id="details">
   <li>
+    Renter:
+    <%= @rental.renter.full_name %>
+  </li>
+  <li>
     Rental Dates:
     <%= @rental.request.pick_up_time %> - <%= @rental.request.return_time %>
   </li>
