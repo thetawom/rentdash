@@ -1,9 +1,13 @@
+Given /^I am on the rental requests page for "([^"]*)"$/ do |listing_name|
+  step %{I go to the rental requests page for "#{listing_name}"}
+end
+
 Given /^I am on the new rental request page for "([^"]*)"$/ do |listing_name|
   step %{I go to the new rental request page for "#{listing_name}"}
 end
 
-Given /^I am on the rental requests page for "([^"]*)"$/ do |listing_name|
-  step %{I go to the rental requests page for "#{listing_name}"}
+Given /^I am on the edit rental request page for "([^"]*)"$/ do |listing_name|
+  step %{I go to the edit rental request page for "#{listing_name}"}
 end
 
 Given /^I have the following rental requests for "([^"]*)"$/ do |listing_name, rental_requests_table|
@@ -18,14 +22,24 @@ Given /^"([^"]*) ([^"]*)" has the following rental requests for "([^"]*)"$/ do |
   create_rental_requests_with_owner owner, rental_requests_table.hashes, listing
 end
 
-When /^I go to the new rental request page for "([^"]*)"$/ do |listing_name|
-  listing = Listing.find_by name: listing_name
-  visit new_listing_rental_request_path listing.id
+Given /^my rental request for "([^"]*)" is approved$/ do |listing_name|
+  rental_request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
+  rental_request.update status: "approved"
 end
 
 When /^I go to the rental requests page for "([^"]*)"$/ do |listing_name|
   listing = Listing.find_by name: listing_name
   visit listing_rental_requests_path listing.id
+end
+
+When /^I go to the new rental request page for "([^"]*)"$/ do |listing_name|
+  listing = Listing.find_by name: listing_name
+  visit new_listing_rental_request_path listing.id
+end
+
+When(/^I go to the edit request page for "([^"]*)"$/) do |listing_name|
+  rental_request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
+  visit edit_rental_request_path rental_request.id
 end
 
 When /^I submit a new rental request with information$/ do |rental_requests|
@@ -37,15 +51,15 @@ When /^I submit a new rental request with information$/ do |rental_requests|
 end
 
 When(/^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/) do |first_name, last_name, listing_name|
-  request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
-  visit rental_path request.id
+  rental_request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
+  visit rental_path rental_request.id
 end
 
 Then /^I should (?:|still )be on my rentals page$/ do
   expect(URI.parse(current_url).path).to eq rentals_path
 end
 
-Then /^I should (?:|still )be on the rental request page for "([^"]*)"$/ do |listing_name|
+Then /^I should (?:|still )be on the rental requests page for "([^"]*)"$/ do |listing_name|
   listing = Listing.find_by name: listing_name
   expect(URI.parse(current_url).path).to eq listing_rental_requests_path listing.id
 end
@@ -56,13 +70,13 @@ Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do 
 end
 
 Then(/^I should (?:|still )be on the edit request page for "([^"]*)"$/) do |listing_name|
-  request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
-  visit edit_rental_request_path request.id
+  rental_request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
+  expect(URI.parse(current_url).path).to eq edit_rental_request_path rental_request.id
 end
 
 Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/) do |first_name, last_name, listing_name, pick_up_time|
-  request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
-  visit rental_request_path request.id
+  rental_request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
+  visit rental_request_path rental_request.id
   expect(page.body).to have_content /Pick-up Time:(\s*) #{pick_up_time}/
 end
 
@@ -83,11 +97,11 @@ Then(/^I should not see a request from "([^"]*)"$/) do |name|
 end
 
 def create_rental_requests_with_owner(owner, request_hashes, listing)
-  request_hashes.each do |request|
-    request = RentalRequest.new request
-    request.requester_id = owner.id
-    request.listing_id = listing.id
-    request.save
+  request_hashes.each do |rental_request|
+    rental_request = RentalRequest.new rental_request
+    rental_request.requester_id = owner.id
+    rental_request.listing_id = listing.id
+    rental_request.save
   end
 end
 

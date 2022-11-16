@@ -39,7 +39,7 @@
                 <%= button_to "Cancel", rental_request_path(request.id), method: :delete, class: "btn btn-danger btn-sm mx-1" %>
               </div>
             <% end %>
-          <% elsif request.status == "approved" %>
+          <% elsif request.status == "approved" and not request.rental.nil? %>
               <%= link_to "View Rental", rental_path(request.rental.id) %>
           <% end %>
         </td>

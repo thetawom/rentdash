@@ -27,7 +27,7 @@ Feature: delete rental request
     Then I should see "Dyson V11 Torque Drive"
     And I follow "Details"
     And I press "Cancel"
-    Then I should be on the rental request page for "Dyson V11 Torque Drive"
+    Then I should be on the rental requests page for "Dyson V11 Torque Drive"
 
   Scenario: user tries to delete a request made by another user
     Given I am on the listings page

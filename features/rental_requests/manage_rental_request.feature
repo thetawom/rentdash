@@ -14,10 +14,10 @@ Feature: manage rental request
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
     And "Frankie Valli" has the following rental requests for "Dyson V11 Torque Drive"
-      |pick_up_time           |return_time            |
+      |pick_up_time          |return_time            |
       |2022-11-15 1:00:00 UTC|2022-11-20 00:00:00 UTC|
 
-  Scenario: User approves a request made on their listing
+  Scenario: user approves a request made on their listing
     Given I am on the listings page
     When I follow "My Listings"
     Then I should be on my listings page
@@ -26,7 +26,7 @@ Feature: manage rental request
     And I press "Approve"
     Then I should see the status of this request as "approved"
 
-  Scenario: User declines a request made on their listing
+  Scenario: user declines a request made on their listing
     Given I am on the listings page
     When I follow "My Listings"
     Then I should be on my listings page
