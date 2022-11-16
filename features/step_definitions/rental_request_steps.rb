@@ -85,3 +85,4 @@ def create_rental_requests_with_owner(owner, request_hashes, listing)
     request.save
   end
 end
+

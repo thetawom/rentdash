@@ -10,8 +10,8 @@ Feature: add listing
 
   Scenario: user successfully adds a new listing
     Given I am on my listings page
-    Then I should see "Add new listing"
-    When I follow "Add new listing"
+    Then I should see "Add Listing"
+    When I follow "Add Listing"
     Then I should be on the new listing page
     When I add a new listing with information
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|

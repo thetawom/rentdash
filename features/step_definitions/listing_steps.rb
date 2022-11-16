@@ -34,7 +34,7 @@ When /^I go to the listings page$/ do
 end
 
 When /^I click on the listing for "([^"]*)"$/ do |listing_name|
-  find(".card-title", text: listing_name).first(:xpath, ".//..").find("a", text: "Details").click
+  first(".card-title", text: listing_name).first(:xpath, ".//..").find("a", text: "Details").click
 end
 
 When /^I go to my listings page$/ do

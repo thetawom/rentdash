@@ -22,8 +22,7 @@ Feature: manage rental request
     When I follow "My Listings"
     Then I should be on my listings page
     And I should see "Dyson V11 Torque Drive"
-    And I follow "Details"
-    And I follow "Manage Requests"
+    And I click on the listing for "Dyson V11 Torque Drive"
     And I press "Approve"
     Then I should see the status of this request as "approved"
 
@@ -32,7 +31,6 @@ Feature: manage rental request
     When I follow "My Listings"
     Then I should be on my listings page
     And I should see "Dyson V11 Torque Drive"
-    And I follow "Details"
-    And I follow "Manage Requests"
+    And I click on the listing for "Dyson V11 Torque Drive"
     And I press "Decline"
     Then I should see the status of this request as "declined"
