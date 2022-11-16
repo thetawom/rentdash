@@ -32,8 +32,8 @@ Feature: view rental request
         When I follow "My Rentals"
         Then I should be on my rentals page
         And I should see "Dyson V11 Torque Drive"
-        And I should see "10/28/22, 12:00 am"
-        And I should see "10/29/22, 12:00 am"
+        And I should see "Pick-up 10/28 12:00 AM"
+        And I should see "Due by 10/29 12:00 AM"
     
     Scenario: user sees rental requests for their listing
         Given I am on the listing page for "Mr. Bunny"

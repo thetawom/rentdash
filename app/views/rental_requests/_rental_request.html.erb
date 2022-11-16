@@ -6,7 +6,7 @@
         <div class="d-flex justify-content-between align-items-end">
           <ul class="m-0 pl-3">
             <li>Pick-up <%= rental_request.pick_up_time.strftime("%m/%d %l:%M %p") %></li>
-            <li>Due by <%= rental_request.pick_up_time.strftime("%m/%d %l:%M %p") %></li>
+            <li>Due by <%= rental_request.return_time.strftime("%m/%d %l:%M %p") %></li>
           </ul>
           <%= link_to "Details", listing_rental_requests_path(rental_request.listing.id), class:"btn btn-warning btn-sm stretched-link" %>
         </div>

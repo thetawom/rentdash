@@ -14,7 +14,7 @@
           <% else %>
             <ul class="m-0 pl-3">
               <li>Pick-up <%= rental.request.pick_up_time.strftime("%m/%d %l:%M %p") %></li>
-              <li>Due by <%= rental.request.pick_up_time.strftime("%m/%d %l:%M %p") %></li>
+              <li>Due by <%= rental.request.return_time.strftime("%m/%d %l:%M %p") %></li>
             </ul>
             <%= link_to "Details", rental_path(rental.id), class:"btn btn-success btn-sm stretched-link" %>
           <% end %>

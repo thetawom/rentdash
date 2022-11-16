@@ -26,8 +26,8 @@ Feature: submit rental request
             |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
         Then I should be on Frankie Valli's request page for "Dyson V11 Torque Drive"
         When I follow "My Rentals"
-        Then I should see "10/28/22, 12:00 am"
-        And I should see "10/29/22, 12:00 am"
+        Then I should see "Pick-up 10/28 12:00 AM"
+        And I should see "Due by 10/29 12:00 AM"
         And I should see "Dyson V11 Torque Drive"
     
     Scenario: user adds a rental request without filling in all required fields
