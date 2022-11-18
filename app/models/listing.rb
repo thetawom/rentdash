@@ -25,7 +25,7 @@ class Listing < ApplicationRecord
         listings = where item_category: self.item_categories.values_at(*categories),
                          fee_unit: self.fee_units.values_at(*fee_units),
                          fee_time: self.fee_times.values_at(*fee_times)
-        listings = listings.where("name LIKE ?", "%#{search_term}%") unless search_term.nil?
+        listings = listings.where("LOWER(name) LIKE ?", "%#{search_term.downcase}%") unless search_term.nil?
         listings
     end
 
