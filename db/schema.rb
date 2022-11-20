@@ -10,7 +10,18 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_12_200921) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_20_151047) do
+  create_table "listing_reviews", force: :cascade do |t|
+    t.text "review"
+    t.integer "rating", null: false
+    t.integer "listing_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["listing_id"], name: "index_listing_reviews_on_listing_id"
+    t.index ["user_id"], name: "index_listing_reviews_on_user_id"
+  end
+
   create_table "listings", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -61,6 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_12_200921) do
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 
+  add_foreign_key "listing_reviews", "listings"
+  add_foreign_key "listing_reviews", "users"
   add_foreign_key "listings", "users", column: "owner_id"
   add_foreign_key "rental_requests", "listings"
   add_foreign_key "rental_requests", "users", column: "requester_id"
