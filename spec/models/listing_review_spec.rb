@@ -9,7 +9,7 @@ RSpec.describe ListingReview, type: :model do
       expect(review.errors[:review]).to be_empty
       expect(review.errors[:rating]).to_not be_empty
       expect(review.errors[:listing]).to_not be_empty
-      expect(review.errors[:user]).to_not be_empty
+      expect(review.errors[:reviewer]).to_not be_empty
     end
     it "should return false when rating is less than 1" do
       review = FactoryBot.create(:listing_review)

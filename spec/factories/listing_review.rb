@@ -3,6 +3,6 @@ FactoryBot.define do
     rating { (1..5).to_a.sample }
     review { "#{%w[Awesome Competitive Charming Dazzling Excellent Incredible].sample} item!" }
     association :listing
-    association :user
+    association :reviewer, factory: :user
   end
 end

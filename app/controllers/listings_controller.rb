@@ -2,7 +2,7 @@ require 'date'
 class ListingsController < ApplicationController
 
   def index
-    @filtered_params = filter_params
+    @filtered_params = browse_params
 
     categories = @filtered_params[:categories]&.keys
     fee_units = @filtered_params[:fee_units]&.keys
@@ -113,15 +113,15 @@ class ListingsController < ApplicationController
   end
 
   private
+  def listing_params
+    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category)
+  end
 
-  def filter_params
+  def browse_params
     params.permit(:home, :sort, :search,
                   categories: Listing.all_item_categories,
                   fee_units: Listing.all_fee_units,
                   fee_times: Listing.all_fee_times)
-  end
-  def listing_params
-    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category)
   end
 
 end

@@ -43,7 +43,7 @@ class RentalRequestsController < ApplicationController
     if @rental_request.status != "pending"
       redirect_to listing_rental_requests_path @rental_request.listing.id
     else
-      @rental_request.update(rental_request_params)
+      @rental_request.update rental_request_params
       if @rental_request.valid?
         flash[:success] = "Request for #{@rental_request.listing.name} was updated!"
         redirect_to listing_rental_requests_path @rental_request.listing.id
