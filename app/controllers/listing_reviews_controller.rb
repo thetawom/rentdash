@@ -1,0 +1,3 @@
+class ListingReviewsController < ApplicationController
+
+end
