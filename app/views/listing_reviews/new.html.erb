@@ -1,0 +1,29 @@
+<div class="container mt-5">
+  <%= render partial: "listings/listing_main", locals: {show_details_btn: true, show_requests_btn: true} %>
+  <hr>
+  <div class="row justify-content-center">
+    <div class="col-md-4 col-sm-12">
+      <%= render partial: "listings/listing_terms_of_rental" %>
+    </div>
+    <div class="col-md-8 col-sm-12">
+      <div class="card bg-light border-success">
+        <div class="card-header">
+          <h6 class="mb-0 text-uppercase">Submit Review</h6>
+        </div>
+        <div class="card-body">
+          <%= form_for @listing_review do |f| %>
+            <%= f.label :review, "Review" %>
+            <%= f.text_area :review, class: "form-control mb-3" %>
+            <%= f.label :rating, "Rating" %>
+            <%= f.number_field :rating, class: "form-control mb-3", min: 1, max: 5 %>
+            <p>
+              Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
+            </p>
+            <%= f.submit "Submit Review", class: "btn btn-success" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

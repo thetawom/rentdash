@@ -9,6 +9,7 @@
       <div class="card">
         <div class="card-header">
           <h6 class="mb-0 text-uppercase">Comments from Renters</h6>
+          <%= link_to "Add review", new_listing_review_path(@listing.id), class: "btn btn-secondary" %>
         </div>
         <div class="card-body">
           <div class="card-columns">
