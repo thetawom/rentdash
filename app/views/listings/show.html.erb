@@ -26,10 +26,10 @@
               <div class="card">
                 <div class="card-body px-3 py-2">
                   <div class="card-text text-center">
-                    <%= review.review %>
                     <p class="d-inline-block mb-0 text-muted">
                       <% review.rating.times.each do %><i class="fa-solid fa-star"></i><% end %><% (5-review.rating).times.each do %><i class="far fa-star"></i><% end %>
                     </p>
+                    <p><%= review.review %> - <%= current_user.first_name + " " + current_user.last_name %></p>
                   </div>
                 </div>
               </div>
