@@ -15,25 +15,31 @@
           </h6>
         </div>
         <% if @listing.listing_reviews.empty? %>
-          <div class="card text-center">
+          <div class="text-center">
             <div class="card-body">
               There are no reviews for this listing – be the first one!
             </div>
           </div>
         <% else %>
-          <div class="card-columns">
-            <% @listing.listing_reviews.each do |review| %>
-              <div class="card">
-                <div class="card-body px-3 py-2">
-                  <div class="card-text text-center">
-                    <p class="d-inline-block mb-0 text-muted">
-                      <% review.rating.times.each do %><i class="fa-solid fa-star"></i><% end %><% (5-review.rating).times.each do %><i class="far fa-star"></i><% end %>
-                    </p>
-                    <p><%= review.review %> - <%= current_user.first_name + " " + current_user.last_name %></p>
+          <div class="card-body">
+            <div class="card-columns">
+              <% @listing.listing_reviews.each do |review| %>
+                <div class="card">
+                  <div class="card-body px-3 py-2">
+                    <div class="card-text text-center">
+                      <p class="d-inline-block mb-0 text-muted">
+                        <% review.rating.times.each do %><i class="fa-solid fa-star"></i><% end %><% (5-review.rating).times.each do %><i class="far fa-star"></i><% end %>
+                      </p>
+                      <p><%= review.review %> - <%= review.reviewer.full_name %></p>
+                      <% if review.reviewer == current_user %>
+                        <%= link_to("Edit", edit_listing_review_path(@listing, review), class: "btn btn-warning btn-sm m-1") %>
+                        <%= button_to("Delete", listing_review_path(@listing, review), class: "btn btn-danger btn-sm m-1", method: :delete) %>
+                      <% end %>
+                    </div>
                   </div>
                 </div>
-              </div>
-            <% end %>
+              <% end %>
+            </div>
           </div>
         <% end %>
       </div>

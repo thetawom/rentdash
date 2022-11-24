@@ -11,12 +11,16 @@
           <h6 class="mb-0 text-uppercase">Submit Review</h6>
         </div>
         <div class="card-body">
-          <%= form_for @listing_review do |f| %>
-            <%= f.label :review, "Review" %>
-            <%= f.text_area :review, class: "form-control mb-3" %>
-            <%= f.label :rating, "Rating" %>
-            <%= f.number_field :rating, class: "form-control mb-3", min: 1, max: 5 %>
-            <%= f.submit "Post Review", class: "btn btn-success" %>
+          <%= form_tag listing_review_path(@listing, @listing_review), method: :patch do %>
+            <p>
+              <%= label :listing_review, :review, "Review" %><br/>
+              <%= text_area :listing_review, :review, class: "form-control mb-3" %>
+            </p>
+            <p>
+              <%= label :listing_review, :rating, "Rating" %><br/>
+              <%= number_field :listing_review, :rating, class: "form-control mb-3", min: 1, max: 5 %>
+            </p>
+            <%= submit_tag "Update Review", class: "btn btn-warning" %>
           <% end %>
         </div>
       </div>
