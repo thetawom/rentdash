@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 
   resources :users, only: [:show, :index, :new, :create]
   resources :listings, only: [:show, :index, :new, :create, :edit, :update, :destroy] do
-    resources :listing_reviews, as: "reviews", only: [:new, :create, :edit, :update, :destroy]
+    resources :listing_reviews, path: "reviews", as: "reviews", only: [:new, :create, :edit, :update, :destroy]
     resources :rental_requests, path: "requests", only: [:index, :new, :create, :edit, :update, :destroy], shallow: true  do
       post "approve", on: :member
       post "decline", on: :member

@@ -8,25 +8,34 @@
     <div class="col-md-8 col-sm-12">
       <div class="card">
         <div class="card-header">
-          <h6 class="mb-0 text-uppercase">Comments from Renters</h6>
-          <%= link_to "Add review", new_listing_review_path(@listing.id), class: "btn btn-secondary" %>
+          <h6 class="mb-0 text-uppercase">Comments from Renters
+            <% unless @is_mine %>
+            <%=  link_to "Add review", new_listing_review_path(@listing.id), class: "btn-small float-right"  %>
+            <% end %>
+          </h6>
         </div>
-        <div class="card-body">
+        <% if @listing.listing_reviews.empty? %>
+          <div class="card text-center">
+            <div class="card-body">
+              There are no reviews for this listing – be the first one!
+            </div>
+          </div>
+        <% else %>
           <div class="card-columns">
-            <% %w(Awesome Competitive Charming Dazzling Excellent Incredible).each do |word| %>
+            <% @listing.listing_reviews.each do |review| %>
               <div class="card">
                 <div class="card-body px-3 py-2">
                   <div class="card-text text-center">
-                    <%= word %> item!
+                    <%= review.review %>
                     <p class="d-inline-block mb-0 text-muted">
-                      <% 5.times.each do %><i class="fa-solid fa-star"></i><% end %>
+                      <% review.rating.times.each do %><i class="fa-solid fa-star"></i><% end %><% (5-review.rating).times.each do %><i class="far fa-star"></i><% end %>
                     </p>
                   </div>
                 </div>
               </div>
             <% end %>
           </div>
-        </div>
+        <% end %>
       </div>
     </div>
   </div>
