@@ -23,7 +23,7 @@ RSpec.describe RentalsController, type: :controller do
     end
 
     describe "GET #show" do
-      context "user is the owner" do
+      context "user is the listing owner" do
         let!(:user) { owner }
         it "renders the show template" do
           get :show, params: {id: rental.id}, session: {user_id: user.id}
@@ -55,138 +55,145 @@ RSpec.describe RentalsController, type: :controller do
           expect(response).to redirect_to my_listings_path
         end
       end
-      context "user is not the owner or renter" do
+      context "user is not the listing owner or renter" do
         let!(:user) { FactoryBot.create(:user) }
         it "redirects to listing page" do
           get :show, params: {id: rental.id}, session: {user_id: user.id}
           expect(response).to redirect_to rentals_path
         end
       end
-
     end
 
     describe "GET #edit" do
-
-      it "renders the edit template" do
-        get :edit, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(response).to render_template "edit"
+      context "user is the listing owner" do
+        let!(:user) { owner }
+        it "renders the edit template" do
+          get :edit, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to render_template "edit"
+        end
+        it "assigns @rental by id" do
+          get :edit, params: {id: rental.id}, session: {user_id: user.id}
+          expect(assigns(:rental)).to eq rental
+        end
+        it "assigns @rental_request" do
+          get :edit, params: {id: rental.id}, session: {user_id: user.id}
+          expect(assigns(:rental_request)).to eq request
+        end
+        it "redirects to my listings page if rental does not exist" do
+          expect(Rental).to receive(:find_by).and_return(nil)
+          get :edit, params: {id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to my_listings_path
+        end
       end
-
-      it "assigns @rental by id" do
-        get :edit, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(assigns(:rental)).to eq rental
+      context "user is not the listing owner" do
+        let!(:user) { renter }
+        it "redirects to listing page if user is not owner" do
+          get :edit, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path rental.listing.id
+        end
       end
-
-      it "assigns @rental_request" do
-        get :edit, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(assigns(:rental_request)).to eq request
-      end
-
-      it "redirects to my listings page if rental does not exist" do
-        expect(Rental).to receive(:find_by).and_return(nil)
-        get :edit, params: {id: 0}, session: {user_id: owner.id}
-        expect(response).to redirect_to my_listings_path
-      end
-
-      it "redirects to listing page if user is not owner" do
-        get :edit, params: {id: rental.id}, session: {user_id: renter.id}
-        expect(response).to redirect_to listing_path rental.listing.id
-      end
-
     end
 
     describe "PATCH #update" do
-
-      it "updates rental if params are valid" do
-        request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter)
-        rental = instance_double("Rental", id: 1, valid?: true, request: request, listing: listing, renter: renter)
-        expect(rental).to receive(:update)
-        expect(request).to receive(:update)
-        expect(Rental).to receive(:find_by).and_return(rental)
-        allow_any_instance_of(RentalsController).to receive :rental_params
-        allow_any_instance_of(RentalsController).to receive :rental_request_params
-        patch :update, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(flash[:success]).to_not be_nil
-        expect(response).to redirect_to rental_path rental.id
+      context "user is the listing owner" do
+        let!(:user) { owner }
+        it "updates rental if params are valid" do
+          request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter)
+          rental = instance_double("Rental", id: 1, valid?: true, request: request, listing: listing, renter: renter)
+          expect(rental).to receive(:update)
+          expect(request).to receive(:update)
+          expect(Rental).to receive(:find_by).and_return(rental)
+          allow_any_instance_of(RentalsController).to receive :rental_params
+          allow_any_instance_of(RentalsController).to receive :rental_request_params
+          patch :update, params: {id: rental.id}, session: {user_id: user.id}
+          expect(flash[:success]).to_not be_nil
+          expect(response).to redirect_to rental_path rental.id
+        end
+        it "redirects to rental page if rental params are invalid" do
+          request_errors = instance_double("ActiveModel::Errors")
+          rental_errors = instance_double("ActiveModel::Errors")
+          errors = instance_double("ActiveModel::Errors")
+          allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
+          request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter, errors: request_errors)
+          rental = instance_double("Rental", id: 1, valid?: false, request: request, listing: listing, renter: renter, errors: rental_errors)
+          expect(rental).to receive(:update)
+          expect(request).to receive(:update)
+          expect(Rental).to receive(:find_by).and_return(rental)
+          allow_any_instance_of(RentalsController).to receive :rental_params
+          allow_any_instance_of(RentalsController).to receive :rental_request_params
+          patch :update, params: {id: rental.id}, session: {user_id: user.id}
+          expect(flash[:error]).to eq errors
+          expect(response).to redirect_to edit_rental_path rental.id
+        end
+        it "redirects to rental page if rental params are invalid" do
+          request_errors = instance_double("ActiveModel::Errors")
+          rental_errors = instance_double("ActiveModel::Errors")
+          errors = instance_double("ActiveModel::Errors")
+          allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
+          request = instance_double("RentalRequest", id: 1, valid?: false, listing: listing, requester: renter, errors: request_errors)
+          rental = instance_double("Rental", id: 1, valid?: true, request: request, listing: listing, renter: renter, errors: rental_errors)
+          expect(rental).to receive(:update)
+          expect(request).to receive(:update)
+          expect(Rental).to receive(:find_by).and_return(rental)
+          allow_any_instance_of(RentalsController).to receive :rental_params
+          allow_any_instance_of(RentalsController).to receive :rental_request_params
+          patch :update, params: {id: rental.id}, session: {user_id: user.id}
+          expect(flash[:error]).to eq errors
+          expect(response).to redirect_to edit_rental_path rental.id
+        end
+        it "redirects to my listings page if request does not exist" do
+          expect(Rental).to receive(:find_by).and_return(nil)
+          patch :update, params: {id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to my_listings_path
+        end
       end
-
-      it "redirects to rental page if rental params are invalid" do
-        request_errors = instance_double("ActiveModel::Errors")
-        rental_errors = instance_double("ActiveModel::Errors")
-        errors = instance_double("ActiveModel::Errors")
-        allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
-        request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter, errors: request_errors)
-        rental = instance_double("Rental", id: 1, valid?: false, request: request, listing: listing, renter: renter, errors: rental_errors)
-        expect(rental).to receive(:update)
-        expect(request).to receive(:update)
-        expect(Rental).to receive(:find_by).and_return(rental)
-        allow_any_instance_of(RentalsController).to receive :rental_params
-        allow_any_instance_of(RentalsController).to receive :rental_request_params
-        patch :update, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(flash[:error]).to eq errors
-        expect(response).to redirect_to edit_rental_path rental.id
+      context "user is not the listing owner" do
+        let!(:user) { renter }
+        it "redirects to listing page if user is not listing owner" do
+          patch :update, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
       end
-
-      it "redirects to rental page if rental params are invalid" do
-        request_errors = instance_double("ActiveModel::Errors")
-        rental_errors = instance_double("ActiveModel::Errors")
-        errors = instance_double("ActiveModel::Errors")
-        allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
-        request = instance_double("RentalRequest", id: 1, valid?: false, listing: listing, requester: renter, errors: request_errors)
-        rental = instance_double("Rental", id: 1, valid?: true, request: request, listing: listing, renter: renter, errors: rental_errors)
-        expect(rental).to receive(:update)
-        expect(request).to receive(:update)
-        expect(Rental).to receive(:find_by).and_return(rental)
-        allow_any_instance_of(RentalsController).to receive :rental_params
-        allow_any_instance_of(RentalsController).to receive :rental_request_params
-        patch :update, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(flash[:error]).to eq errors
-        expect(response).to redirect_to edit_rental_path rental.id
-      end
-
-      it "redirects to my listings page if request does not exist" do
-        expect(Rental).to receive(:find_by).and_return(nil)
-        patch :update, params: {id: 0}, session: {user_id: owner.id}
-        expect(response).to redirect_to my_listings_path
-      end
-
-      it "redirects to listing page if user is not listing owner" do
-        patch :update, params: {id: rental.id}, session: {user_id: renter.id}
-        expect(response).to redirect_to listing_path listing.id
-      end
-
     end
 
     describe "POST #cancel" do
-
-      it "updates the status of the rental to cancelled if user is owner" do
-        rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
-        expect(Rental).to receive(:find_by).and_return(rental)
-        expect(rental).to receive(:update).with(status: "cancelled")
-        post :cancel, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(response).to redirect_to rental_path rental.id
+      context "user is the listing owner" do
+        let!(:user) { owner }
+        it "updates the status of the rental to cancelled" do
+          rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
+          expect(Rental).to receive(:find_by).and_return(rental)
+          expect(rental).to receive(:update).with(status: "cancelled")
+          post :cancel, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to redirect_to rental_path rental.id
+        end
+        it "redirects to my listings page if rental does not exist" do
+          expect(Rental).to receive(:find_by).and_return(nil)
+          post :cancel, params: {id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to my_listings_path
+        end
       end
-
-      it "updates the status of the rental to cancelled if user is renter" do
-        rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
-        expect(Rental).to receive(:find_by).and_return(rental)
-        expect(rental).to receive(:update).with(status: "cancelled")
-        post :cancel, params: {id: rental.id}, session: {user_id: renter.id}
-        expect(response).to redirect_to rental_path rental.id
+      context "user is the renter" do
+        let!(:user) { renter }
+        it "updates the status of the rental to cancelled" do
+          rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
+          expect(Rental).to receive(:find_by).and_return(rental)
+          expect(rental).to receive(:update).with(status: "cancelled")
+          post :cancel, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to redirect_to rental_path rental.id
+        end
+        it "redirects to my listings page if rental does not exist" do
+          expect(Rental).to receive(:find_by).and_return(nil)
+          post :cancel, params: {id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to my_listings_path
+        end
       end
-
-      it "redirects to my listings page if rental does not exist" do
-        expect(Rental).to receive(:find_by).and_return(nil)
-        post :cancel, params: {id: 0}, session: {user_id: owner.id}
-        expect(response).to redirect_to my_listings_path
+      context "user is not the listing owner or renter" do
+        let!(:user) { FactoryBot.create(:user) }
+        it "redirects to listing page if user is not owner or renter" do
+          post :cancel, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to redirect_to rentals_path
+        end
       end
-
-      it "redirects to listing page if user is not owner or renter" do
-        other_user = FactoryBot.create(:user)
-        post :cancel, params: {id: rental.id}, session: {user_id: other_user.id}
-        expect(response).to redirect_to rentals_path
-      end
-
     end
 
   end
