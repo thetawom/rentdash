@@ -3,57 +3,69 @@ require "rails_helper"
 RSpec.describe RentalsController, type: :controller do
 
   context "user is logged in" do
+
     let(:owner) { FactoryBot.create(:user) }
     let(:renter) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: owner) }
     let(:request) { FactoryBot.create(:rental_request, listing: listing, requester: renter) }
+    let!(:rental) { request.approve }
 
     describe "GET #index" do
-
       it "renders the index template" do
         get :index, session: {user_id: owner.id}
         expect(response).to render_template "index"
       end
-
       it "assigns @rentals" do
         rental = request.approve
         get :index, session: {user_id: renter.id}
         expect(assigns(:rentals)).to include rental
       end
-
     end
 
     describe "GET #show" do
-
-      let(:rental) { request.approve }
-
-      it "renders the show template" do
-        get :show, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(response).to render_template "show"
+      context "user is the owner" do
+        let!(:user) { owner }
+        it "renders the show template" do
+          get :show, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to render_template "show"
+        end
+        it "assigns @rental by id" do
+          get :show, params: {id: rental.id}, session: {user_id: user.id}
+          expect(assigns(:rental)).to eq rental
+        end
+        it "redirects to my listings page if rental does not exist" do
+          expect(Rental).to receive(:find_by).and_return(nil)
+          get :show, params: {id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to my_listings_path
+        end
       end
-
-      it "assigns @rental by id" do
-        get :show, params: {id: rental.id}, session: {user_id: owner.id}
-        expect(assigns(:rental)).to eq rental
+      context "user is the renter" do
+        let!(:user) { renter }
+        it "renders the show template" do
+          get :show, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to render_template "show"
+        end
+        it "assigns @rental by id" do
+          get :show, params: {id: rental.id}, session: {user_id: user.id}
+          expect(assigns(:rental)).to eq rental
+        end
+        it "redirects to my listings page if rental does not exist" do
+          expect(Rental).to receive(:find_by).and_return(nil)
+          get :show, params: {id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to my_listings_path
+        end
       end
-
-      it "redirects to my listings page if rental does not exist" do
-        expect(Rental).to receive(:find_by).and_return(nil)
-        get :show, params: {id: 0}, session: {user_id: owner.id}
-        expect(response).to redirect_to my_listings_path
-      end
-
-      it "redirects to listing page if user is not owner or renter" do
-        other_user = FactoryBot.create(:user)
-        get :show, params: {id: rental.id}, session: {user_id: other_user.id}
-        expect(response).to redirect_to rentals_path
+      context "user is not the owner or renter" do
+        let!(:user) { FactoryBot.create(:user) }
+        it "redirects to listing page" do
+          get :show, params: {id: rental.id}, session: {user_id: user.id}
+          expect(response).to redirect_to rentals_path
+        end
       end
 
     end
 
     describe "GET #edit" do
-
-      let(:rental) { request.approve }
 
       it "renders the edit template" do
         get :edit, params: {id: rental.id}, session: {user_id: owner.id}
@@ -84,8 +96,6 @@ RSpec.describe RentalsController, type: :controller do
     end
 
     describe "PATCH #update" do
-
-      let(:rental) { request.approve }
 
       it "updates rental if params are valid" do
         request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter)
@@ -148,8 +158,6 @@ RSpec.describe RentalsController, type: :controller do
     end
 
     describe "POST #cancel" do
-
-      let(:rental) { request.approve }
 
       it "updates the status of the rental to cancelled if user is owner" do
         rental = instance_double("Rental", id: 1, listing: listing, renter: renter)

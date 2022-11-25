@@ -1,5 +1,6 @@
 class RentalRequestsController < ApplicationController
 
+  before_action :require_not_listing_owner, only: [:new, :create]
   before_action :require_requester, only: [:edit, :update, :destroy]
   before_action :require_listing_owner, only: [:approve, :decline]
 
@@ -13,21 +14,20 @@ class RentalRequestsController < ApplicationController
   end
 
   def new
-    @listing = Listing.find params[:listing_id]
     @rental_request = RentalRequest.new
   end
 
   def create
     @rental_request = RentalRequest.new rental_request_params
-    @rental_request.listing_id = params[:listing_id]
+    @rental_request.listing = @listing
     @rental_request.requester = current_user
     @rental_request.save
     
     if @rental_request.valid?
-      redirect_to listing_rental_requests_path @rental_request.listing.id
+      redirect_to listing_rental_requests_path @listing.id
     else
       flash[:error] = @rental_request.errors
-      redirect_to new_listing_rental_request_path params[:listing_id]
+      redirect_to new_listing_rental_request_path @listing.id
     end
   end
 
@@ -74,6 +74,15 @@ class RentalRequestsController < ApplicationController
   private
   def rental_request_params
     params.require(:rental_request).permit(:pick_up_time, :return_time)
+  end
+
+  def require_not_listing_owner
+    @listing = Listing.find params[:listing_id]
+    if @listing.nil?
+      redirect_to listings_path
+    elsif @listing.owner == current_user
+      redirect_to listing_path @listing
+    end
   end
 
   def require_requester
