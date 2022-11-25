@@ -8,7 +8,7 @@ class ListingReviewsController < ApplicationController
 
   def create
     @listing_review = ListingReview.new listing_review_params
-    @listing_review.listing_id = @listing.id
+    @listing_review.listing = @listing
     @listing_review.reviewer = current_user
     @listing_review.save
 

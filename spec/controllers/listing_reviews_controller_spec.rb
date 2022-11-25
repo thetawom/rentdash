@@ -3,11 +3,111 @@ require "rails_helper"
 RSpec.describe ListingReviewsController, type: :controller do
 
   context "user is logged in" do
-    pending "GET #new"
-    pending "POST #create"
-    pending "GET #edit"
+    let(:owner) { FactoryBot.create(:user) }
+    let(:reviewer) { FactoryBot.create(:user) }
+    let(:listing) { FactoryBot.create(:listing, owner: owner) }
+    let(:review) { FactoryBot.create(:listing_review, listing: listing, reviewer: reviewer) }
+
+    describe "GET #new" do
+      context "user is not the listing owner" do
+        let!(:user) { reviewer }
+        it "renders the edit template" do
+          get :new, params: {listing_id: listing.id}, session: {user_id: user.id}
+          expect(response).to render_template "new"
+        end
+        it "creates a blank listing review" do
+          listing_review = instance_double("ListingReview")
+          allow(ListingReview).to receive(:new).and_return listing_review
+          get :new, params: {listing_id: listing.id}, session: {user_id: user.id}
+          expect(assigns(:listing)).to eq listing
+          expect(assigns(:listing_review)).to eq listing_review
+        end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          get :new, params: {listing_id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
+        end
+      end
+      context "user is the listing owner" do
+        let!(:user) { owner }
+        it "redirects to listing page" do
+          get :new, params: {listing_id: listing.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+      end
+    end
+
+    describe "POST #create" do
+      context "user is not the listing owner" do
+        let!(:user) { reviewer }
+        it "creates new rental request if params are valid" do
+          review = instance_double("ListingReview", id: 1, listing: listing)
+          allow(review).to receive_messages(:valid? => true, :listing= => nil, :reviewer= => nil, :save => nil)
+          expect(ListingReview).to receive(:new).and_return(review)
+          allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
+          post :create, params: {listing_id: listing.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+        it "redirects to new rental request page if params are invalid" do
+          review = instance_double("ListingReview", listing_id: 1)
+          errors = instance_double("ActiveModel::Errors")
+          allow(review).to receive_messages(:valid? => false, :errors => errors, :listing= => nil, :reviewer= => nil, :save => nil)
+          expect(ListingReview).to receive(:new).and_return(review)
+          allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
+          post :create, params:{listing_id: listing.id}, session: {user_id: user.id}
+          expect(flash[:error]).to_not be_nil
+          expect(response).to redirect_to new_listing_review_path listing.id
+        end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          post :create, params: {listing_id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
+        end
+      end
+      context "user is the listing owner" do
+        let!(:user) { owner }
+        it "redirects to listing page" do
+          get :new, params: {listing_id: listing.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+      end
+    end
+
+    describe "GET #edit" do
+      context "user is the reviewer" do
+        let!(:user) { reviewer }
+        it "renders the edit template" do
+          get :edit, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(response).to render_template "edit"
+        end
+        it "assigns @listing_review by id" do
+          get :edit, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(assigns(:listing_review)).to eq review
+        end
+        it "redirects to listing page if review does not exist" do
+          expect(ListingReview).to receive(:find_by).and_return(nil)
+          get :edit, params: {listing_id: listing.id, id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          get :edit, params: {listing_id: 0, id: review.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
+        end
+      end
+      context "user is not the reviewer" do
+        let!(:user) { owner }
+        it "redirects to listing page" do
+          get :edit, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+      end
+    end
+
     pending "PATCH #update"
+
     pending "DELETE #destroy"
+
   end
 
   context "user is not logged in" do
