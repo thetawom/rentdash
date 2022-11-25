@@ -77,7 +77,7 @@ class RentalRequestsController < ApplicationController
   end
 
   def require_not_listing_owner
-    @listing = Listing.find params[:listing_id]
+    @listing = Listing.find_by id: params[:listing_id]
     if @listing.nil?
       redirect_to listings_path
     elsif @listing.owner == current_user

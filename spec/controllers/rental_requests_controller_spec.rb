@@ -64,6 +64,11 @@ RSpec.describe RentalRequestsController, type: :controller do
           get :new, params:{listing_id: listing.id}, session: {user_id: user.id}
           expect(response).to redirect_to listing_path listing.id
         end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          get :new, params: {listing_id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
+        end
       end
     end
 
@@ -94,6 +99,11 @@ RSpec.describe RentalRequestsController, type: :controller do
           post :create, params:{listing_id: listing.id}, session: {user_id: user.id}
           expect(flash[:error]).to_not be_nil
           expect(response).to redirect_to new_listing_rental_request_path
+        end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          post :create, params: {listing_id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
         end
       end
       context "user is the listing owner" do
@@ -148,7 +158,7 @@ RSpec.describe RentalRequestsController, type: :controller do
           patch :update, params: {id: request.id}, session: {user_id: user.id}
           expect(response).to redirect_to listing_rental_requests_path listing.id
         end
-        it "redirects to new listing page if params are invalid" do
+        it "redirects to edit rental request page if params are invalid" do
           errors = instance_double("ActiveModel::Errors")
           request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester, errors: errors)
           expect(request).to receive(:update)
@@ -200,7 +210,7 @@ RSpec.describe RentalRequestsController, type: :controller do
       context "user is not the requester" do
         let!(:user) { owner }
         it "does not delete request if user is not the requester" do
-          request = instance_double("RentalRequest", id: "1", listing: listing, requester: requester)
+          request = instance_double("RentalRequest", id: 1, listing: listing, requester: requester)
           expect(RentalRequest).to receive(:find_by).and_return(request)
           expect(request).to_not receive(:destroy)
           delete :destroy, params: {id: request.id}, session: {user_id: user.id}
@@ -213,7 +223,7 @@ RSpec.describe RentalRequestsController, type: :controller do
       context "user is the listing owner" do
         let!(:user) { owner }
         it "creates a new rental from request" do
-          request = instance_double("RentalRequest", id: "1", listing: listing, listing_id: listing.id)
+          request = instance_double("RentalRequest", id: 1, listing: listing, listing_id: listing.id)
           expect(RentalRequest).to receive(:find_by).and_return(request)
           expect(request).to receive(:approve)
           post :approve, params: {id: request.id}, session: {user_id: user.id}
@@ -241,7 +251,7 @@ RSpec.describe RentalRequestsController, type: :controller do
       context "user is the listing owner" do
         let!(:user) { owner }
         it "creates a new rental from request" do
-          request = instance_double("RentalRequest", id: "1", listing: listing, listing_id: listing.id)
+          request = instance_double("RentalRequest", id: 1, listing: listing, listing_id: listing.id)
           expect(RentalRequest).to receive(:find_by).and_return(request)
           expect(request).to receive(:decline)
           post :decline, params: {id: request.id}, session: {user_id: user.id}
