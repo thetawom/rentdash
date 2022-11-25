@@ -29,7 +29,7 @@ class ListingReviewsController < ApplicationController
       redirect_to listing_path @listing.id
     else
       flash[:error] = @listing_review.errors
-      redirect_to edit_listing_review_path [@listing.id, @listing_review.id]
+      redirect_to edit_listing_review_path @listing.id, @listing_review.id
     end
   end
 

@@ -41,17 +41,17 @@ RSpec.describe ListingReviewsController, type: :controller do
       context "user is not the listing owner" do
         let!(:user) { reviewer }
         it "creates new rental request if params are valid" do
-          review = instance_double("ListingReview", id: 1, listing: listing)
-          allow(review).to receive_messages(:valid? => true, :listing= => nil, :reviewer= => nil, :save => nil)
+          review = instance_double("ListingReview", id: 1, valid?: true)
+          allow(review).to receive_messages(:listing= => nil, :reviewer= => nil, :save => nil)
           expect(ListingReview).to receive(:new).and_return(review)
           allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
           post :create, params: {listing_id: listing.id}, session: {user_id: user.id}
           expect(response).to redirect_to listing_path listing.id
         end
         it "redirects to new rental request page if params are invalid" do
-          review = instance_double("ListingReview", listing_id: 1)
           errors = instance_double("ActiveModel::Errors")
-          allow(review).to receive_messages(:valid? => false, :errors => errors, :listing= => nil, :reviewer= => nil, :save => nil)
+          review = instance_double("ListingReview", id: 1, valid?: false, errors: errors)
+          allow(review).to receive_messages(:listing= => nil, :reviewer= => nil, :save => nil)
           expect(ListingReview).to receive(:new).and_return(review)
           allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
           post :create, params:{listing_id: listing.id}, session: {user_id: user.id}
@@ -104,9 +104,82 @@ RSpec.describe ListingReviewsController, type: :controller do
       end
     end
 
-    pending "PATCH #update"
+    describe "PATCH #update" do
+      context "user is the reviewer" do
+        let!(:user) { reviewer }
+        it "updates review if params are valid" do
+          review = instance_double("ListingReview", id: 1, valid?: true, listing: listing, reviewer: reviewer)
+          expect(review).to receive(:update)
+          expect(ListingReview).to receive(:find_by).and_return(review)
+          allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
+          patch :update, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+        it "redirects to edit review page if params are invalid" do
+          errors = instance_double("ActiveModel::Errors")
+          review = instance_double("ListingReview", id: 1, valid?: false, errors: errors, listing: listing, reviewer: reviewer)
+          expect(review).to receive(:update)
+          expect(ListingReview).to receive(:find_by).and_return(review)
+          allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
+          patch :update, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(flash[:error]).to_not be_nil
+          expect(response).to redirect_to edit_listing_review_path listing.id, review.id
+        end
+        it "redirects to listing page if review does not exist" do
+          expect(ListingReview).to receive(:find_by).and_return(nil)
+          patch :update, params: {listing_id: listing.id, id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          patch :update, params: {listing_id: 0, id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
+        end
+      end
+      context "user is not the reviewer" do
+        let!(:user) { owner }
+        it "redirects to listing page if user is not requester" do
+          patch :update, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+      end
+    end
 
-    pending "DELETE #destroy"
+    describe "DELETE #destroy" do
+      context "user is the reviewer" do
+        let!(:user) { reviewer }
+        it "deletes rental request" do
+          review = instance_double("ListingReview", id: 1, listing: listing, reviewer: reviewer)
+          expect(ListingReview).to receive(:find_by).and_return(review)
+          expect(review).to receive(:destroy)
+          delete :destroy, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+        end
+        it "redirects to listing page" do
+          delete :destroy, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+        it "redirects to listing page if review does not exist" do
+          expect(ListingReview).to receive(:find_by).and_return(nil)
+          delete :destroy, params: {listing_id: listing.id, id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+        it "redirects to listings page if listing does not exist" do
+          expect(Listing).to receive(:find_by).and_return(nil)
+          delete :destroy, params: {listing_id: 0, id: 0}, session: {user_id: user.id}
+          expect(response).to redirect_to listings_path
+        end
+      end
+      context "user is not the reviewer" do
+        let!(:user) { owner }
+        it "does not delete request if user is not the requester" do
+          review = instance_double("ListingReview", id: 1, listing: listing, reviewer: reviewer)
+          expect(ListingReview).to receive(:find_by).and_return(review)
+          expect(review).to_not receive(:destroy)
+          delete :destroy, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
+          expect(response).to redirect_to listing_path listing.id
+        end
+      end
+    end
 
   end
 
