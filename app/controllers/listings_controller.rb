@@ -61,15 +61,14 @@ class ListingsController < ApplicationController
 
   def create
     @listing = Listing.new listing_params
-    puts @listing.venmo
     @listing.owner = current_user
     @listing.save
     if @listing.valid?
       flash[:success] = "Listing for #{@listing.name} was successfully created!"
       redirect_to listing_path @listing.id
     else
-      flash[:error] = @listing.errors
-      redirect_to new_listing_path
+      flash.now[:error] = @listing.errors
+      render :new
     end
   end
 
@@ -88,8 +87,8 @@ class ListingsController < ApplicationController
         flash[:notice] = "#{@listing.name} was updated!"
         redirect_to listing_path @listing.id
       else
-        flash[:error] = @listing.errors
-        redirect_to new_listing_path
+        flash.now[:error] = @listing.errors
+        render :edit
       end
     end
   end

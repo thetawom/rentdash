@@ -28,8 +28,8 @@ class RentalsController < ApplicationController
       flash[:success] = "Request for #{@rental.listing.name} was updated!"
       redirect_to rental_path @rental.id
     else
-      flash[:error] = @rental.errors.merge!(@rental.request.errors)
-      redirect_to edit_rental_path @rental.id
+      flash.now[:error] = @rental.errors.merge!(@rental.request.errors)
+      render :edit
     end
   end
 
