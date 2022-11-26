@@ -22,6 +22,8 @@ class RentalRequestsController < ApplicationController
     @rental_request.listing = @listing
     @rental_request.requester = current_user
     @rental_request.save
+
+   
     
     if @rental_request.valid?
       redirect_to listing_rental_requests_path @listing.id
@@ -73,7 +75,7 @@ class RentalRequestsController < ApplicationController
 
   private
   def rental_request_params
-    params.require(:rental_request).permit(:pick_up_time, :return_time)
+    params.require(:rental_request).permit(:pick_up_time, :return_time, :payment_method)
   end
 
   def require_not_listing_owner

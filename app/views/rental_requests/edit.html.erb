@@ -19,6 +19,9 @@
             <p>
               Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
             </p>
+            <%= label :rental_request, :payment_method, "Payment Method" %>
+            <%= select :rental_request, :payment_method, payment_method_options_edit_rental(listing = @listing, request = @rental_request)%>
+            <br>
             <%= submit_tag "Update Rental Request", class: "btn btn-warning btn-sm" %>
           <% end %>
         </div>

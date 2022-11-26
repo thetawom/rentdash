@@ -14,10 +14,16 @@ class Listing < ApplicationRecord
 
     validates_numericality_of :fee, greater_than_or_equal_to: 0
     validates_numericality_of :deposit, greater_than_or_equal_to: 0
+    validate :atleast_one_payment_checked
+
 
     enum item_category: [:other, :books, :clothing, :tools, :cleaning, :technology, :school]
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
+
+    def atleast_one_payment_checked
+        errors.add(:payment_method, "Select at least one allowed payment method") unless venmo || paypal || cash 
+    end
 
     def rating
         unless self.listing_reviews.empty?

@@ -26,6 +26,11 @@
           Deposit Amount
           <br>
           <br>
+          Accepted Payment Methods: <br>
+          <%= f.check_box :venmo %> Venmo <br>
+          <%= f.check_box :paypal %> Paypal <br>
+          <%= f.check_box :cash %> Cash <br>
+          <br>
           Item Category: <%= f.select :item_category, item_category_options %><br>
           <br>
           <%= f.submit "Add Listing" %>

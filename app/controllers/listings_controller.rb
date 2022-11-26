@@ -61,6 +61,7 @@ class ListingsController < ApplicationController
 
   def create
     @listing = Listing.new listing_params
+    puts @listing.venmo
     @listing.owner = current_user
     @listing.save
     if @listing.valid?
@@ -115,7 +116,7 @@ class ListingsController < ApplicationController
 
   private
   def listing_params
-    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category)
+    params.require(:listing).permit(:name, :description, :pick_up_location, :fee, :fee_unit, :fee_time, :deposit, :item_category, :venmo, :paypal, :cash)
   end
 
   def browse_params
