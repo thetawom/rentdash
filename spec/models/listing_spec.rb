@@ -25,4 +25,17 @@ RSpec.describe Listing, type: :model do
     end
   end
 
+  describe "#rating" do
+    let(:listing) { FactoryBot.create(:listing) }
+    it "should return the average rating of all reviews" do
+      [1, 4, 2, 4, 3].each do |rating|
+        FactoryBot.create(:listing_review, listing: listing, rating: rating)
+      end
+      expect(listing.rating).to eq 2.8
+    end
+    it "should return nil when listing has no reviews" do
+      expect(listing.rating).to be_nil
+    end
+  end
+
 end

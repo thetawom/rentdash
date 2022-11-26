@@ -19,6 +19,13 @@ class Listing < ApplicationRecord
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
 
+    def rating
+        unless self.listing_reviews.empty?
+            rating_sum = self.listing_reviews.reduce(0) { |sum, review| sum + review.rating }
+            rating_sum.to_f / self.listing_reviews.length.to_f
+        end
+    end
+
     def self.with_filters(categories, fee_units, fee_times, search_term=nil)
         categories = self.all_item_categories if categories.nil?
         fee_units = self.all_fee_units if fee_units.nil?
