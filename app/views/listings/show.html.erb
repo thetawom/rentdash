@@ -7,41 +7,25 @@
     </div>
     <div class="col-md-8 col-sm-12">
       <div class="card">
-        <div class="card-header">
-          <h6 class="mb-0 text-uppercase">Comments from Renters
-            <% unless @is_mine %>
-            <%=  link_to "Add review", new_listing_review_path(@listing.id), class: "btn-small float-right"  %>
-            <% end %>
-          </h6>
+        <div class="card-header text-uppercase d-flex justify-content-between align-items-center">
+          <h6 class="mb-0">Comments from Renters</h6>
+          <% unless @is_mine %>
+              <%= link_to "Add review", new_listing_review_path(@listing.id), class: "btn-sm p-0 my-n1" %>
+          <% end %>
         </div>
-        <% if @listing.listing_reviews.empty? %>
-          <div class="text-center">
-            <div class="card-body">
-              There are no reviews for this listing – be the first one!
-            </div>
-          </div>
-        <% else %>
-          <div class="card-body">
-            <div class="card-columns">
-              <% @listing.listing_reviews.each do |review| %>
-                <div class="card">
-                  <div class="card-body px-3 py-2">
-                    <div class="card-text text-center">
-                      <p class="d-inline-block mb-0 text-muted">
-                        <% review.rating.times.each do %><i class="fa-solid fa-star"></i><% end %><% (5-review.rating).times.each do %><i class="far fa-star"></i><% end %>
-                      </p>
-                      <p><%= review.review %> - <%= review.reviewer.full_name %></p>
-                      <% if review.reviewer == current_user %>
-                        <%= link_to("Edit", edit_listing_review_path(@listing, review), class: "btn btn-warning btn-sm m-1") %>
-                        <%= button_to("Delete", listing_review_path(@listing, review), class: "btn btn-danger btn-sm m-1", method: :delete) %>
-                      <% end %>
-                    </div>
-                  </div>
-                </div>
+        <div class="card-body bg-light px-3 py-2">
+          <% if @listing_reviews.empty? %>
+            <div class="text-center">
+              <% if @is_mine %>
+                There are no reviews for this listing yet.
+              <% else %>
+                There are no reviews for this listing yet – be the first one!
               <% end %>
             </div>
-          </div>
-        <% end %>
+          <% else %>
+              <%= render @listing_reviews %>
+          <% end %>
+        </div>
       </div>
     </div>
   </div>

@@ -1,0 +1,25 @@
+<div class="card my-2">
+  <div class="card-body px-3 py-2">
+    <div class="card-title mb-1 d-flex font-weight-bold align-items-center">
+      <p class="d-inline-block mb-0">
+        <%= listing_review.reviewer.full_name %>
+      </p>
+      <small class="d-inline-block mb-0 ml-2 pt-n1 text-warning">
+        <% listing_review.rating.times.each do %><i class="fa-solid fa-star"></i><% end %><% (5 - listing_review.rating).times.each do %><i class="far fa-star"></i><% end %>
+      </small>
+    </div>
+    <div class="card-text">
+      <p class="mb-1">
+        <%= listing_review.review %>
+      </p>
+      <% if listing_review.reviewer == current_user %>
+        <div class="d-inline-block">
+          <%= link_to "Edit", edit_listing_review_path(@listing, listing_review), class: "btn btn-sm btn-link text-muted d-inline p-0 pb-1" %>
+        </div>
+        <div class="d-inline-block">
+          <%= button_to "Delete", listing_review_path(@listing, listing_review), method: :delete, class: "btn btn-sm btn-link text-muted d-inline p-0 pb-1" %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</div>

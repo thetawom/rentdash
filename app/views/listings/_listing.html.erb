@@ -6,10 +6,10 @@
       <p class="card-text">
         <%= listing.fee %> <%= listing.fee_unit %> / <%= listing.fee_time %> <br>
       </p>
-      <div class="justify-content-end w-100">
-        <h4 class="d-inline-block mb-0 text-muted">
+      <div class="d-flex justify-content-between align-items-center w-100">
+        <h5 class="d-inline-block mb-0 text-warning">
           <% 5.times.each do %><i class="fa-solid fa-star"></i><% end %>
-        </h4>
+        </h5>
         <div class="d-inline-block float-right">
           <%= link_to "Details", listing_path(listing.id), class:"btn btn-outline-secondary btn-sm stretched-link" %>
         </div>

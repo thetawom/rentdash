@@ -52,6 +52,7 @@ class ListingsController < ApplicationController
   def show
     @listing = Listing.find_by(id: params[:id])
     @is_mine = @listing.owner == current_user
+    @listing_reviews = @listing.listing_reviews
   end
 
   def new
