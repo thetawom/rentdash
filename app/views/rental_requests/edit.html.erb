@@ -8,9 +8,9 @@
     <div class="col-md-8 col-sm-12">
       <div class="card bg-light border-warning">
         <div class="card-header">
-          <h6 class="mb-0 text-uppercase">Rental Request Form</h6>
+          <h6 class="mb-0 text-uppercase">Edit Rental Request</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body pt-2">
           <%= form_tag rental_request_path(@rental_request), method: :patch do %>
             <%= label :rental_request, :pick_up_time, "Pick-up Time" %>
             <%= datetime_field :rental_request, :pick_up_time, class: "form-control mb-3" %>
@@ -19,7 +19,7 @@
             <p>
               Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
             </p>
-            <%= submit_tag "Update Rental Request", class: "btn btn-warning" %>
+            <%= submit_tag "Update Rental Request", class: "btn btn-warning btn-sm" %>
           <% end %>
         </div>
       </div>

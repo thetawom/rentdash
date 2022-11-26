@@ -10,7 +10,7 @@
         <div class="card-header">
           <h6 class="mb-0 text-uppercase">Rental Request Form</h6>
         </div>
-        <div class="card-body">
+        <div class="card-body pt-2">
           <%= form_for [@listing, @rental_request] do |f| %>
             <%= f.label :pick_up_time, "Pick-up Time" %>
             <%= f.datetime_field :pick_up_time, class: "form-control mb-3" %>
@@ -19,7 +19,7 @@
             <p>
               Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
             </p>
-            <%= f.submit "Submit Rental Request", class: "btn btn-success" %>
+            <%= f.submit "Submit Rental Request", class: "btn btn-success btn-sm" %>
           <% end %>
         </div>
       </div>
