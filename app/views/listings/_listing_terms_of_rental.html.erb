@@ -5,6 +5,6 @@
   <ul class="list-group list-group-flush">
     <li class="list-group-item"><span>Deposit:</span> $<%= @listing.deposit %></li>
     <li class="list-group-item"><span>Pick-up Spot:</span> <%= @listing.pick_up_location %></li>
-    <li class="list-group-item"><span>Condition:</span> Good</li>
+    <li class="list-group-item"><span>Payment Methods:</span> <%= @listing.accepted_payment_methods.join(", ") %></li>
   </ul>
 </div>

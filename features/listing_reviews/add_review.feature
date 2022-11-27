@@ -10,8 +10,8 @@ Feature: add review
       |email         |first_name |last_name |password    |
       |cat@gmail.com |Cat        |W         |123         |
     And "Frankie Valli" has the following listings
-      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|paypal|
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true  |
 
   Scenario: user successfully adds a review for a specific listing
     Given I am on the listing page for "Dyson V11 Torque Drive"

@@ -16,8 +16,8 @@
             <%= datetime_field :rental_request, :pick_up_time %>
             <%= label :rental_request, :return_time, "Return Time" %>
             <%= datetime_field :rental_request, :return_time %>
-            <%= label :rental, :payment_method, "Payment Method" %>
-            <%= select :rental, :payment_method, payment_method_options(@rental) %>
+            <%= label :rental_request, :payment_method, "Payment Method" %>
+            <%= select :rental_request, :payment_method, payment_method_options(@listing, @rental_request) %>
             <%= label :rental, :status, "Status" %>
             <%= select :rental, :status, status_options(@rental) %>
             <%= submit_tag "Edit Rental", class: "btn btn-warning" %><br/>

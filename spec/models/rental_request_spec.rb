@@ -4,10 +4,25 @@ RSpec.describe RentalRequest, type: :model do
 
   describe "#validate" do
     it "should return false when listing is missing attributes" do
-      rental_request = RentalRequest.create(return_time: "2022-10-28 00:00:00 UTC")
+      rental_request = RentalRequest.create(pick_up_time: DateTime.now, return_time: DateTime.now + 1.hour)
+      expect(rental_request.valid?).to eq false
+      expect(rental_request.errors[:return_time]).to be_empty
+      expect(rental_request.errors[:pick_up_time]).to be_empty
+      expect(rental_request.errors[:payment_method]).to_not be_empty
+    end
+    it "should return false when pick-up time is before current time" do
+      rental_request = RentalRequest.create(pick_up_time: DateTime.now - 1.hour, return_time: DateTime.now + 1.hour, payment_method: "paypal")
       expect(rental_request.valid?).to eq false
       expect(rental_request.errors[:return_time]).to be_empty
       expect(rental_request.errors[:pick_up_time]).to_not be_empty
+      expect(rental_request.errors[:payment_method]).to be_empty
+    end
+    it "should return false when return time is before pick-up time" do
+      rental_request = RentalRequest.create(pick_up_time: DateTime.now + 2.hour, return_time: DateTime.now + 1.hour, payment_method: "paypal")
+      expect(rental_request.valid?).to eq false
+      expect(rental_request.errors[:return_time]).to_not be_empty
+      expect(rental_request.errors[:pick_up_time]).to be_empty
+      expect(rental_request.errors[:payment_method]).to be_empty
     end
   end
 
@@ -20,7 +35,6 @@ RSpec.describe RentalRequest, type: :model do
       expect(rental.renter).to eq rental_request.requester
       expect(rental.listing).to eq rental_request.listing
       expect(rental.status).to eq "upcoming"
-      expect(rental.payment_method).to be_nil
     end
 
     it "should mark the rental request as approved" do

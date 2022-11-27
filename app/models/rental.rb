@@ -7,7 +7,6 @@ class Rental < ApplicationRecord
   validate :consistent_with_request
 
   enum status: {upcoming: 0, ongoing: 1, completed: 2, cancelled: 3}
-  enum payment_method: {venmo: 0, paypal: 1, cash: 2}
 
   def consistent_with_request
     errors.add(:listing, "must be same as requested listing") if listing_id != request.listing.id

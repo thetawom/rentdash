@@ -14,14 +14,14 @@ class Listing < ApplicationRecord
 
     validates_numericality_of :fee, greater_than_or_equal_to: 0
     validates_numericality_of :deposit, greater_than_or_equal_to: 0
-    validate :atleast_one_payment_checked
+    validate :at_least_one_payment_checked
 
 
     enum item_category: [:other, :books, :clothing, :tools, :cleaning, :technology, :school]
     enum fee_unit: [:karma, :dollars]
     enum fee_time: [:hour, :day, :week]
 
-    def atleast_one_payment_checked
+    def at_least_one_payment_checked
         errors.add(:payment_method, "Select at least one allowed payment method") unless venmo || paypal || cash 
     end
 
@@ -30,6 +30,10 @@ class Listing < ApplicationRecord
             rating_sum = self.listing_reviews.reduce(0) { |sum, review| sum + review.rating }
             rating_sum.to_f / self.listing_reviews.length.to_f
         end
+    end
+
+    def accepted_payment_methods
+        %w[venmo paypal cash].select {|method| self.send(method) }
     end
 
     def self.with_filters(categories, fee_units, fee_times, search_term=nil)

@@ -1,6 +1,5 @@
 FactoryBot.define do
   factory :rental do
-    payment_method { 1 }
     status { 1 }
     renter { request.requester }
     association :listing_id, factory: :listing

@@ -16,6 +16,7 @@ Feature: edit listing
     When I follow "Edit"
     Then I should be on the edit listing page for "Dyson V11 Torque Drive"
     When I fill in "Pick-up Location" with "Furnald Hall"
+    And I check the following payment methods: venmo, paypal
     And I press "Update Listing Info"
     Then the pick-up location of "Dyson V11 Torque Drive" should be "Furnald Hall"
 
