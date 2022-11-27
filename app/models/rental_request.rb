@@ -6,6 +6,8 @@ class RentalRequest < ApplicationRecord
     validates :status, presence: true
     validates :pick_up_time, presence: true
     validates :return_time, presence: true
+    validates_comparison_of :return_time, greater_than_or_equal_to: :pick_up_time
+    validates_comparison_of :pick_up_time, greater_than_or_equal_to: Date.today
 
     enum status: {pending: 0, approved: 1, declined: 2}
 
