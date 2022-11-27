@@ -68,7 +68,7 @@ class ListingsController < ApplicationController
       redirect_to listing_path @listing.id
     else
       flash[:error] = @listing.errors
-      redirect_to new_listing_path, listing: listing_params
+      render :new
     end
   end
 
