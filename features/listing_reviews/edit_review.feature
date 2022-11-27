@@ -25,9 +25,18 @@ Feature: delete review
     Then I should see "Amazing vacuum!"
     And I should see "5"
     When I follow "Edit"
-    And I change the rating to 3
+    And I change the rating to "3"
     And I press "Update Review"
     Then I should see "3"
+
+  Scenario: user unsuccessfully edits a review for a specific listing
+    Given I am on the listing page for "Dyson V11 Torque Drive"
+    Then I should see "Amazing vacuum!"
+    And I should see "5"
+    When I follow "Edit"
+    And I change the rating to ""
+    And I press "Update Review"
+    Then I should see "Error"
 
   Scenario: user tries to delete a review made by another user
     Given I am on the listing page for "Dyson V11 Torque Drive"

@@ -69,6 +69,12 @@ When /^I add a new listing with information$/ do |listings|
   click_button "Add Listing"
 end
 
+When /^I (un)?check the following payment methods: (.*)$/ do |uncheck, payment_list|
+  %w[venmo paypal cash].each do |field|
+    check "listing_#{field}" if payment_list.split(", ").include? field
+  end
+end
+
 When /I (un)?check the following fee units: (.*)/ do |uncheck, filter_list|
   filter_list.split(", ").each do |filter|
     if uncheck.nil?

@@ -8,6 +8,7 @@ class RentalRequest < ApplicationRecord
     validates :return_time, presence: true
 
     enum status: {pending: 0, approved: 1, declined: 2}
+    enum payment_method: {venmo: 0, paypal: 1, cash: 2}
 
     def approve
         self.status = :approved

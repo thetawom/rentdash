@@ -28,7 +28,7 @@ And /^"([^"]*) ([^"]*)" has the following review for "([^"]*)"$/ do |first_name,
   create_reviews owner, reviews_table.hashes, listing
 end
 
-And /^I change the rating to ([^"]*)$/ do |rating|
+And /^I change the rating to "([^"]*)"$/ do |rating|
   fill_in "listing_review[rating]", with: rating
 end
 

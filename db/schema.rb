@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_26_195001) do
+ActiveRecord::Schema[7.0].define(version: 2022_11_27_165322) do
   create_table "listing_reviews", force: :cascade do |t|
     t.text "review"
     t.integer "rating", null: false
@@ -48,13 +48,12 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_26_195001) do
     t.integer "listing_id", null: false
     t.integer "requester_id", null: false
     t.integer "status", default: 0, null: false
-    t.string "payment_method"
+    t.integer "payment_method", null: false
     t.index ["listing_id"], name: "index_rental_requests_on_listing_id"
     t.index ["requester_id"], name: "index_rental_requests_on_requester_id"
   end
 
   create_table "rentals", force: :cascade do |t|
-    t.integer "payment_method"
     t.integer "status", default: 0, null: false
     t.integer "listing_id", default: 0, null: false
     t.integer "request_id", default: 0, null: false

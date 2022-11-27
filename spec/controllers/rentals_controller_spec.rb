@@ -110,8 +110,8 @@ RSpec.describe RentalsController, type: :controller do
           expect(response).to redirect_to rental_path rental.id
         end
         it "redirects to rental page if rental params are invalid" do
-          request_errors = instance_double("ActiveModel::Errors")
-          rental_errors = instance_double("ActiveModel::Errors")
+          request_errors = instance_double("ActiveModel::Errors", messages: {})
+          rental_errors = instance_double("ActiveModel::Errors", messages: {junk: 1})
           errors = instance_double("ActiveModel::Errors")
           allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
           request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter, errors: request_errors)
@@ -122,12 +122,12 @@ RSpec.describe RentalsController, type: :controller do
           allow_any_instance_of(RentalsController).to receive :rental_params
           allow_any_instance_of(RentalsController).to receive :rental_request_params
           patch :update, params: {id: rental.id}, session: {user_id: user.id}
-          expect(flash[:error]).to eq errors
+          expect(flash[:error]).to eq rental_errors.messages
           expect(response).to redirect_to edit_rental_path rental.id
         end
-        it "redirects to rental page if rental params are invalid" do
-          request_errors = instance_double("ActiveModel::Errors")
-          rental_errors = instance_double("ActiveModel::Errors")
+        it "redirects to rental page if rental request params are invalid" do
+          request_errors = instance_double("ActiveModel::Errors", messages: {junk: 1})
+          rental_errors = instance_double("ActiveModel::Errors", messages: {})
           errors = instance_double("ActiveModel::Errors")
           allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
           request = instance_double("RentalRequest", id: 1, valid?: false, listing: listing, requester: renter, errors: request_errors)
@@ -138,7 +138,7 @@ RSpec.describe RentalsController, type: :controller do
           allow_any_instance_of(RentalsController).to receive :rental_params
           allow_any_instance_of(RentalsController).to receive :rental_request_params
           patch :update, params: {id: rental.id}, session: {user_id: user.id}
-          expect(flash[:error]).to eq errors
+          expect(flash[:error]).to eq request_errors.messages
           expect(response).to redirect_to edit_rental_path rental.id
         end
         it "redirects to my listings page if request does not exist" do
@@ -244,13 +244,12 @@ RSpec.describe RentalsController, type: :controller do
     it "returns only listing parameters with others filtered" do
       params_hash = {
         rental: { status: "completed",
-                  payment_method: "venmo",
                   junk: "junk" },
         gunk: { hunk: "hunk" }
       }
       allow(controller).to receive(:params).and_return ActionController::Parameters.new params_hash
       rental_request_params = controller.send :rental_params
-      expect(rental_request_params).to include :status, :payment_method
+      expect(rental_request_params).to include :status
       expect(rental_request_params).to_not include :junk, :gunk, :hunk
     end
 
