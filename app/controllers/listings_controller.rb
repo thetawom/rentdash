@@ -68,7 +68,7 @@ class ListingsController < ApplicationController
       redirect_to listing_path @listing.id
     else
       flash[:error] = @listing.errors
-      redirect_to new_listing_path @listing, listing: listing_params
+      redirect_to new_listing_path, listing: listing_params
     end
   end
 
@@ -88,7 +88,7 @@ class ListingsController < ApplicationController
         redirect_to listing_path @listing.id
       else
         flash[:error] = @listing.errors
-        redirect_to edit_listing_path @listing, listing: listing_params
+        redirect_to edit_listing_path @listing.id, listing: listing_params
       end
     end
   end

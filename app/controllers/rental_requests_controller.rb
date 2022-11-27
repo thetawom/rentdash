@@ -14,7 +14,7 @@ class RentalRequestsController < ApplicationController
   end
 
   def new
-    @rental_request = RentalRequest.new
+    @rental_request = RentalRequest.new (params.has_key? :rental_request) ? rental_request_params : nil
   end
 
   def create
@@ -26,30 +26,29 @@ class RentalRequestsController < ApplicationController
     if @rental_request.valid?
       redirect_to listing_rental_requests_path @listing.id
     else
-      flash.now[:error] = @rental_request.errors
-      render :new
+      flash[:error] = @rental_request.errors
+      redirect_to new_listing_rental_request_path @listing.id, rental_request: rental_request_params
     end
   end
 
   def edit
     if @rental_request.status != "pending"
       flash[:error] = "You can no longer make any changes to this request."
-      redirect_to listing_rental_requests_path @rental_request.listing.id
+      redirect_to listing_rental_requests_path @listing.id
     end
-    @listing = @rental_request.listing
   end
 
   def update
     if @rental_request.status != "pending"
-      redirect_to listing_rental_requests_path @rental_request.listing.id
+      redirect_to listing_rental_requests_path @listing.id
     else
       @rental_request.update rental_request_params
       if @rental_request.valid?
-        flash[:success] = "Request for #{@rental_request.listing.name} was updated!"
-        redirect_to listing_rental_requests_path @rental_request.listing.id
+        flash[:success] = "Request for #{@listing.name} was updated!"
+        redirect_to listing_rental_requests_path @listing.id
       else
-        flash.now[:error] = @rental_request.errors
-        render :edit
+        flash[:error] = @rental_request.errors
+        redirect_to edit_rental_request_path @rental_request.id, rental_request: rental_request_params
       end
     end
   end
@@ -63,12 +62,12 @@ class RentalRequestsController < ApplicationController
 
   def approve
     @rental_request.approve
-    redirect_to listing_rental_requests_path @rental_request.listing.id
+    redirect_to listing_rental_requests_path @listing.id
   end
 
   def decline
     @rental_request.decline
-    redirect_to listing_rental_requests_path @rental_request.listing.id
+    redirect_to listing_rental_requests_path @listing.id
   end
 
   private
@@ -89,8 +88,11 @@ class RentalRequestsController < ApplicationController
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.nil?
       redirect_to listings_path
-    elsif @rental_request.requester != current_user
-      redirect_to listing_path @rental_request.listing
+    else
+      @listing = @rental_request.listing
+      if @rental_request.requester != current_user
+        redirect_to listing_path @listing.id
+      end
     end
   end
 
@@ -98,8 +100,11 @@ class RentalRequestsController < ApplicationController
     @rental_request = RentalRequest.find_by id: params[:id]
     if @rental_request.nil?
       redirect_to listings_path
-    elsif @rental_request.listing.owner != current_user
-      redirect_to listing_path @rental_request.listing
+    else
+      @listing = @rental_request.listing
+      if @listing.owner != current_user
+        redirect_to listing_path @listing.id
+      end
     end
   end
 
