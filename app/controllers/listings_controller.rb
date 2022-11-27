@@ -56,7 +56,7 @@ class ListingsController < ApplicationController
   end
 
   def new
-    @listing = Listing.new
+    @listing = Listing.new (params.has_key? :listing) ? listing_params : nil
   end
 
   def create
@@ -67,8 +67,8 @@ class ListingsController < ApplicationController
       flash[:success] = "Listing for #{@listing.name} was successfully created!"
       redirect_to listing_path @listing.id
     else
-      flash.now[:error] = @listing.errors
-      render :new
+      flash[:error] = @listing.errors
+      redirect_to new_listing_path @listing, listing: listing_params
     end
   end
 
