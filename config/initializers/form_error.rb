@@ -1,20 +1,20 @@
-ActionView::Base.field_error_proc = Proc.new do |html_tag, instance_tag|
-    fragment = Nokogiri::HTML.fragment(html_tag)
-    field = fragment.at('input,select,textarea')
-  
-    model = instance_tag.object
-    error_message = model.errors.full_messages.join(', ')
-  
-    html = if field
-             field['class'] = "#{field['class']} invalid"
-             html = <<-HTML
-                #{fragment.to_s}
-                <p class="error">#{error_message}</p>
-             HTML
-             html
-           else
-             html_tag
-           end
-  
-    html.html_safe
+ActionView::Base.field_error_proc = Proc.new do |html_tag, instance|
+  html = %(<div class="field_with_errors", style = "margin: 0px; padding: 0px">#{html_tag}</div>).html_safe
+  # add nokogiri gem to Gemfile
+
+  form_fields = [
+    'textarea',
+  ]
+
+  elements = Nokogiri::HTML::DocumentFragment.parse(html_tag).css "label, " + form_fields.join(', ')
+
+  elements.each do |e|
+    if e.node_name.eql? 'label'
+      if instance.error_message.kind_of?(Array)
+        html = %(<div class="control-group error", style = "margin: 0px">#{html_tag}<span class="help-inline", style="color:red;">&nbsp;#{instance.error_message.uniq.join(', ')}</span></div>).html_safe
+      
+     end
+    end
   end
+  html
+end

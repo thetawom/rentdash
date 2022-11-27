@@ -330,6 +330,7 @@ DEPENDENCIES
   importmap-rails
   jbuilder
   jquery-rails
+  nokogiri
   pg
   poltergeist
   puma (~> 5.0)

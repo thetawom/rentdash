@@ -6,27 +6,28 @@
       <%= content_tag :h2, "New Item Listing" %>
         <%= form_for @listing do |f| %>
           <%= f.text_field :name %><br>
-          Name
+          <%= f.label :name, "Name", class: "col-form-label" %>
           <br>
           <%= f.text_field :description %><br>
-          Description
+          <%= f.label :description, "Description", class: "col-form-label"  %>
           <br>
           <%= f.text_field :pick_up_location %><br>
-          Pick-up Location
+          <%= f.label :pick_up_location, "Pick-up Location", class: "col-form-label"  %>
           <br>
           <%= f.number_field :fee, step: 0.01 %><br>
-          Rental Fee
+          <%= f.label :fee, "Rental Fee", class: "col-form-label"  %>
           <br>
+          <%= f.label :fee_unit, "Rental Fee Unit", class: "col-form-label"  %>: 
+          <%= f.select :fee_unit, fee_unit_options %><br>
           <br>
-          Rental Fee Unit: <%= f.select :fee_unit, fee_unit_options %><br>
-          <br>
-          Rental Fee Time: <%= f.select :fee_time, fee_time_options %><br>
+          <%= f.label :fee_time, "Rental Fee Time", class: "col-form-label"  %>: 
+          <%= f.select :fee_time, fee_time_options %><br>
           <br>
           <%= f.number_field :deposit, step: 0.01 %><br>
-          Deposit Amount
+          <%= f.label :deposit, "Deposit Amount", class: "col-form-label"  %>
           <br>
           <br>
-          Accepted Payment Methods: <br>
+          <%= f.label :payment_methods, "Accepted Payment Methods:", class: "col-form-label"  %> <br>
           <%= f.check_box :venmo %> Venmo <br>
           <%= f.check_box :paypal %> Paypal <br>
           <%= f.check_box :cash %> Cash <br>
