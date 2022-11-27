@@ -23,6 +23,10 @@ RSpec.describe Listing, type: :model do
       listing.update(deposit: -1)
       expect(listing.valid?).to eq false
     end
+    it "should return false when no accepted payment method is chosen" do
+      listing = Listing.create(venmo: false, paypal: false, cash: false)
+      expect(listing.valid?).to eq false
+    end
   end
 
   describe "#rating" do
@@ -35,6 +39,15 @@ RSpec.describe Listing, type: :model do
     end
     it "should return nil when listing has no reviews" do
       expect(listing.rating).to be_nil
+    end
+  end
+
+  describe "#accepted_payment_methods" do
+    it "should return list only containing accepted payment methods" do
+      listing = FactoryBot.create(:listing, venmo: true, paypal: true)
+      methods = listing.accepted_payment_methods
+      expect(methods).to include "venmo", "paypal"
+      expect(methods).to_not include "cash"
     end
   end
 

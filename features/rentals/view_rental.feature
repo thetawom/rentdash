@@ -15,14 +15,14 @@ Feature: view rental
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true  |
       |Book|a book|Furnald Hall       |3.50|dollars   |day    |1.50  |true|
     And "Cat Wu" has the following approved rental requests for "Dyson V11 Torque Drive"
-      |pick_up_time           |return_time            |
-      |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
+      |pick_up_time           |return_time            |payment_method|
+      |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|paypal        |
     And "Ethan Wu" has the following approved rental requests for "Dyson V11 Torque Drive"
-      |pick_up_time           |return_time            |
-      |2022-11-28 00:00:00 UTC|2022-11-29 00:00:00 UTC|
+      |pick_up_time           |return_time            |payment_method|
+      |2022-11-28 00:00:00 UTC|2022-11-29 00:00:00 UTC|paypal        |
     And "Cat Wu" has the following declined rental requests for "Book"
-      |pick_up_time           |return_time            |
-      |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
+      |pick_up_time           |return_time            |payment_method|
+      |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|paypal        |
 
   Scenario: user sees their own rentals
     Given I am on the listings page

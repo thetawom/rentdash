@@ -14,8 +14,8 @@ Feature: edit rental request
       |email         |first_name |last_name |password    |
       |cat@gmail.com |Cat        |W         |123         |
     And I have the following rental requests for "Dyson V11 Torque Drive"
-      |pick_up_time           |return_time            |
-      |2022-11-15 1:00:00 UTC |2022-11-20 00:00:00 UTC|
+      |pick_up_time           |return_time            |payment_method|
+      |2022-11-15 1:00:00 UTC |2022-11-20 00:00:00 UTC|cash          |
     
   Scenario: user successfully edits request date from my rentals page
     Given I am on the listings page

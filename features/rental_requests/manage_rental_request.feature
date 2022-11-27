@@ -14,8 +14,8 @@ Feature: manage rental request
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|paypal|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true  |
     And "Frankie Valli" has the following rental requests for "Dyson V11 Torque Drive"
-      |pick_up_time          |return_time            |
-      |2022-11-15 1:00:00 UTC|2022-11-20 00:00:00 UTC|
+      |pick_up_time          |return_time            |payment_method|
+      |2022-11-15 1:00:00 UTC|2022-11-20 00:00:00 UTC|paypal        |
 
   Scenario: user approves a request made on their listing
     Given I am on the listings page
