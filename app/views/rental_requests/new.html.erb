@@ -19,7 +19,7 @@
             <p>
               Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
             </p>
-            Payment Method: <%= f.select :payment_method, payment_method_options_new_rental(listing = @listing) %><br>
+            Payment Method: <%= f.select :payment_method, payment_method_options(@listing) %><br>
             <br>
             <%= f.submit "Submit Rental Request", class: "btn btn-success btn-sm" %>
           <% end %>

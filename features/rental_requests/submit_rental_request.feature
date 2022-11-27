@@ -20,8 +20,8 @@ Feature: submit rental request
         When I follow "Rent this!"
         Then I should be on the new rental request page for "Dyson V11 Torque Drive"
         When I submit a new rental request with information
-            |pick_up_time           |return_time            |
-            |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
+            |pick_up_time           |return_time            |payment_method|
+            |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|cash          |
         Then I should be on the rental requests page for "Dyson V11 Torque Drive"
         And I should see "Fri 10/28/22 12:00 AM"
         And I should see "Sat 10/29/22 12:00 AM"

@@ -13,6 +13,7 @@ class RentalsController < ApplicationController
   end
 
   def show
+    @rental_request = @rental.request
     @listing = @rental.listing
   end
 
@@ -42,11 +43,11 @@ class RentalsController < ApplicationController
   private
 
   def rental_params
-    params.require(:rental).permit(:status, :payment_method)
+    params.require(:rental).permit(:status)
   end
 
   def rental_request_params
-    params.require(:rental_request).permit(:pick_up_time, :return_time)
+    params.require(:rental_request).permit(:pick_up_time, :return_time, :payment_method)
   end
 
   def require_renter_or_listing_owner

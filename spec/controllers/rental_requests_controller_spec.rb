@@ -342,12 +342,13 @@ RSpec.describe RentalRequestsController, type: :controller do
       params_hash = {
         rental_request: { pick_up_time: "2022-10-28 00:00:00 UTC",
                           return_time: "2022-10-29 00:00:00 UTC",
+                          payment_method: "blood",
                           junk: "junk" },
         gunk: { hunk: "hunk" }
       }
       allow(controller).to receive(:params).and_return ActionController::Parameters.new params_hash
       rental_request_params = controller.send :rental_request_params
-      expect(rental_request_params).to include :pick_up_time, :return_time
+      expect(rental_request_params).to include :pick_up_time, :return_time, :payment_method
       expect(rental_request_params).to_not include  :junk, :gunk, :hunk
     end
 

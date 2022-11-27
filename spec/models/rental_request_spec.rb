@@ -20,7 +20,6 @@ RSpec.describe RentalRequest, type: :model do
       expect(rental.renter).to eq rental_request.requester
       expect(rental.listing).to eq rental_request.listing
       expect(rental.status).to eq "upcoming"
-      expect(rental.payment_method).to be_nil
     end
 
     it "should mark the rental request as approved" do

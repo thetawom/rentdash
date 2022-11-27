@@ -3,7 +3,7 @@ class ListingReviewsController < ApplicationController
   before_action :require_not_owner, only: [:create, :new]
   before_action :require_reviewer, only: [:edit, :update, :destroy]
   def new
-    @listing_review = ListingReview.new
+    @listing_review = ListingReview.new (params.has_key? :listing_review) ? listing_review_params : nil
   end
 
   def create

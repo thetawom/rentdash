@@ -23,17 +23,17 @@ Feature: view rental requests
             |Mr. Bunny             |the best bunny alive       |East Campus     |11.03|karma   |hour    |13.50  |true|
 
         Given I have the following rental requests for "Dyson V11 Torque Drive"
-            |pick_up_time           |return_time            |
-            |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|
+            |pick_up_time           |return_time            |payment_method|
+            |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|cash          |
         And I have the following rental requests for "Cape Cod Potato Chips"
-            |pick_up_time           |return_time            |
-            |2022-11-28 00:00:00 UTC|2022-11-29 00:00:00 UTC|
+            |pick_up_time           |return_time            |payment_method|
+            |2022-11-28 00:00:00 UTC|2022-11-29 00:00:00 UTC|cash          |
         And "Frankie Valli" has the following rental requests for "Mr. Bunny"
-            |pick_up_time           |return_time            |
-            |2022-12-28 00:00:00 UTC|2023-01-29 00:00:00 UTC|
+            |pick_up_time           |return_time            |payment_method|
+            |2022-12-28 00:00:00 UTC|2023-01-29 00:00:00 UTC|cash          |
         And "Cat Wu" has the following rental requests for "Dyson V11 Torque Drive"
-            |pick_up_time           |return_time            |
-            |2022-11-28 10:00:00 UTC|2022-12-20 00:00:00 UTC|
+            |pick_up_time           |return_time            |payment_method|
+            |2022-11-28 10:00:00 UTC|2022-12-20 00:00:00 UTC|cash          |
         
     Scenario: user can see all of their rental requests under my rentals
         Given I am on the listings page
