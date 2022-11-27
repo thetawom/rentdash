@@ -14,8 +14,8 @@ Feature: add listing
     When I follow "Add Listing"
     Then I should be on the new listing page
     When I add a new listing with information
-      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
-      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |Tools        |
+      |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|venmo|
+      |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|Karma   |Hour    |12.50  |Tools        |true |
     Then I should be on the listing page for "Dyson V11 Torque Drive"
     When I go to the listings page
     Then I should see a listing for "Dyson V11 Torque Drive"

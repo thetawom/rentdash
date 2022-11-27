@@ -87,8 +87,8 @@ class ListingsController < ApplicationController
         flash[:notice] = "#{@listing.name} was updated!"
         redirect_to listing_path @listing.id
       else
-        flash.now[:error] = @listing.errors
-        render :edit
+        flash[:error] = @listing.errors
+        redirect_to edit_listing_path @listing, listing: listing_params
       end
     end
   end

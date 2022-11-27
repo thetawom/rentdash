@@ -63,6 +63,9 @@ When /^I add a new listing with information$/ do |listings|
   %w[fee_unit fee_time item_category].each do |field|
     select listing[field], from: "listing_#{field}" if listing.key? field
   end
+  %w[venmo paypal cash].each do |field|
+    check "listing_#{field}" if listing.key? field
+  end
   click_button "Add Listing"
 end
 

@@ -8,25 +8,25 @@ Feature: display listings filtered by item categories, payment type, rental time
             |email             |first_name |last_name |password    |
             |frankie@gmail.com |Frankie    |Valli     |password123 |
         And I have the following listings
-            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|
-            |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |tools        |
-            |Bunny                 |a stuffed animal           |EC              |5.00|karma   |hour    |13.00  |school       |
-            |Penguin               |a stuffed animal           |EC              |5.00|karma   |hour    |13.00  |technology   |
-            |Cow                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |tools        |
-            |Capybara              |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |technology   |
-            |Dog                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |school       |
-            |Bull                  |an excellent vacuum cleaner|Wien Hall       |1.03|karma   |day     |12.50  |tools        |
-            |Fish                  |a stuffed animal           |EC              |5.00|karma   |day     |13.00  |school       |
-            |Kitten                |a stuffed animal           |EC              |5.00|karma   |day     |13.00  |technology   |
-            |Bat                   |a stuffed animal           |EC              |5.00|dollars |day     |13.00  |tools        |
-            |Doraemon              |a stuffed animal           |EC              |5.00|dollars |day     |13.00  |technology   |
-            |Pikachu               |a stuffed animal           |EC              |5.00|dollars |day     |13.00  |school       |
-            |Goldfish              |an excellent vacuum cleaner|Wien Hall       |1.03|karma   |week    |12.50  |tools        |
-            |Bear                  |a stuffed animal           |EC              |5.00|karma   |week    |13.00  |school       |
-            |Bird                  |a stuffed animal           |EC              |5.00|karma   |week    |13.00  |technology   |
-            |Seabear               |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |tools        |
-            |Seabunny              |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |technology   |
-            |Seapenguin            |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |school       |
+            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|venmo|paypal|
+            |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |tools        |true |true  |
+            |Bunny                 |a stuffed animal           |EC              |5.00|karma   |hour    |13.00  |school       |true |false |
+            |Penguin               |a stuffed animal           |EC              |5.00|karma   |hour    |13.00  |technology   |true |true  |
+            |Cow                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |tools        |false |true  |
+            |Capybara              |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |technology   |false |true |
+            |Dog                   |a stuffed animal           |EC              |5.00|dollars |hour    |13.00  |school       |true |true  |
+            |Bull                  |an excellent vacuum cleaner|Wien Hall       |1.03|karma   |day     |12.50  |tools        |false|true  |
+            |Fish                  |a stuffed animal           |EC              |5.00|karma   |day     |13.00  |school       |true |false |
+            |Kitten                |a stuffed animal           |EC              |5.00|karma   |day     |13.00  |technology   |true |true  |
+            |Bat                   |a stuffed animal           |EC              |5.00|dollars |day     |13.00  |tools        |false|true  |
+            |Doraemon              |a stuffed animal           |EC              |5.00|dollars |day     |13.00  |technology   |true |true  |
+            |Pikachu               |a stuffed animal           |EC              |5.00|dollars |day     |13.00  |school       |true |false |
+            |Goldfish              |an excellent vacuum cleaner|Wien Hall       |1.03|karma   |week    |12.50  |tools        |false|true  |
+            |Bear                  |a stuffed animal           |EC              |5.00|karma   |week    |13.00  |school       |true |true  |
+            |Bird                  |a stuffed animal           |EC              |5.00|karma   |week    |13.00  |technology   |true |true  |
+            |Seabear               |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |tools        |false|true  |
+            |Seabunny              |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |technology   |true |true  |
+            |Seapenguin            |a stuffed animal           |EC              |5.00|dollars |week    |13.00  |school       |false|true  |
 
     @javascript
     Scenario: restrict to item listings with "dollar" currency, "day" time units, "tools" and "technology" item categories
