@@ -11,8 +11,8 @@ Feature: submit rental request
             |email             |first_name |last_name |password    |
             |frankie@gmail.com |Frankie    |Valli     |password123 |
         Given "Nathan Nguyen" has the following listings
-            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-            |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
+            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|cash|
+            |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true|
 
     Scenario: user navigates to the new rental request page for a specific listing
         Given I am on the listing page for "Dyson V11 Torque Drive"

@@ -7,6 +7,7 @@ FactoryBot.define do
     fee_time { "hour" }
     deposit { 1.00 }
     item_category { "books" }
+    venmo { true }
     association :owner, factory: :user
   end
 end

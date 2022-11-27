@@ -9,18 +9,18 @@ Feature: view rental requests
             |frankie@gmail.com |Frankie    |Valli     |password123 |
             |cat@gmail.com     |Cat        |Wu        |123         |
         And "Frankie Valli" has the following listings
-            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-            |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |
+            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|paypal|
+            |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true  |
         And "Cat Wu" has the following listings
-            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-            |Cape Cod Potato Chips |savory and delicious       |Furnald Hall    |5   |dollars |week    |1.00   |
+            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|venmo|
+            |Cape Cod Potato Chips |savory and delicious       |Furnald Hall    |5   |dollars |week    |1.00   |true |
 
         Given I am a logged in user with information
             |email             |first_name |last_name |password    |
             |nathan@gmail.com  |Nathan     |Nguyen    |asdfjkl;    |
         And I have the following listings
-            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|
-            |Mr. Bunny             |the best bunny alive       |East Campus     |11.03|karma   |hour    |13.50  |
+            |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|cash|
+            |Mr. Bunny             |the best bunny alive       |East Campus     |11.03|karma   |hour    |13.50  |true|
 
         Given I have the following rental requests for "Dyson V11 Torque Drive"
             |pick_up_time           |return_time            |

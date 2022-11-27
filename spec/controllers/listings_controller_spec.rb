@@ -150,7 +150,7 @@ RSpec.describe ListingsController, type: :controller do
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         patch :update, params: {id: listing.id}, session: {user_id: user.id}
         expect(flash[:error]).to_not be_nil
-        expect(response).to redirect_to new_listing_path
+        expect(response).to redirect_to edit_listing_path listing.id
       end
     end
 
