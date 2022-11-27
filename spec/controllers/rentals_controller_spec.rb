@@ -267,8 +267,8 @@ RSpec.describe RentalsController, type: :controller do
 
     it "returns only listing parameters with others filtered" do
       params_hash = {
-        rental_request: { pick_up_time: "2022-10-28 00:00:00 UTC",
-                          return_time: "2022-10-29 00:00:00 UTC",
+        rental_request: { pick_up_time: "2030-10-28 00:00:00 UTC",
+                          return_time: "2030-10-29 00:00:00 UTC",
                           junk: "junk" },
         gunk: { hunk: "hunk" }
       }

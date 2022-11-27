@@ -15,7 +15,7 @@ Feature: edit rental request
       |cat@gmail.com |Cat        |W         |123         |
     And I have the following rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |payment_method|
-      |2022-11-15 1:00:00 UTC |2022-11-20 00:00:00 UTC|cash          |
+      |2030-11-15 1:00:00 UTC |2030-11-20 00:00:00 UTC|cash          |
     
   Scenario: user successfully edits request date from my rentals page
     Given I am on the listings page
@@ -24,11 +24,11 @@ Feature: edit rental request
     And I should see "Dyson V11 Torque Drive"
     When I follow "Details"
     And I follow "Edit"
-    And I fill in "Pick-up Time" with "2022-11-16 01:00:00 UTC"
+    And I fill in "Pick-up Time" with "2030-11-16 01:00:00 UTC"
     And I press "Update Rental Request"
     Then I should be on the rental requests page for "Dyson V11 Torque Drive"
     And I should see that the request for "Dyson V11 Torque Drive" was successfully updated
-    And I should see "Wed 11/16/22 1:00 AM"
+    And I should see "Sat 11/16/30 1:00 AM"
 
   Scenario: user tries to edit the request with an invalid date
     Given I am on the rental requests page for "Dyson V11 Torque Drive"

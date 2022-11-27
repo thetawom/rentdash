@@ -14,7 +14,7 @@ Feature: edit rental
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true|
     And "Frankie Valli" has the following approved rental requests for "Dyson V11 Torque Drive"
       |pick_up_time          |return_time            |payment_method|
-      |2022-11-15 1:00:00 UTC|2022-11-20 00:00:00 UTC|cash          |
+      |2030-11-15 1:00:00 UTC|2030-11-20 00:00:00 UTC|cash          |
 
   Scenario: user successfully edits the status for an approved request from my rentals page
     Given I am on the listings page

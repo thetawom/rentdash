@@ -15,7 +15,7 @@ Feature: cancel rental
       |Book|a book|Furnald Hall       |3.50|dollars   |day    |1.50  |true|
     And "Cat Wu" has the following approved rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |payment_method|
-      |2022-10-28 00:00:00 UTC|2022-10-29 00:00:00 UTC|venmo         |
+      |2030-10-28 00:00:00 UTC|2030-10-29 00:00:00 UTC|venmo         |
 
   Scenario: user cancels a scheduled rental
     Given I am on the listings page
