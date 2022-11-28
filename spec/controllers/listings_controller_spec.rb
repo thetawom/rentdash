@@ -64,6 +64,17 @@ RSpec.describe ListingsController, type: :controller do
         expect(assigns(:listings)).to eq expected_listings
       end
 
+      it "assigns @listings by rating" do
+        FactoryBot.create(:listing_review, listing: listing, rating: 3)
+        FactoryBot.create(:listing_review, listing: listing2, rating: 1)
+        FactoryBot.create(:listing_review, listing: listing3, rating: 2)
+        FactoryBot.create(:listing_review, listing: listing4, rating: 5)
+        FactoryBot.create(:listing_review, listing: listing5, rating: 4)
+        expected_listings = [listing4, listing5, listing, listing3, listing2]
+        get :index, session: {user_id: user.id}, params: {home: 1, sort: "Sort by Highest Rating"}
+        expect(assigns(:listings)).to eq expected_listings
+      end
+
       it "assigns @listings to only contain listings that contain the substring inputted in search" do
         expected_listings = [listing2]
         get :index, session: {user_id: user.id}, params: {home: 2, search: "2"}
