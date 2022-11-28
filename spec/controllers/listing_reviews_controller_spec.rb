@@ -114,13 +114,11 @@ RSpec.describe ListingReviewsController, type: :controller do
           expect(response).to redirect_to listing_path listing.id
         end
         it "redirects to edit review page if params are invalid" do
-          errors = instance_double("ActiveModel::Errors")
-          review = instance_double("ListingReview", id: 1, valid?: false, errors: errors, listing: listing, reviewer: reviewer)
+          review = instance_double("ListingReview", id: 1, valid?: false, listing: listing, reviewer: reviewer)
           expect(review).to receive(:update)
           expect(ListingReview).to receive(:find_by).and_return(review)
           allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
           patch :update, params: {listing_id: listing.id, id: review.id}, session: {user_id: user.id}
-          expect(flash[:error]).to_not be_nil
           expect(response).to redirect_to edit_listing_review_path listing.id, review.id
         end
         it "redirects to listing page if review does not exist" do

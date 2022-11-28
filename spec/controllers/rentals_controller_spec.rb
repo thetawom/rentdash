@@ -110,35 +110,25 @@ RSpec.describe RentalsController, type: :controller do
           expect(response).to redirect_to rental_path rental.id
         end
         it "redirects to rental page if rental params are invalid" do
-          request_errors = instance_double("ActiveModel::Errors", messages: {})
-          rental_errors = instance_double("ActiveModel::Errors", messages: {junk: 1})
-          errors = instance_double("ActiveModel::Errors")
-          allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
-          request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter, errors: request_errors)
-          rental = instance_double("Rental", id: 1, valid?: false, request: request, listing: listing, renter: renter, errors: rental_errors)
+          request = instance_double("RentalRequest", id: 1, valid?: true, listing: listing, requester: renter)
+          rental = instance_double("Rental", id: 1, valid?: false, request: request, listing: listing, renter: renter)
           expect(rental).to receive(:update)
           expect(request).to receive(:update)
           expect(Rental).to receive(:find_by).and_return(rental)
           allow_any_instance_of(RentalsController).to receive :rental_params
           allow_any_instance_of(RentalsController).to receive :rental_request_params
           patch :update, params: {id: rental.id}, session: {user_id: user.id}
-          expect(flash[:error]).to eq rental_errors.messages
           expect(response).to redirect_to edit_rental_path rental.id
         end
         it "redirects to rental page if rental request params are invalid" do
-          request_errors = instance_double("ActiveModel::Errors", messages: {junk: 1})
-          rental_errors = instance_double("ActiveModel::Errors", messages: {})
-          errors = instance_double("ActiveModel::Errors")
-          allow(rental_errors).to receive(:merge!).with(request_errors).and_return errors
-          request = instance_double("RentalRequest", id: 1, valid?: false, listing: listing, requester: renter, errors: request_errors)
-          rental = instance_double("Rental", id: 1, valid?: true, request: request, listing: listing, renter: renter, errors: rental_errors)
+          request = instance_double("RentalRequest", id: 1, valid?: false, listing: listing, requester: renter)
+          rental = instance_double("Rental", id: 1, valid?: true, request: request, listing: listing, renter: renter)
           expect(rental).to receive(:update)
           expect(request).to receive(:update)
           expect(Rental).to receive(:find_by).and_return(rental)
           allow_any_instance_of(RentalsController).to receive :rental_params
           allow_any_instance_of(RentalsController).to receive :rental_request_params
           patch :update, params: {id: rental.id}, session: {user_id: user.id}
-          expect(flash[:error]).to eq request_errors.messages
           expect(response).to redirect_to edit_rental_path rental.id
         end
         it "redirects to my listings page if request does not exist" do
