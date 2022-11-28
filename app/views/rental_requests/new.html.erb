@@ -12,7 +12,7 @@
         </div>
         <div class="card-body pt-2">
           <%= form_for [@listing, @rental_request] do |f| %>
-            <%= f.label :pick_up_time, "Pick-up Time" %>
+            <%= f.label :pick_up_time, "Pick-up Time", class: "col-form-label"%>
             <%= f.datetime_field :pick_up_time, class: "form-control mb-3" %>
             <%= f.label :return_time, "Return Time" %>
             <%= f.datetime_field :return_time, class: "form-control mb-3" %>

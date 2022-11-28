@@ -22,7 +22,7 @@ class Listing < ApplicationRecord
     enum fee_time: [:hour, :day, :week]
 
     def at_least_one_payment_checked
-        errors.add(:payment_method, "Select at least one allowed payment method") unless venmo || paypal || cash 
+        errors.add(:payment_method, "Select at least one payment method") unless venmo || paypal || cash 
     end
 
     def rating

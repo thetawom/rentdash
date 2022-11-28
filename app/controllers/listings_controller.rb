@@ -67,7 +67,7 @@ class ListingsController < ApplicationController
       flash[:success] = "Listing for #{@listing.name} was successfully created!"
       redirect_to listing_path @listing.id
     else
-      flash[:error] = @listing.errors
+      #flash[:error] = @listing.errors
       render :new
     end
   end
@@ -87,8 +87,8 @@ class ListingsController < ApplicationController
         flash[:notice] = "#{@listing.name} was updated!"
         redirect_to listing_path @listing.id
       else
-        flash[:error] = @listing.errors
-        redirect_to edit_listing_path @listing.id, listing: listing_params
+        #flash[:error] = @listing.errors
+        render :edit
       end
     end
   end

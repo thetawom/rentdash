@@ -26,8 +26,8 @@ class RentalRequestsController < ApplicationController
     if @rental_request.valid?
       redirect_to listing_rental_requests_path @listing.id
     else
-      flash[:error] = @rental_request.errors
-      redirect_to new_listing_rental_request_path @listing.id, rental_request: rental_request_params
+      #flash[:error] = @rental_request.errors
+      render :new
     end
   end
 
@@ -47,8 +47,8 @@ class RentalRequestsController < ApplicationController
         flash[:success] = "Request for #{@listing.name} was updated!"
         redirect_to listing_rental_requests_path @listing.id
       else
-        flash[:error] = @rental_request.errors
-        redirect_to edit_rental_request_path @rental_request.id, rental_request: rental_request_params
+        #flash[:error] = @rental_request.errors
+        render :edit
       end
     end
   end
