@@ -29,6 +29,7 @@ class ListingsController < ApplicationController
       when "Sort Price Low to High" then @listings = @listings.order("fee")
       when "Sort by Newest" then @listings = @listings.order("created_at").reverse
       when "Sort by Oldest" then @listings = @listings.order("created_at")
+      when "Sort by Highest Rating" then @listings = @listings.sort_by { |listing| listing.rating.to_f }.reverse
       else sort = nil
     end
 
