@@ -1,6 +1,6 @@
-Feature: delete review
+Feature: edit review
   As a user who has added a review for an item
-  I want to delete the review
+  I want to edit the review
 
   Background: these are the registered users
     Given the following users exist
@@ -36,7 +36,7 @@ Feature: delete review
     When I follow "Edit"
     And I change the rating to ""
     And I press "Update Review"
-    Then I should see "Error"
+    Then I should see "can't be blank"
 
   Scenario: user tries to delete a review made by another user
     Given I am on the listing page for "Dyson V11 Torque Drive"

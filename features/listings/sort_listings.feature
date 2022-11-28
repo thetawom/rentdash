@@ -37,9 +37,9 @@ Feature: display listings filtered by item categories, payment type, rental time
         And "Frankie Valli" has the following review for "Bunny"
             |review           |rating|
             |Cute bunny!!     |3     |
-#        And "Bob Wu" has the following review for "Bunny"
-#            |review           |rating|
-#            |not bad          |3     |
+        And "Bob Wu" has the following review for "Bunny"
+            |review           |rating|
+            |not bad          |3     |
 
     @javascript
     Scenario: Sort listings in non-descending price order

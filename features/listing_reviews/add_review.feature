@@ -34,4 +34,4 @@ Feature: add review
       |review           |
       |It was okay      |
     Then I should still be on the new review page for "Dyson V11 Torque Drive"
-    And I should see "Error!"
+    And I should see "can't be blank"

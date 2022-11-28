@@ -31,7 +31,7 @@ Then(/^I should see that updating "([^"]*)" was (un)?successful$/) do |listing_n
   if un_exists.nil?
     expect(page.body).to have_content /Request for #{listing_name} was updated!/
   else
-    expect(page.body).to have_content /Error!/
+    expect(page.body).to have_content /can't be blank/ or expect(page.body).to have_content /must be/
   end
 end
 
