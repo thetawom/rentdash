@@ -88,16 +88,13 @@ RSpec.describe RentalRequestsController, type: :controller do
         end
         it "redirects to new rental request page if params are invalid" do
           rental_request = instance_double("RentalRequest", listing_id: 1)
-          errors = instance_double("ActiveModel::Errors")
           allow(rental_request).to receive(:listing=)
           allow(rental_request).to receive(:requester=)
           allow(rental_request).to receive(:valid?).and_return(false)
-          allow(rental_request).to receive(:errors).and_return(errors)
           expect(rental_request).to receive(:save)
           expect(RentalRequest).to receive(:new).and_return(rental_request)
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
           post :create, params:{listing_id: listing.id}, session: {user_id: user.id}
-          expect(flash[:error]).to_not be_nil
           expect(response).to redirect_to new_listing_rental_request_path
         end
         it "redirects to listings page if listing does not exist" do
@@ -159,13 +156,11 @@ RSpec.describe RentalRequestsController, type: :controller do
           expect(response).to redirect_to listing_rental_requests_path listing.id
         end
         it "redirects to edit rental request page if params are invalid" do
-          errors = instance_double("ActiveModel::Errors")
-          request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester, errors: errors)
+          request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester)
           expect(request).to receive(:update)
           expect(RentalRequest).to receive(:find_by).and_return(request)
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
           patch :update, params: {id: request.id}, session: {user_id: user.id}
-          expect(flash[:error]).to_not be_nil
           expect(response).to redirect_to edit_rental_request_path request.id
         end
         it "redirects to listings page if request does not exist" do

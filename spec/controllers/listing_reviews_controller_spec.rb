@@ -49,13 +49,11 @@ RSpec.describe ListingReviewsController, type: :controller do
           expect(response).to redirect_to listing_path listing.id
         end
         it "redirects to new rental request page if params are invalid" do
-          errors = instance_double("ActiveModel::Errors")
-          review = instance_double("ListingReview", id: 1, valid?: false, errors: errors)
+          review = instance_double("ListingReview", id: 1, valid?: false)
           allow(review).to receive_messages(:listing= => nil, :reviewer= => nil, :save => nil)
           expect(ListingReview).to receive(:new).and_return(review)
           allow_any_instance_of(ListingReviewsController).to receive(:listing_review_params)
           post :create, params:{listing_id: listing.id}, session: {user_id: user.id}
-          expect(flash[:error]).to_not be_nil
           expect(response).to redirect_to new_listing_review_path listing.id
         end
         it "redirects to listings page if listing does not exist" do

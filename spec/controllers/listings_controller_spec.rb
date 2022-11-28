@@ -120,15 +120,12 @@ RSpec.describe ListingsController, type: :controller do
       end
       it "redirects to new listing page if params are invalid" do
         listing = instance_double("Listing")
-        errors = instance_double("ActiveModel::Errors")
         expect(listing).to receive(:valid?).and_return(false)
-        expect(listing).to receive(:errors).and_return(errors)
         expect(listing).to receive(:owner=)
         expect(listing).to receive(:save)
         expect(Listing).to receive(:new).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         post :create, session: {user_id: user.id}
-        expect(flash[:error]).to_not be_nil
         expect(response).to redirect_to new_listing_path
       end
     end
@@ -154,13 +151,11 @@ RSpec.describe ListingsController, type: :controller do
         expect(response).to redirect_to listing_path listing.id
       end
       it "redirects to new listing page if params are invalid" do
-        errors = instance_double("ActiveModel::Errors")
-        listing = instance_double("Listing", id: "1", valid?: false, errors: errors)
+        listing = instance_double("Listing", id: "1", valid?: false)
         allow(listing).to receive(:update)
         expect(Listing).to receive(:find_by).and_return(listing)
         allow_any_instance_of(ListingsController).to receive(:listing_params)
         patch :update, params: {id: listing.id}, session: {user_id: user.id}
-        expect(flash[:error]).to_not be_nil
         expect(response).to redirect_to edit_listing_path listing.id
       end
     end
