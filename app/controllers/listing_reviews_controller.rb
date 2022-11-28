@@ -3,7 +3,8 @@ class ListingReviewsController < ApplicationController
   before_action :require_not_owner, only: [:create, :new]
   before_action :require_reviewer, only: [:edit, :update, :destroy]
   def new
-    @listing_review = ListingReview.new (params.has_key? :listing_review) ? listing_review_params : nil
+    @listing_review = ListingReview.new
+    @listing_review.update listing_review_params if params.has_key? :listing_review
   end
 
   def create
@@ -15,12 +16,13 @@ class ListingReviewsController < ApplicationController
     if @listing_review.valid?
       redirect_to listing_path @listing.id
     else
-      flash[:error] = @listing_review.errors
-      redirect_to new_listing_review_path @listing.id
+      redirect_to new_listing_review_path listing_review: listing_review_params
     end
   end
 
-  def edit; end
+  def edit
+    @listing_review.update listing_review_params if params.has_key? :listing_review
+  end
 
   def update
     @listing_review.update listing_review_params
@@ -28,8 +30,7 @@ class ListingReviewsController < ApplicationController
       flash[:success] = "Review for #{@listing.name} was updated!"
       redirect_to listing_path @listing.id
     else
-      flash[:error] = @listing_review.errors
-      redirect_to edit_listing_review_path @listing.id, @listing_review.id
+      redirect_to edit_listing_review_path @listing.id, @listing_review.id, listing_review: listing_review_params
     end
   end
 

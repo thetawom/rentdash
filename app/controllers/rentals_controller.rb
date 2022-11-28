@@ -20,6 +20,8 @@ class RentalsController < ApplicationController
   def edit
     @rental_request = @rental.request
     @listing = @rental.listing
+    @rental_request.update rental_request_params if params.has_key? :rental_request
+    @listing.update listing_params if params.has_key? :listing
   end
 
   def update
@@ -29,7 +31,6 @@ class RentalsController < ApplicationController
       flash[:success] = "Request for #{@rental.listing.name} was updated!"
       redirect_to rental_path @rental.id
     else
-      flash[:error] = @rental.errors.messages.merge(@rental.request.errors.messages)
       redirect_to edit_rental_path @rental.id, rental: rental_params, rental_request: rental_request_params
     end
   end

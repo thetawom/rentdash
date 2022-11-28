@@ -57,7 +57,8 @@ class ListingsController < ApplicationController
   end
 
   def new
-    @listing = Listing.new (params.has_key? :listing) ? listing_params : nil
+    @listing = Listing.new
+    @listing.update listing_params if params.has_key? :listing
   end
 
   def create
@@ -68,14 +69,14 @@ class ListingsController < ApplicationController
       flash[:success] = "Listing for #{@listing.name} was successfully created!"
       redirect_to listing_path @listing.id
     else
-      #flash[:error] = @listing.errors
-      render :new
+      redirect_to new_listing_path listing: listing_params
     end
   end
 
   def edit
     @listing = Listing.find_by id: params[:id], owner: current_user
     redirect_to listings_path if @listing.nil?
+    @listing.update listing_params if params.has_key? :listing
   end
 
   def update
@@ -83,13 +84,12 @@ class ListingsController < ApplicationController
     if @listing.nil?
       redirect_to listings_path
     else
-      @listing.update(listing_params)
+      @listing.update listing_params
       if @listing.valid?
         flash[:notice] = "#{@listing.name} was updated!"
         redirect_to listing_path @listing.id
       else
-        #flash[:error] = @listing.errors
-        render :edit
+        redirect_to edit_listing_path @listing.id, listing: listing_params
       end
     end
   end

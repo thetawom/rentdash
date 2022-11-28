@@ -14,7 +14,8 @@ class RentalRequestsController < ApplicationController
   end
 
   def new
-    @rental_request = RentalRequest.new (params.has_key? :rental_request) ? rental_request_params : nil
+    @rental_request = RentalRequest.new
+    @rental_request.update rental_request_params if params.has_key? :rental_request
   end
 
   def create
@@ -26,8 +27,7 @@ class RentalRequestsController < ApplicationController
     if @rental_request.valid?
       redirect_to listing_rental_requests_path @listing.id
     else
-      #flash[:error] = @rental_request.errors
-      render :new
+      redirect_to new_listing_rental_request_path @listing.id, rental_request: rental_request_params
     end
   end
 
@@ -36,6 +36,7 @@ class RentalRequestsController < ApplicationController
       flash[:error] = "You can no longer make any changes to this request."
       redirect_to listing_rental_requests_path @listing.id
     end
+    @rental_request.update rental_request_params if params.has_key? :rental_request
   end
 
   def update
@@ -47,8 +48,7 @@ class RentalRequestsController < ApplicationController
         flash[:success] = "Request for #{@listing.name} was updated!"
         redirect_to listing_rental_requests_path @listing.id
       else
-        #flash[:error] = @rental_request.errors
-        render :edit
+        redirect_to edit_rental_request_path @rental_request.id, rental_request: rental_request_params
       end
     end
   end
