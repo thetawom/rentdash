@@ -1,3 +1,15 @@
+Given /^I am on my rentals page$/ do
+  step %{I go to my rentals page}
+end
+
+When /^I got to my rentals page$/ do
+  visit rentals_path
+end
+
+Then /^I should (?:|still )be on my rentals page$/ do
+  expect(URI.parse(current_url).path).to eq rentals_path
+end
+
 Given /^"([^"]*) ([^"]*)" has the following ([^"]*) rental requests for "([^"]*)"$/ do |first_name, last_name, status, listing_name, rental_requests_table|
   owner = User.find_by first_name: first_name, last_name: last_name
   listing = Listing.find_by name: listing_name

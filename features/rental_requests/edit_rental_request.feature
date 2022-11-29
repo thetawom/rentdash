@@ -30,6 +30,17 @@ Feature: edit rental request
     And I should see that the request for "Dyson V11 Torque Drive" was successfully updated
     And I should see "Sat 11/16/30 1:00 AM"
 
+  Scenario: user edits rental request date to see the estimated cost
+    Given I am on the listings page
+    When I follow "My Rentals"
+    Then I should be on my rentals page
+    And I should see "Dyson V11 Torque Drive"
+    When I follow "Details"
+    And I follow "Edit"
+    And I fill in "Return Time" with "2030-11-16 01:00:00 UTC"
+    And I press "Calculate Estimated Cost"
+    Then I should see "Estimated Cost: 24.72 karma total and $12.5 deposit"
+
   Scenario: user tries to edit the request with an invalid date
     Given I am on the rental requests page for "Dyson V11 Torque Drive"
     When I follow "Edit"

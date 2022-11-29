@@ -1,20 +1,3 @@
-#################
-# Move these steps to rental_steps.rb
-
-Given /^I am on my rentals page$/ do
-  step %{I go to my rentals page}
-end
-
-When /^I got to my rentals page$/ do
-  visit rentals_path
-end
-
-Then /^I should (?:|still )be on my rentals page$/ do
-  expect(URI.parse(current_url).path).to eq rentals_path
-end
-
-#################
-
 Given /^I am on the rental requests page for "([^"]*)"$/ do |listing_name|
   step %{I go to the rental requests page for "#{listing_name}"}
 end
@@ -65,6 +48,14 @@ When /^I submit a new rental request with information$/ do |rental_requests|
     fill_in "rental_request_#{field}", with: rental_request[field] if rental_request.key? field
   end
   click_button "Submit Rental Request"
+end
+
+When /^I calculate the cost for a new rental request with information$/ do |rental_requests|
+  rental_request = rental_requests.hashes[0]
+  %w[pick_up_time return_time].each do |field|
+    fill_in "rental_request_#{field}", with: rental_request[field] if rental_request.key? field
+  end
+  click_button "Calculate Estimated Cost"
 end
 
 When(/^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/) do |first_name, last_name, listing_name|
