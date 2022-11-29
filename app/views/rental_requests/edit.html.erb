@@ -16,12 +16,16 @@
             <%= datetime_field :rental_request, :pick_up_time, class: "form-control mb-3" %>
             <%= label :rental_request, :return_time, "Return Time" %>
             <%= datetime_field :rental_request, :return_time, class: "form-control mb-3" %>
-            <p>
-              Estimated Cost: <%= @listing.fee %> <%= @listing.fee_unit %> per <%= @listing.fee_time %> and $<%= @listing.deposit %> deposit
-            </p>
             <%= label :rental_request, :payment_method, "Payment Method" %>
             <%= select :rental_request, :payment_method, payment_method_options(@listing, @rental_request)%>
             <br>
+            <%= submit_tag "Calculate Estimated Cost", name: "calculate_estimated_cost", class: "btn btn-info btn-sm" %>
+            <% if @show_estimated_cost %>
+              <p>
+                Estimated Cost: <%= @estimated_cost %> <%= @listing.fee_unit %> total and $<%= @listing.deposit %> deposit
+              </p>
+            <%end%>
+            
             <%= submit_tag "Update Rental Request", class: "btn btn-warning btn-sm" %>
           <% end %>
         </div>
