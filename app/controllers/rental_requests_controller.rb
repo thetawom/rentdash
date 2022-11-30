@@ -25,7 +25,6 @@ class RentalRequestsController < ApplicationController
       @pick_up_time = params[:rental_request][:pick_up_time].to_datetime
       @return_time = params[:rental_request][:return_time].to_datetime
       @listing = Listing.find_by(id: params[:listing_id])
-      puts(@listing.id)
       @estimated_cost = calculate_estimated_cost(@pick_up_time, @return_time, @listing)
       redirect_to new_listing_rental_request_path @listing.id, rental_request: rental_request_params, cost: @estimated_cost
     else

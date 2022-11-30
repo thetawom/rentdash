@@ -7,7 +7,11 @@ RSpec.describe RentalRequestsController, type: :controller do
     let(:owner) { FactoryBot.create(:user) }
     let(:requester) { FactoryBot.create(:user) }
     let(:listing) { FactoryBot.create(:listing, owner: owner) }
+    let(:day_listing) { FactoryBot.create(:listing, name:"Item 3", fee: 1.00, fee_time: "day", item_category: "technology", owner: owner)}
+    let(:week_listing) { FactoryBot.create(:listing, name:"Item 4", fee: 1.00, fee_time: "week", item_category: "technology", owner: owner)}
     let(:request) { FactoryBot.create(:rental_request, listing: listing, requester: requester)}
+    let(:day_request) { FactoryBot.create(:rental_request, listing: day_listing, requester: requester)}
+    let(:week_request) { FactoryBot.create(:rental_request, listing: week_listing, requester: requester)}
 
     describe "GET #index" do
 
@@ -97,6 +101,14 @@ RSpec.describe RentalRequestsController, type: :controller do
           post :create, params:{listing_id: listing.id}, session: {user_id: user.id}
           expect(response).to redirect_to new_listing_rental_request_path
         end
+        it "displays the correct estimated cost if params are valid and user tries to calculate estimated cost" do
+          allow(request).to receive(:valid?).and_return(true)
+          allow(request).to receive(:listing=)
+          allow(request).to receive(:requester=)
+          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
+          post :create, params: {listing_id: listing.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}}, session: {user_id: user.id}
+          expect(response).to redirect_to new_listing_rental_request_path(cost: 24.0)
+        end
         it "redirects to listings page if listing does not exist" do
           expect(Listing).to receive(:find_by).and_return(nil)
           post :create, params: {listing_id: 0}, session: {user_id: user.id}
@@ -154,6 +166,30 @@ RSpec.describe RentalRequestsController, type: :controller do
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
           patch :update, params: {id: request.id}, session: {user_id: user.id}
           expect(response).to redirect_to listing_rental_requests_path listing.id
+        end
+        it "displays the correct estimated cost if params are valid and user tries to calculate estimated cost for hour unit" do
+          allow(request).to receive(:valid?).and_return(true)
+          allow(request).to receive(:listing=)
+          allow(request).to receive(:requester=)
+          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
+          post :update, params: {id: request.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}}, session: {user_id: user.id}
+          expect(response).to redirect_to edit_rental_request_path(cost: 24.0)
+        end
+        it "displays the correct estimated cost if params are valid and user tries to calculate estimated cost for day unit" do
+          allow(day_request).to receive(:valid?).and_return(true)
+          allow(day_request).to receive(:listing=)
+          allow(day_request).to receive(:requester=)
+          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
+          post :update, params: {id: day_request.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}}, session: {user_id: user.id}
+          expect(response).to redirect_to edit_rental_request_path(cost: 1.0)
+        end
+        it "displays the correct estimated cost if params are valid and user tries to calculate estimated cost for week unit" do
+          allow(week_request).to receive(:valid?).and_return(true)
+          allow(week_request).to receive(:listing=)
+          allow(week_request).to receive(:requester=)
+          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
+          post :update, params: {id: week_request.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 8.day}}, session: {user_id: user.id}
+          expect(response).to redirect_to edit_rental_request_path(cost: 1.0)
         end
         it "redirects to edit rental request page if params are invalid" do
           request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester)
@@ -269,6 +305,16 @@ RSpec.describe RentalRequestsController, type: :controller do
         end
       end
     end
+
+    # describe "calculate_estimated_cost" do
+    #   let(:owner) { FactoryBot.create(:user) }
+    #   let(:day_listing) { FactoryBot.create(:listing, name:"Item 3", fee: 1.00, fee_time: "day", item_category: "technology", owner: owner)}
+    #   it "calculates the correct estimated cost for days" do
+    #     @pick_up_time = DateTime.now + 1.day
+    #     @return_time = DateTime.now + 2.day
+    #     rental_requests_controller.calculate_estimated_cost(@pick_up_time, @return_time, day_listing).should == 1
+    #   end
+    # end
 
   end
 
