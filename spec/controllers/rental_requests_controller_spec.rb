@@ -305,17 +305,6 @@ RSpec.describe RentalRequestsController, type: :controller do
         end
       end
     end
-
-    # describe "calculate_estimated_cost" do
-    #   let(:owner) { FactoryBot.create(:user) }
-    #   let(:day_listing) { FactoryBot.create(:listing, name:"Item 3", fee: 1.00, fee_time: "day", item_category: "technology", owner: owner)}
-    #   it "calculates the correct estimated cost for days" do
-    #     @pick_up_time = DateTime.now + 1.day
-    #     @return_time = DateTime.now + 2.day
-    #     rental_requests_controller.calculate_estimated_cost(@pick_up_time, @return_time, day_listing).should == 1
-    #   end
-    # end
-
   end
 
   context "user is not logged in" do
