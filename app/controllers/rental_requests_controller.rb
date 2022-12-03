@@ -137,7 +137,7 @@ class RentalRequestsController < ApplicationController
       @estimated_cost = ((return_time - pick_up_time)*24).ceil() * @listing_fee
     elsif @listing_fee_time == 'day'
       @estimated_cost = (return_time - pick_up_time).ceil() * @listing_fee
-    elsif @listing_fee_time = 'week'
+    elsif @listing_fee_time == 'week'
       @estimated_cost = ((return_time - pick_up_time)/7).ceil() * @listing_fee
     end
     return @estimated_cost
