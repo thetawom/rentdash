@@ -22,8 +22,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "POST create" do
     it "creates new user if params are valid" do
-      user = instance_double("User", id: "1")
-      allow(user).to receive(:valid?).and_return(true)
+      user = instance_double("User", id: "1", valid?: true)
       expect(User).to receive(:create).and_return(user)
       allow_any_instance_of(UsersController).to receive(:user_params)
       post :create
@@ -31,14 +30,10 @@ RSpec.describe UsersController, type: :controller do
       expect(response).to redirect_to user_path user.id
     end
     it "redirects to registration page if params are invalid" do
-      user = instance_double("User")
-      errors = instance_double("ActiveModel::Errors")
-      allow(user).to receive(:valid?).and_return(false)
-      allow(user).to receive(:errors).and_return(errors)
+      user = instance_double("User", valid?: false)
       expect(User).to receive(:create).and_return(user)
       allow_any_instance_of(UsersController).to receive(:user_params)
       post :create
-      expect(flash[:error]).to_not be_nil
       expect(response).to redirect_to new_user_path
     end
   end
