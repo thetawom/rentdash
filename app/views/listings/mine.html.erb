@@ -90,6 +90,32 @@
     </div>
 
     <div class="accordion-item">
+      <div id="completed-rentals-heading" class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#completed-rentals">
+          <h5 class="mb-0 text-uppercase">Completed Rentals <span class="badge bg-success ml-2"><%= @completed_rentals.size %></span></h5>
+        </button>
+      </div>
+      <div id="completed-rentals" class="accordion-collapse collapse show">
+        <div class="accordion-body py-4">
+          <div class="row row-cols-3 g-3 mb-4">
+            <% if @completed_rentals.empty? %>
+              <div class="col-md-4 col-12">
+                <div class="card">
+                  <div class="card-body p-3">
+                    <p class="card-text">
+                      You do not have any completed rentals.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <%end%>
+            <%= render @completed_rentals %>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="accordion-item">
       <div id="listings-heading" class="accordion-header">
         <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#listings">
           <h5 class="mb-0 text-uppercase">All My Listings <span class="badge bg-secondary ml-2"><%= @listings.size %></span></h5>

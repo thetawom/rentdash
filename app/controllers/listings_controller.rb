@@ -112,6 +112,7 @@ class ListingsController < ApplicationController
     @rentals = Rental.where(listing_id: @listings.pluck(:id))
     @upcoming_rentals = @rentals.where(status: "upcoming")
     @ongoing_rentals = @rentals.where(status: "ongoing")
+    @completed_rentals = @rentals.where(status: "completed")
   end
 
   private

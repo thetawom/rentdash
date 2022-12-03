@@ -89,5 +89,31 @@
       </div>
     </div>
 
+    <div class="accordion-item">
+      <div id="past-rentals-heading" class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#past-rentals">
+          <h5 class="mb-0 text-uppercase">Past Rentals <span class="badge bg-warning ml-2"><%= @past_rentals.size %></span></h5>
+        </button>
+      </div>
+      <div id="past-rentals" class="accordion-collapse collapse show">
+        <div class="accordion-body py-4">
+          <div class="row row-cols-3 g-3 mb-4">
+            <% if @past_rentals.empty? %>
+              <div class="col-md-4 col-12">
+                <div class="card">
+                  <div class="card-body p-3">
+                    <p class="card-text">
+                      You do not have any past rentals at the moment.
+                    </p>
+                  </div>
+                </div>
+              </div>
+            <%end%>
+            <%= render @past_rentals %>
+          </div>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>

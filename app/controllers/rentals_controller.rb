@@ -10,6 +10,7 @@ class RentalsController < ApplicationController
     @pending_requests = @requests.where(status: "pending")
     @ongoing_rentals = @rentals.where(status: "ongoing")
     @upcoming_rentals = @rentals.where(status: "upcoming")
+    @past_rentals = @rentals.where(status: "completed")
   end
 
   def show
