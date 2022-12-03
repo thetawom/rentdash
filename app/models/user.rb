@@ -6,8 +6,7 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  validates :email, presence: true, uniqueness: true
-  validates :email, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i, on: :create }
+  validates :email, presence: true, uniqueness: true, 'valid_email_2/email': true
   validates :first_name, presence: true
   validates :last_name, presence: true
   def welcome
