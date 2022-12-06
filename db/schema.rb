@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2022_11_27_165322) do
+ActiveRecord::Schema[7.0].define(version: 2022_12_06_005520) do
   create_table "listing_reviews", force: :cascade do |t|
     t.text "review"
     t.integer "rating", null: false
@@ -72,6 +72,7 @@ ActiveRecord::Schema[7.0].define(version: 2022_11_27_165322) do
     t.string "password_digest"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "karma", default: 0, null: false
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

@@ -16,12 +16,30 @@ class RentalRequest < ApplicationRecord
     def approve
         self.status = :approved
         self.save
-        Rental.create listing: listing, request: self, renter: requester, status: :upcoming
+        rental = Rental.create listing: listing, request: self, renter: requester, status: :upcoming
+        if listing.fee_unit == "karma"
+            requester.deduct_karma cost
+            listing.owner.add_karma cost
+        end
+        rental
     end
 
     def decline
         self.status = :declined
         self.save
+    end
+
+    def cost
+        listing_fee_time = listing.fee_time
+        listing_fee = listing.fee
+        if listing_fee_time == 'hour'
+            estimated_cost = ((return_time.to_datetime - pick_up_time.to_datetime)*24).ceil * listing_fee
+        elsif listing_fee_time == 'day'
+            estimated_cost = (return_time - pick_up_time).ceil * listing_fee
+        elsif listing_fee_time == 'week'
+            estimated_cost = ((return_time - pick_up_time)/7).ceil * listing_fee
+        end
+        estimated_cost
     end
 
 end

@@ -23,6 +23,9 @@
       <div class="navbar-collapse collapse w-100 order-3 dual-collapse2">
         <ul class="navbar-nav ml-auto">
           <li class="nav-item">
+            <span class="nav-link">Karma: <%= current_user.karma %></span>
+          </li>
+          <li class="nav-item">
             <%= link_to "#{current_user.full_name}", user_path(current_user.id), class: "nav-link btn btn-link"%>
           </li>
           <li class="nav-item">

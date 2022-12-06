@@ -37,7 +37,7 @@ class RentalsController < ApplicationController
   end
 
   def cancel
-    @rental.update status: "cancelled"
+    @rental.cancel
     flash[:notice] = "Rental for #{@rental.listing.name} was cancelled."
     redirect_to rental_path @rental.id
   end

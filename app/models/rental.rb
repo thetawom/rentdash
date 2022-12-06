@@ -12,4 +12,13 @@ class Rental < ApplicationRecord
     errors.add(:listing, "must be same as requested listing") if listing_id != request.listing.id
     errors.add(:renter, "must be same as requester") if renter_id != request.requester.id
   end
+
+  def cancel
+    update status: "cancelled"
+    if listing.fee_unit == "karma"
+      renter.add_karma request.cost
+      listing.owner.deduct_karma request.cost
+    end
+  end
+
 end

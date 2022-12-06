@@ -17,4 +17,11 @@ class User < ApplicationRecord
     "#{first_name} #{last_name}"
   end
 
+  def add_karma(cost)
+    update karma: karma + cost
+  end
+  def deduct_karma(cost)
+    update karma: karma - cost
+  end
+
 end

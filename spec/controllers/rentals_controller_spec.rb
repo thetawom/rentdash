@@ -152,7 +152,7 @@ RSpec.describe RentalsController, type: :controller do
         it "updates the status of the rental to cancelled" do
           rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
           expect(Rental).to receive(:find_by).and_return(rental)
-          expect(rental).to receive(:update).with(status: "cancelled")
+          expect(rental).to receive(:cancel)
           post :cancel, params: {id: rental.id}, session: {user_id: user.id}
           expect(response).to redirect_to rental_path rental.id
         end
@@ -167,7 +167,7 @@ RSpec.describe RentalsController, type: :controller do
         it "updates the status of the rental to cancelled" do
           rental = instance_double("Rental", id: 1, listing: listing, renter: renter)
           expect(Rental).to receive(:find_by).and_return(rental)
-          expect(rental).to receive(:update).with(status: "cancelled")
+          expect(rental).to receive(:cancel)
           post :cancel, params: {id: rental.id}, session: {user_id: user.id}
           expect(response).to redirect_to rental_path rental.id
         end
