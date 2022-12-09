@@ -6,10 +6,13 @@ class RentalRequestsController < ApplicationController
 
   def index
     @listing = Listing.find_by(id: params[:listing_id])
+    @lister_phone = User.find_by(id: @listing.owner_id).phone
     if @listing.owner == current_user
       @rental_requests = RentalRequest.where(listing_id: params[:listing_id])
+      @is_owner = true
     else
       @rental_requests = RentalRequest.where(listing_id: params[:listing_id], requester: current_user)
+      @is_owner = false
     end
   end
 

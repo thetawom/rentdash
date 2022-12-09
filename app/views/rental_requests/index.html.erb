@@ -6,6 +6,11 @@
       <tr>
         <th></th>
         <th>Requester</th>
+        <%if @is_owner%> 
+          <th>Requester Phone Number</th>
+        <%else%>
+          <th>Lender Phone Number</th>
+        <%end%>
         <th>Pick-up Time</th>
         <th>Return Time</th>
         <th>Actions</th>
@@ -24,6 +29,11 @@
           <% end %>
         </td>
         <td class="align-middle"><%= request.requester.full_name %></td>
+        <%if @is_owner%> 
+          <td class="align-middle"><%= request.requester.phone %></td>
+        <%else%>
+          <td class="align-middle"><%= @lister_phone %></td>
+        <%end%>
         <td class="align-middle"><%= request.pick_up_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
         <td class="align-middle"><%= request.return_time.strftime "%a %m/%d/%y %l:%M %p" %></td>
         <td class="align-middle">
