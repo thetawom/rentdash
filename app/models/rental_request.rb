@@ -32,12 +32,14 @@ class RentalRequest < ApplicationRecord
     def cost
         listing_fee_time = listing.fee_time
         listing_fee = listing.fee
+        dt_return = return_time.to_datetime
+        dt_pick_up = pick_up_time.to_datetime
         if listing_fee_time == 'hour'
-            estimated_cost = ((return_time.to_datetime - pick_up_time.to_datetime)*24).ceil * listing_fee
+            estimated_cost = ((dt_return - dt_pick_up)*24).ceil * listing_fee
         elsif listing_fee_time == 'day'
-            estimated_cost = (return_time - pick_up_time).ceil * listing_fee
+            estimated_cost = (dt_return - dt_pick_up).ceil * listing_fee
         elsif listing_fee_time == 'week'
-            estimated_cost = ((return_time - pick_up_time)/7).ceil * listing_fee
+            estimated_cost = ((dt_return - dt_pick_up)/7).ceil * listing_fee
         end
         estimated_cost
     end
