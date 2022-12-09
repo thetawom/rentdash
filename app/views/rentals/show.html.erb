@@ -12,6 +12,17 @@
         </div>
         <div class="card-body">
           <ul>
+            <% if @is_owner %>
+              <li>
+                Requester Phone Number:
+                <%= @rental.renter.phone %>
+              </li>
+            <% else %>
+              <li>
+                Lender Phone Number:
+                <%= @lister_phone %>
+              </li>
+            <% end %>
             <li>
               Pick-up Time:
               <%= @rental_request.pick_up_time %>

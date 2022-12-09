@@ -16,6 +16,12 @@ class RentalsController < ApplicationController
   def show
     @rental_request = @rental.request
     @listing = @rental.listing
+    @lister_phone = User.find_by(id: @listing.owner_id).phone
+    if @listing.owner == current_user
+      @is_owner = true
+    else
+      @is_owner = false
+    end
   end
 
   def edit
