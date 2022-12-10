@@ -24,18 +24,18 @@ class RentalRequestsController < ApplicationController
   end
 
   def create
+    @pick_up_time = params[:rental_request][:pick_up_time].to_datetime
+    @return_time = params[:rental_request][:return_time].to_datetime
+    @listing = Listing.find_by(id: params[:listing_id])
+    @estimated_cost = calculate_estimated_cost(@pick_up_time, @return_time, @listing)
     if params[:calculate_estimated_cost]
-      @pick_up_time = params[:rental_request][:pick_up_time].to_datetime
-      @return_time = params[:rental_request][:return_time].to_datetime
-      @listing = Listing.find_by(id: params[:listing_id])
-      @estimated_cost = calculate_estimated_cost(@pick_up_time, @return_time, @listing)
       redirect_to new_listing_rental_request_path @listing.id, rental_request: rental_request_params, cost: @estimated_cost
     else
+      return if check_karma @estimated_cost, "create"
       @rental_request = RentalRequest.new rental_request_params
       @rental_request.listing = @listing
       @rental_request.requester = current_user
       @rental_request.save
-      
       if @rental_request.valid?
         redirect_to listing_rental_requests_path @listing.id
       else
@@ -55,17 +55,18 @@ class RentalRequestsController < ApplicationController
   end
 
   def update
+    @pick_up_time = params[:rental_request][:pick_up_time].to_datetime
+    @return_time = params[:rental_request][:return_time].to_datetime
+    @rental_request = RentalRequest.find_by(id: params[:id])
+    @listing = Listing.find_by(id: @rental_request.listing_id.to_s)
+    @estimated_cost = calculate_estimated_cost(@pick_up_time, @return_time, @listing)
     if params[:calculate_estimated_cost]
-      @pick_up_time = params[:rental_request][:pick_up_time].to_datetime
-      @return_time = params[:rental_request][:return_time].to_datetime
-      @rental_request = RentalRequest.find_by(id: params[:id])
-      @listing = Listing.find_by(id: @rental_request.listing_id.to_s)
-      @estimated_cost = calculate_estimated_cost(@pick_up_time, @return_time, @listing)
       redirect_to edit_rental_request_path @rental_request.id, rental_request: rental_request_params, cost: @estimated_cost
     else
       if @rental_request.status != "pending"
         redirect_to listing_rental_requests_path @listing.id
       else
+        return if check_karma @estimated_cost, "update"
         @rental_request.update rental_request_params
         if @rental_request.valid?
           flash[:success] = "Request for #{@listing.name} was updated!"
@@ -92,6 +93,18 @@ class RentalRequestsController < ApplicationController
   def decline
     @rental_request.decline
     redirect_to listing_rental_requests_path @listing.id
+  end
+
+  def check_karma(estimated_cost, method)
+    if current_user.karma - estimated_cost < 0
+      flash[:error] = "You do not have enough karma to make this request."
+      if method == "create"
+        redirect_to new_listing_rental_request_path @listing.id, rental_request: rental_request_params
+      else
+        redirect_to edit_rental_request_path @rental_request.id, rental_request: rental_request_params
+      end
+    end
+    true
   end
 
   private
