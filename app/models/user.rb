@@ -9,6 +9,13 @@ class User < ApplicationRecord
   validates :email, presence: true, uniqueness: true, 'valid_email_2/email': true
   validates :first_name, presence: true
   validates :last_name, presence: true
+
+  after_initialize :set_defaults, unless: :persisted?
+
+  def set_defaults
+    self.karma = 20
+  end
+
   def welcome
     "Hello, #{first_name}!"
   end

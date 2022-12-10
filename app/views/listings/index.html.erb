@@ -38,7 +38,7 @@
     </div>
     <div class="col-md-10 col-sm-12">
       <div class="float-right">
-        <%= select_tag :sort, options_for_select(["Sort Price High to Low", "Sort Price Low to High", "Sort by Newest", "Sort by Oldest", "Sort by Highest Rating"], @filtered_params[:sort]), onchange: "this.form.submit()", class: "form-control form-control-sm" %>
+        <%= select_tag :sort, options_for_select(["Sort Price High to Low", "Sort Price Low to High", "Sort by Newest", "Sort by Oldest", "Sort by Highest Rating"], @filtered_params[:sort]), onchange: "this.form.submit()", class: "form-select" %>
       </div>
       <% if @listings.empty? %>
         <div class="jumbotron mt-5 py-5">
