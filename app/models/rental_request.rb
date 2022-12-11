@@ -16,7 +16,7 @@ class RentalRequest < ApplicationRecord
     enum payment_method: {venmo: 0, paypal: 1, cash: 2}
 
     def enough_karma
-        if !requester.nil? and !pick_up_time.nil? and !return_time.nil? and requester.karma < self.cost
+        if !listing.nil? and listing.fee_unit == "karma" and !requester.nil? and !pick_up_time.nil? and !return_time.nil? and requester.karma < self.cost
             errors.add(:base, :not_enough_karma)
         end
     end
