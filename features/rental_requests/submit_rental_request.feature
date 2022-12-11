@@ -18,6 +18,9 @@ Feature: submit rental request
             |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|venmo|
             |Laptop Charger        |laptop charger             |Broadway Hall   |1   |dollars |day     |6      |true |
             |Pan                   |it's a pan                 |Wien Hall       |5   |dollars |week    |2      |true |
+        And "Nathan Nguyen" has 500 karma
+        And "Lucy Wu" has 500 karma
+        And "Frankie Valli" has 100 karma
 
     Scenario: user navigates to the new rental request page for a specific listing
         Given I am on the listing page for "Dyson V11 Torque Drive"

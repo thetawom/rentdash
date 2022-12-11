@@ -37,7 +37,7 @@ When /^I go to the new rental request page for "([^"]*)"$/ do |listing_name|
   visit new_listing_rental_request_path listing.id
 end
 
-When(/^I go to the edit request page for "([^"]*)"$/) do |listing_name|
+When /^I go to the edit request page for "([^"]*)"$/ do |listing_name|
   rental_request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
   visit edit_rental_request_path rental_request.id
 end
@@ -58,7 +58,7 @@ When /^I calculate the cost for a new rental request with information$/ do |rent
   click_button "Calculate Estimated Cost"
 end
 
-When(/^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/) do |first_name, last_name, listing_name|
+When /^I go on ([^"]*) ([^"]*)'s request for "([^"]*)"$/ do |first_name, last_name, listing_name|
   rental_request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
   visit rental_path rental_request.id
 end
@@ -73,12 +73,12 @@ Then /^I should (?:|still )be on the new rental request page for "([^"]*)"$/ do 
   expect(URI.parse(current_url).path).to eq new_listing_rental_request_path listing.id
 end
 
-Then(/^I should (?:|still )be on the edit request page for "([^"]*)"$/) do |listing_name|
+Then /^I should (?:|still )be on the edit request page for "([^"]*)"$/ do |listing_name|
   rental_request = find_request_with_requester_name({ email: @user_params["email"] }, listing_name)
   expect(URI.parse(current_url).path).to eq edit_rental_request_path rental_request.id
 end
 
-Then(/^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/) do |first_name, last_name, listing_name, pick_up_time|
+Then /^the pick-up time of ([^"]*) ([^"]*)'s request for "([^"]*)" should be "([^"]*)"$/ do |first_name, last_name, listing_name, pick_up_time|
   rental_request = find_request_with_requester_name({ first_name: first_name, last_name: last_name }, listing_name)
   visit rental_request_path rental_request.id
   expect(page.body).to have_content /Pick-up Time:(\s*) #{pick_up_time}/
@@ -92,12 +92,18 @@ Then /^I should see the status of this request as "([^"]*)"$/ do |status|
   end
 end
 
-Then(/^I should see that the request for "([^"]*)" was successfully updated$/) do |listing_name|
+Then /^I should see that the request for "([^"]*)" was successfully updated$/ do |listing_name|
   expect(page.body).to have_content /Request for #{listing_name} was updated!/
 end
 
-Then(/^I should not see a request from "([^"]*)"$/) do |name|
+Then /^I should not see a request from "([^"]*)"$/ do |name|
   page.should_not have_content /#{name}/
+end
+
+And /^"([^"]*) ([^"]*)" has ([^"]*) karma$/ do |first_name, last_name, karma|
+  user = User.find_by first_name: first_name, last_name: last_name
+  user.karma = karma
+  user.save
 end
 
 def create_rental_requests_with_owner(owner, request_hashes, listing)

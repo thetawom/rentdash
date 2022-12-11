@@ -16,6 +16,8 @@ Feature: edit rental request
     And I have the following rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |payment_method|
       |2030-11-15 1:00:00 UTC |2030-11-20 00:00:00 UTC|cash          |
+    And "Frankie Valli" has 500 karma
+    And "Cat W" has 500 karma
     
   Scenario: user successfully edits request date from my rentals page
     Given I am on the listings page

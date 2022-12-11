@@ -54,11 +54,12 @@ end
 
 def create_users(user_hashes)
   user_hashes.each do |user|
-    User.create!(email: user["email"],
+    new_user = User.create!(email: user["email"],
                  first_name: user["first_name"],
                  last_name: user["last_name"],
                  password: user["password"],
                  password_confirmation: user["password"])
+    new_user.add_karma 5000
   end
 end
 

@@ -35,7 +35,7 @@ Feature: manage rental request
     And I click on the listing for "Dyson V11 Torque Drive"
     And I press "Approve"
     Then I should see the status of this request as "approved"
-    And I should see "Karma: 122"
+    And I should see "Karma: 5142"
 
   Scenario: user approves a request made on their daily listing
     Given I am on the listings page
@@ -45,7 +45,7 @@ Feature: manage rental request
     And I click on the listing for "Drum"
     And I press "Approve"
     Then I should see the status of this request as "approved"
-    And I should see "Karma: 2"
+    And I should see "Karma: 5022"
 
   Scenario: user approves a request made on their weekly listing
     Given I am on the listings page
@@ -55,7 +55,7 @@ Feature: manage rental request
     And I click on the listing for "Dog Toy"
     And I press "Approve"
     Then I should see the status of this request as "approved"
-    And I should see "Karma: 6"
+    And I should see "Karma: 5026"
 
   Scenario: user declines a request made on their listing
     Given I am on the listings page

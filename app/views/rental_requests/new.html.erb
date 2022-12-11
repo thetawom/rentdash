@@ -13,9 +13,9 @@
         <div class="card-body pt-2">
           <%= form_for [@listing, @rental_request] do |f| %>
             <%= f.label :pick_up_time, "Pick-up Time", class: "col-form-label"%>
-            <%= f.datetime_field :pick_up_time, id: "pick-up-time-field", class: "form-control mb-3" %>
+            <%= f.datetime_field :pick_up_time, class: "form-control mb-3" %>
             <%= f.label :return_time, "Return Time" %>
-            <%= f.datetime_field :return_time, id: "return-time-field", class: "form-control mb-3" %>
+            <%= f.datetime_field :return_time, class: "form-control mb-3" %>
             Payment Method:
             <%= f.select :payment_method, payment_method_options(@listing), {}, class: "form-select mb-4" %>
             <%= f.submit "Calculate Estimated Cost", name: "calculate_estimated_cost", class: "btn btn-info btn-sm" %>

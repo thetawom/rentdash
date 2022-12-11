@@ -20,7 +20,7 @@ Feature: view rental requests
             |nathan@gmail.com  |Nathan     |Nguyen    |asdfjkl;    |
         And I have the following listings
             |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|cash|
-            |Mr. Bunny             |the best bunny alive       |East Campus     |11.03|karma   |hour    |13.50  |true|
+            |Mr. Bunny             |the best bunny alive       |East Campus     |1   |karma   |hour    |13.50  |true|
 
         Given I have the following rental requests for "Dyson V11 Torque Drive"
             |pick_up_time           |return_time            |payment_method|
