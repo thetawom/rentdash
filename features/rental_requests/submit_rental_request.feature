@@ -18,9 +18,7 @@ Feature: submit rental request
             |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|venmo|
             |Laptop Charger        |laptop charger             |Broadway Hall   |1   |dollars |day     |6      |true |
             |Pan                   |it's a pan                 |Wien Hall       |5   |dollars |week    |2      |true |
-        And "Nathan Nguyen" has 500 karma
-        And "Lucy Wu" has 500 karma
-        And "Frankie Valli" has 100 karma
+            |Dog Plush             |it's a dog plush           |Furnald Hall    |50  |karma   |hour    |10     |true |
 
     Scenario: user navigates to the new rental request page for a specific listing
         Given I am on the listing page for "Dyson V11 Torque Drive"
@@ -68,11 +66,18 @@ Feature: submit rental request
             |2030-10-01 00:00:00 UTC|2030-10-30 00:00:00 UTC|venmo         |
         Then I should see "Estimated Cost: 25.0 dollars total and $2.0 deposit"
 
-    Scenario: user adds a rental request without filling in all required fields
+    Scenario: user tries to make a rental request without filling in all required fields
         Given I am on the new rental request page for "Dyson V11 Torque Drive"
         When I submit a new rental request with information
             |pick_up_time           |
             |2030-10-28 00:00:00 UTC|
         Then I should still be on the new rental request page for "Dyson V11 Torque Drive"
+
+    Scenario: user tries to make a rental request without having enough karma
+        Given I am on the new rental request page for "Dog Plush"
+        When I submit a new rental request with information
+            |pick_up_time           |return_time            |payment_method|
+            |2030-10-01 00:00:00 UTC|2030-10-30 00:00:00 UTC|venmo         |
+        Then I should see "You do not have enough karma to make this request."
 
     
