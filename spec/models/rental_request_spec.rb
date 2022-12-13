@@ -24,6 +24,13 @@ RSpec.describe RentalRequest, type: :model do
       expect(rental_request.errors[:pick_up_time]).to be_empty
       expect(rental_request.errors[:payment_method]).to be_empty
     end
+    it "should return false when there is not enough karma" do
+      requester = FactoryBot.create(:user, karma: 0)
+      listing = FactoryBot.create(:listing, fee_unit: "karma", fee_time: "hour")
+      rental_request = RentalRequest.create(pick_up_time: DateTime.now, return_time: DateTime.now + 1.hour, payment_method: "paypal", listing: listing, requester: requester)
+      expect(rental_request.valid?).to eq false
+      expect(rental_request.errors[:base]).to_not be_empty
+    end
   end
 
   describe "#approve" do

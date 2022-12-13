@@ -95,7 +95,7 @@ RSpec.describe RentalRequestsController, type: :controller do
           allow(rental_request).to receive(:listing=)
           allow(rental_request).to receive(:requester=)
           allow(rental_request).to receive(:valid?).and_return(false)
-          allow(rental_request).to receive(:errors).and_return(instance_double("ActiveModel::Errors", has_key?: false))
+          allow(rental_request).to receive(:errors).and_return(instance_double("ActiveModel::Errors", has_key?: true))
           expect(rental_request).to receive(:save)
           expect(RentalRequest).to receive(:new).and_return(rental_request)
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
@@ -195,7 +195,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         it "redirects to edit rental request page if params are invalid" do
           request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester)
           expect(request).to receive(:update)
-          allow(request).to receive(:errors).and_return(instance_double("ActiveModel::Errors", has_key?: false))
+          allow(request).to receive(:errors).and_return(instance_double("ActiveModel::Errors", has_key?: true))
           expect(RentalRequest).to receive(:find_by).and_return(request)
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
           patch :update, params: {id: request.id}, session: {user_id: user.id}
