@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
                        first_name: "Frankie",
                        last_name: "Valli",
                        password: "password",
-                       password_confirmation: "password2")
+                       password_confirmation: "password2",)
       expect(@user.valid?).to eq false
       expect(@user.errors[:password_confirmation]).to_not be_empty
     end
@@ -24,11 +24,13 @@ RSpec.describe User, type: :model do
       User.create(email: "uni123@columbia.edu",
                   first_name: "Frankie",
                   last_name: "Valli",
+                  phone: "1234567890",
                   password: "password",
                   password_confirmation: "password")
       @user = User.create(email: "uni123@columbia.edu",
                        first_name: "Bob",
                        last_name: "Gaudio",
+                       phone: "1234567890",
                        password: "password",
                        password_confirmation: "password")
       expect(@user.valid?).to eq false
