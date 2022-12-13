@@ -95,6 +95,7 @@ RSpec.describe RentalRequestsController, type: :controller do
           allow(rental_request).to receive(:listing=)
           allow(rental_request).to receive(:requester=)
           allow(rental_request).to receive(:valid?).and_return(false)
+          allow(rental_request).to receive(:errors).and_return(instance_double("ActiveModel::Errors", has_key?: false))
           expect(rental_request).to receive(:save)
           expect(RentalRequest).to receive(:new).and_return(rental_request)
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
@@ -105,9 +106,9 @@ RSpec.describe RentalRequestsController, type: :controller do
           allow(request).to receive(:valid?).and_return(true)
           allow(request).to receive(:listing=)
           allow(request).to receive(:requester=)
-          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-          post :create, params: {listing_id: listing.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}}, session: {user_id: user.id}
-          expect(response).to redirect_to new_listing_rental_request_path(cost: 24.0)
+          request_params = {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}
+          post :create, params: {listing_id: listing.id, calculate_estimated_cost: true, rental_request: request_params}, session: {user_id: user.id}
+          expect(response).to redirect_to new_listing_rental_request_path(cost: 24.0, rental_request: request_params)
         end
         it "redirects to listings page if listing does not exist" do
           expect(Listing).to receive(:find_by).and_return(nil)
@@ -171,29 +172,30 @@ RSpec.describe RentalRequestsController, type: :controller do
           allow(request).to receive(:valid?).and_return(true)
           allow(request).to receive(:listing=)
           allow(request).to receive(:requester=)
-          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-          post :update, params: {id: request.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}}, session: {user_id: user.id}
-          expect(response).to redirect_to edit_rental_request_path(cost: 24.0)
+          request_params = {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}
+          post :update, params: {id: request.id, calculate_estimated_cost: true, rental_request: request_params}, session: {user_id: user.id}
+          expect(response).to redirect_to edit_rental_request_path(cost: 24.0, rental_request: request_params)
         end
         it "displays the correct estimated cost if params are valid and user tries to calculate estimated cost for day unit" do
           allow(day_request).to receive(:valid?).and_return(true)
           allow(day_request).to receive(:listing=)
           allow(day_request).to receive(:requester=)
-          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-          post :update, params: {id: day_request.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}}, session: {user_id: user.id}
-          expect(response).to redirect_to edit_rental_request_path(cost: 1.0)
+          request_params = {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 2.day}
+          post :update, params: {id: day_request.id, calculate_estimated_cost: true, rental_request: request_params}, session: {user_id: user.id}
+          expect(response).to redirect_to edit_rental_request_path(cost: 1.0, rental_request: request_params)
         end
         it "displays the correct estimated cost if params are valid and user tries to calculate estimated cost for week unit" do
           allow(week_request).to receive(:valid?).and_return(true)
           allow(week_request).to receive(:listing=)
           allow(week_request).to receive(:requester=)
-          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
-          post :update, params: {id: week_request.id, calculate_estimated_cost: true, rental_request: {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 8.day}}, session: {user_id: user.id}
-          expect(response).to redirect_to edit_rental_request_path(cost: 1.0)
+          request_params = {pick_up_time: DateTime.now + 1.day, return_time: DateTime.now + 8.day}
+          post :update, params: {id: week_request.id, calculate_estimated_cost: true, rental_request: request_params}, session: {user_id: user.id}
+          expect(response).to redirect_to edit_rental_request_path(cost: 1.0, rental_request: request_params)
         end
         it "redirects to edit rental request page if params are invalid" do
           request = instance_double("RentalRequest", id: 1, valid?: false, status: "pending", listing: listing, requester: requester)
           expect(request).to receive(:update)
+          allow(request).to receive(:errors).and_return(instance_double("ActiveModel::Errors", has_key?: false))
           expect(RentalRequest).to receive(:find_by).and_return(request)
           allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params)
           patch :update, params: {id: request.id}, session: {user_id: user.id}
@@ -206,6 +208,7 @@ RSpec.describe RentalRequestsController, type: :controller do
         end
         it "redirects to listing requests page if request is no longer pending" do
           request.approve
+          allow_any_instance_of(RentalRequestsController).to receive(:rental_request_params).and_return({})
           patch :update, params: {id: request.id}, session: {user_id: user.id}
           expect(response).to redirect_to listing_rental_requests_path listing.id
         end
