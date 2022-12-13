@@ -301,6 +301,7 @@ GEM
     valid_email2 (4.0.4)
       activemodel (>= 3.2)
       mail (~> 2.5)
+    validates_phone_number (2.0.1)
     web-console (4.2.0)
       actionview (>= 6.0.0)
       activemodel (>= 6.0.0)
@@ -348,6 +349,7 @@ DEPENDENCIES
   turbo-rails
   tzinfo-data
   valid_email2
+  validates_phone_number (~> 2.0, >= 2.0.1)
   web-console
 
 RUBY VERSION

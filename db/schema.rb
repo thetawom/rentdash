@@ -73,7 +73,6 @@ ActiveRecord::Schema[7.0].define(version: 2022_12_09_224138) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "karma", default: 0, null: false
-    t.integer "rating", default: 0, null: false
     t.string "phone"
     t.index ["email"], name: "index_users_on_email", unique: true
   end

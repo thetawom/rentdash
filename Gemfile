@@ -84,3 +84,4 @@ gem "jquery-rails"
 gem "font-awesome-sass"
 gem "nokogiri"
 gem "valid_email2"
+gem 'validates_phone_number', '~> 2.0', '>= 2.0.1'

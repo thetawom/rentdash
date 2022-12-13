@@ -6,9 +6,10 @@ class User < ApplicationRecord
 
   has_secure_password
 
-  validates :email, presence: true, uniqueness: true, 'valid_email_2/email': true
+  validates :email, presence: true, uniqueness: true, 'valid_email_2/email': true, format: { with: /\b[A-Z0-9._%a-z\-]+@columbia\.edu\z/, message: "must be a columbia.edu account" }
   validates :first_name, presence: true
   validates :last_name, presence: true
+  validates :phone, presence: true, :phone_number => {:ten_digits => true}
 
   after_initialize :set_defaults, unless: :persisted?
 
