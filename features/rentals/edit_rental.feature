@@ -4,11 +4,11 @@ Feature: edit rental
 
   Background: user is logged in and there are listings
     Given the following users exist
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email                |first_name |last_name |password    |phone     |
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
     Given I am a logged in user with information
-      |email             |first_name |last_name |password    |
-      |cat@gmail.com |Cat    |W     |123 |
+      |email             |first_name |last_name |password    |phone     |
+      |cat@columbia.edu  |Cat        |W         |123         |1234567891|
     And I have the following listings
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|cash|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true|

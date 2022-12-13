@@ -5,14 +5,14 @@ Feature: edit rental request
 
   Background: user has a pending rental request on a listing
     Given the following users exist
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email                |first_name |last_name |password    |phone     |
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
     And "Frankie Valli" has the following listings
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|cash|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |true|
     Given I am a logged in user with information
-      |email         |first_name |last_name |password    |
-      |cat@gmail.com |Cat        |W         |123         |
+      |email            |first_name |last_name |password    |phone     |
+      |cat@columbia.edu |Cat        |W         |123         |1234567891|
     And I have the following rental requests for "Dyson V11 Torque Drive"
       |pick_up_time           |return_time            |payment_method|
       |2030-11-15 1:00:00 UTC |2030-11-20 00:00:00 UTC|cash          |

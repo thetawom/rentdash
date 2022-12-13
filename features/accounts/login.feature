@@ -5,8 +5,8 @@ Feature: user login
 
   Background: registered user
     Given I am a registered user with information
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email             |first_name |last_name |password    |phone|
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
     And I am on the login page
 
   Scenario: user logs in with correct credentials

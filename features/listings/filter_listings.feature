@@ -5,8 +5,8 @@ Feature: display listings filtered by item categories, payment type, rental time
 
     Background: user is logged in and there are listings
         Given I am a logged in user with information
-            |email             |first_name |last_name |password    |
-            |frankie@gmail.com |Frankie    |Valli     |password123 |
+            |email             |first_name |last_name |password    |phone|
+            |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
         And I have the following listings
             |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|venmo|paypal|
             |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |tools        |true |true  |

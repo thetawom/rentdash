@@ -5,8 +5,8 @@ Feature: user registration
 
   Scenario: user successfully registers an account
     When I register an account with information
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email                |first_name |last_name |password    |phone     |
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
     Then I should see "Sign out"
     When I press "Sign out"
     And I log in with my credentials
@@ -14,21 +14,21 @@ Feature: user registration
 
   Scenario: user attempts to register with a taken email
     Given I am a registered user with information
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email             |first_name |last_name |password    |phone|
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567891|
     When I register an account with information
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email             |first_name |last_name |password    |phone|
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567892|
     Then I should still be on the registration page
 
   Scenario: user attempts to register with passwords that are not the same
     When I register an account with information
-      |email             |first_name |last_name |password    |password_confirmation|
-      |frankie@gmail.com |Frankie    |Valli     |password123 |password456          |
+      |email                |first_name |last_name |password    |password_confirmation|
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |password456          |
     Then I should still be on the registration page
 
   Scenario: user attempts to register without filling in all the required fields
     When I register an account with information
-      |email             |first_name |password    |
-      |frankie@gmail.com |Frankie    |password123 |
+      |email                |first_name |password    |phone     |
+      |frankie@columbia.edu |Frankie    |password123 |1234567892|
     Then I should still be on the registration page

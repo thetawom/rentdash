@@ -5,12 +5,12 @@ Feature: submit rental request
 
     Background: these are the registered users
         Given the following users exist
-            |email             |first_name |last_name |password    |
-            |nathan@gmail.com  |Nathan     |Nguyen    |asdfjkl;    |
-            |lucy@gmail.com    |Lucy       |Wu        |password    |
+            |email                |first_name |last_name |password    |phone     |
+            |nathan@columbia.edu  |Nathan     |Nguyen    |asdfjkl;    |1234567890|
+            |lucy@columbia.edu    |Lucy       |Wu        |password    |1234567891|
         Given I am a logged in user with information
-            |email             |first_name |last_name |password    |
-            |frankie@gmail.com |Frankie    |Valli     |password123 |
+            |email                |first_name |last_name |password    |phone     |
+            |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567892|
         Given "Nathan Nguyen" has the following listings
             |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|cash|
             |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |2   |dollars |hour    |12.50  |true|

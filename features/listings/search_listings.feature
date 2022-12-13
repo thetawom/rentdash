@@ -5,8 +5,8 @@ Feature: search through all listings by listing name
 
     Background: user is logged in and there are listings
         Given I am a logged in user with information
-            |email             |first_name |last_name |password    |
-            |frankie@gmail.com |Frankie    |Valli     |password123 |
+            |email             |first_name |last_name |password    |phone|
+            |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
         And I have the following listings
             |name        |description      |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|paypal|
             |Anteater    |a stuffed animal |EC              |5.00|karma   |hour    |13.00  |school       |true  |

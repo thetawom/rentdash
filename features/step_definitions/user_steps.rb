@@ -46,7 +46,7 @@ end
 
 
 def filter_user_params(params)
-  params.slice("email", "first_name", "last_name", "password", "password_confirmation")
+  params.slice("email", "first_name", "last_name", "password", "password_confirmation", "phone")
 end
 def filter_credentials(credentials)
   credentials.slice("email", "password")
@@ -57,6 +57,7 @@ def create_users(user_hashes)
     new_user = User.create!(email: user["email"],
                  first_name: user["first_name"],
                  last_name: user["last_name"],
+                 phone: user["phone"],
                  password: user["password"],
                  password_confirmation: user["password"])
     new_user.add_karma 5000

@@ -5,8 +5,8 @@ Feature: delete listing
 
   Background: user is logged in and there are listings
     Given I am a logged in user with information
-      |email             |first_name |last_name |password    |
-      |frankie@gmail.com |Frankie    |Valli     |password123 |
+      |email             |first_name |last_name |password    |phone|
+      |frankie@columbia.edu |Frankie    |Valli     |password123 |1234567890|
     And I have the following listings
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|venmo|
       |Dyson V11 Torque Drive|an excellent vacuum cleaner|Wien Hall       |1.03|karma   |hour    |12.50  |tools        |true |
@@ -19,8 +19,8 @@ Feature: delete listing
 
   Scenario: user tries to delete listing owned by another user
     Given the following users exist
-      |email             |first_name |last_name |password    |
-      |joe@gmail.com     |Joe        |Long      |password123 |
+      |email             |first_name |last_name |password    |phone|
+      |joe@columbia.edu     |Joe        |Long      |password123 |1234567891|
     And "Joe Long" has the following listings
       |name                  |description                |pick_up_location|fee |fee_unit|fee_time|deposit|item_category|paypal|
       |Mirrored Swim Goggles |                           |East Campus     |0.00|dollars |hour    |9.00   |tools        |true  |
