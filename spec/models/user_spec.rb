@@ -16,7 +16,7 @@ RSpec.describe User, type: :model do
                        first_name: "Frankie",
                        last_name: "Valli",
                        password: "password",
-                       password_confirmation: "password2",)
+                       password_confirmation: "password2")
       expect(@user.valid?).to eq false
       expect(@user.errors[:password_confirmation]).to_not be_empty
     end
