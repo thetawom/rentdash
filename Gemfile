@@ -61,6 +61,7 @@ group :development, :test do
   gem "factory_bot_rails"
   gem "simplecov", require: false
   gem "poltergeist"
+  gem 'phantomjs', :require => 'phantomjs/poltergeist'
   gem "byebug", "~> 11.1"
 end
 

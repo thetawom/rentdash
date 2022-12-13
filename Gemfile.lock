@@ -193,6 +193,7 @@ GEM
     nokogiri (1.13.9-x86_64-linux)
       racc (~> 1.4)
     pg (1.4.4)
+    phantomjs (2.1.1.0)
     poltergeist (1.18.1)
       capybara (>= 2.1, < 4)
       cliver (~> 0.3.1)
@@ -336,6 +337,7 @@ DEPENDENCIES
   jquery-rails
   nokogiri
   pg
+  phantomjs
   poltergeist
   puma (~> 5.0)
   rails (~> 7.0.4)
